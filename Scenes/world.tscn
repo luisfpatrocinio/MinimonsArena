@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://b3eptbovcwbmb"]
+
+[ext_resource type="Script" path="res://Scripts/world.gd" id="1_gbow3"]
+[ext_resource type="PackedScene" uid="uid://cak5nljhetspk" path="res://Scenes/monster.tscn" id="5_usidi"]
+[ext_resource type="Texture2D" uid="uid://b0tm65haakwu7" path="res://Assets/360_F_17205038_hgzmLmIIwmCs15SbpsWolqqQz3PLa3O8.jpg" id="6_xwosx"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xuw14"]
+sky_top_color = Color(0.2, 0.533333, 0.870588, 1)
+sky_horizon_color = Color(0.211765, 0.772549, 0.956863, 1)
+ground_bottom_color = Color(0.117647, 0.25098, 0.266667, 1)
+ground_horizon_color = Color(0, 0.396078, 0.329412, 1)
+
+[sub_resource type="Sky" id="Sky_isjtu"]
+sky_material = SubResource("ProceduralSkyMaterial_xuw14")
+
+[sub_resource type="Environment" id="Environment_2yefc"]
+background_mode = 2
+sky = SubResource("Sky_isjtu")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_id35h"]
+size = Vector2(30, 30)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8p75k"]
+albedo_texture = ExtResource("6_xwosx")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_68wja"]
+size = Vector3(30, 1, 30)
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_gbow3")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_2yefc")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Monster" parent="." instance=ExtResource("5_usidi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.927, 0)
+
+[node name="Area3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.09519, 0)
+
+[node name="Floor" type="CSGMesh3D" parent="Area3D"]
+mesh = SubResource("PlaneMesh_id35h")
+material = SubResource("StandardMaterial3D_8p75k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_68wja")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CameraPivot" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
