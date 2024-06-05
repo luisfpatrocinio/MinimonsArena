@@ -1,8 +1,7 @@
-# server_node.gd
 class_name ServerNode
-
 extends Node
 
+var camMode: int = 0;
 var server := UDPServer.new()
 var peers = []
 
@@ -114,7 +113,30 @@ func _process(delta):
 
 	for i in range(0, peers.size()):
 		pass # Do something with the connected peers.
+	
+	if Input.is_action_just_pressed("ui_cancel"):
+		camMode += 1;
+		camMode = camMode % 3;
+	
+	manageCamera()
+	
+func manageCamera():
+	var _cam = levelNode.cameraPivot as Node3D;	
+	if camMode == 0:
+		_cam.position = Vector3(0, 24, 36);
+		_cam.look_at(Vector3(0, 0, 0));
+	elif camMode == 1:
+		var _ang = Time.get_ticks_msec() / 5000.0;
+		var _l = 24;
+		_cam.position.x = cos(_ang) * _l;
+		_cam.position.z = sin(_ang) * _l;
+		_cam.position.y = 0;
+		_cam.look_at(monsterNode.position);
+	elif camMode == 2:
+		var _newPos = monsterNode.position + Vector3(monsterNode.modelDir.x, 0, monsterNode.modelDir.y) * -16
+		_cam.position = _cam.position.lerp(_newPos, 0.169 / 4.0);
+		_cam.look_at(monsterNode.position)
 
 func setupLevel():
-	var monsterInd = "1"
+	var monsterInd = "1";
 	levelNode.setMonster(monsterInd)

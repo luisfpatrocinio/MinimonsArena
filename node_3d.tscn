@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cacsgqjnelx4l"]
+
+[ext_resource type="PackedScene" uid="uid://cggybwmgfsbep" path="res://Monsters/Demon.gltf" id="1_6oij1"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Demon" parent="." instance=ExtResource("1_6oij1")]
+transform = Transform3D(0.990268, 0, 0.139173, 0, 1, 0, -0.139173, 0, 0.990268, 0, 0, 0)
