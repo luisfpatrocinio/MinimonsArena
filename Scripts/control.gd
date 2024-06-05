@@ -13,7 +13,9 @@ var globalY = 0
 @onready var levelNode : Level = null
 @onready var monsterNode = null
 
-var actualMonsterModelIndKey = "0"
+var actualMonsterModelIndKey = "0";
+
+var editMode: bool = false;
 
 var monsterDict = {
 	"1": {
@@ -122,11 +124,12 @@ func _process(delta):
 	
 func manageCamera():
 	var _cam = levelNode.cameraPivot as Node3D;	
+	var _ang = Time.get_ticks_msec() / 5000.0;
 	if camMode == 0:
-		_cam.position = Vector3(0, 24, 36);
+		var _y = 10 + sin(_ang) * 4;
+		_cam.position = Vector3(0, _y, 30);
 		_cam.look_at(Vector3(0, 0, 0));
 	elif camMode == 1:
-		var _ang = Time.get_ticks_msec() / 5000.0;
 		var _l = 24;
 		_cam.position.x = cos(_ang) * _l;
 		_cam.position.z = sin(_ang) * _l;
@@ -140,3 +143,8 @@ func manageCamera():
 func setupLevel():
 	var monsterInd = "1";
 	levelNode.setMonster(monsterInd)
+
+## Função que vai analisar se o level está atendendo as condições necessárias.
+func checkLevel() -> bool:
+	#TODO: Conferir dicionário de levels.
+	return true;
