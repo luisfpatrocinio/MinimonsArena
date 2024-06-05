@@ -26,9 +26,5 @@ func _process(delta):
 	$Label.text = str(Global.actualDirection)
 	
 	# Movimentar Camera
-	var _ang = Time.get_ticks_msec() / 5000.0;
-	var _l = 24;
-	cameraPivot.position.x = cos(_ang) * 2;
-	cameraPivot.position.z = _l + sin(_ang) * 2;
-	cameraPivot.look_at(monsterNode.position);
+	
 
