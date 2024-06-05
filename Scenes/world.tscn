@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://b3eptbovcwbmb"]
+[gd_scene load_steps=11 format=3 uid="uid://b3eptbovcwbmb"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_gbow3"]
+[ext_resource type="PackedScene" uid="uid://dxdn7yd6rqcma" path="res://Scenes/enemies_manager.tscn" id="4_3djf7"]
 [ext_resource type="PackedScene" uid="uid://cak5nljhetspk" path="res://Scenes/monster.tscn" id="5_usidi"]
 [ext_resource type="Texture2D" uid="uid://b0tm65haakwu7" path="res://Assets/360_F_17205038_hgzmLmIIwmCs15SbpsWolqqQz3PLa3O8.jpg" id="6_xwosx"]
 
@@ -66,7 +67,4 @@ vertical_alignment = 1
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
 
-[node name="CameraPositions" type="Node3D" parent="."]
-
-[node name="Marker3D" type="Marker3D" parent="CameraPositions"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+[node name="EnemiesManager" parent="." instance=ExtResource("4_3djf7")]

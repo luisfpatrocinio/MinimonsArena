@@ -33,6 +33,24 @@ var monsterDict = {
 		"name": "Skull"
 	},
 }
+var enemyDict: Dictionary = {
+	"1": {
+		"model": preload("res://Monsters/Alien_Tall.gltf"),
+		"name": "Alien"
+	},
+	"2": {
+		"model": preload("res://Monsters/Bat.gltf"),
+		"name": "Bat"
+	},
+	"3": {
+		"model": preload("res://Monsters/Bee.gltf"),
+		"name": "Bee"
+	},
+	"4": {
+		"model": preload("res://Monsters/Cyclops.gltf"),
+		"name": "Cyclops"
+	},
+}
 
 func convertOrientationToInt(orient: String):
 	match orient:
