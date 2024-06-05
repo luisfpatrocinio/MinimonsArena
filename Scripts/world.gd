@@ -4,14 +4,15 @@ class_name Level
 
 @onready var monsterNode: Monster = get_node("Monster");
 @onready var cameraPivot: Node3D = get_node("CameraPivot");
+@onready var enemiesManager: EnemiesManager = $EnemiesManager 
 
 func setMonster(ind):
 	var _monsterModel = Global.monsterDict.get(str(ind)).get("model") as PackedScene;
 	var _model = _monsterModel.instantiate();
 	
 	if Global.actualMonsterModelIndKey != ind:
-		var actualMonsterModel = monsterNode.get_child(1)
-		if actualMonsterModel != null:
+		var actualMonsterModel = monsterNode.		get_child(1)
+		if actualMonsterModel != null:		
 			actualMonsterModel.queue_free()
 		monsterNode.add_child(_model)
 		Global.actualMonsterModelIndKey = ind
@@ -32,3 +33,9 @@ func _process(delta):
 	cameraPivot.position.z = _l + sin(_ang) * 2;
 	cameraPivot.look_at(monsterNode.position);
 
+## Temporario
+func _input(event):
+	if event is InputEventKey:
+		if event.keycode == KEY_B and event.pressed:
+			## Pode passar uma posição e um index
+			enemiesManager.spawnEnemy();
