@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6sibll0f1jav"]
+
+[ext_resource type="Script" path="res://Scripts/character_select.gd" id="1_j64ju"]
+[ext_resource type="Environment" uid="uid://b4abc0fnu2i5s" path="res://Scenes/mainEnvironment.tres" id="2_el54s"]
+
+[node name="CharacterSelect" type="Node3D"]
+script = ExtResource("1_j64ju")
+
+[node name="Enviroment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Enviroment"]
+environment = ExtResource("2_el54s")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Enviroment"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+text = "Escolha seu Personagem
+1 - Pinto
+2 - Capeta"
+
+[node name="Character" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)

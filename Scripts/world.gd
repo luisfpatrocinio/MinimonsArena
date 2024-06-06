@@ -4,18 +4,17 @@ class_name Level
 
 @onready var monsterNode: Monster = get_node("Monster");
 @onready var cameraPivot: Node3D = get_node("CameraPivot");
-@onready var enemiesManager: EnemiesManager = $EnemiesManager 
+@onready var enemiesManager: EnemiesManager = get_node("EnemiesManager");
 
-func setMonster(ind):
-	var _monsterModel = Global.monsterDict.get(str(ind)).get("model") as PackedScene;
+func setMonster(monsterKey):
+	print("Definindo monstro: ", monsterKey);
+	var _monsterModel = Global.monsterDict.get(monsterKey).get("model") as PackedScene;
 	var _model = _monsterModel.instantiate();
 	
-	if Global.actualMonsterModelIndKey != ind:
-		var actualMonsterModel = monsterNode.		get_child(1)
-		if actualMonsterModel != null:		
-			actualMonsterModel.queue_free()
-		monsterNode.add_child(_model)
-		Global.actualMonsterModelIndKey = ind
+	var actualMonsterModel = monsterNode.get_child(1)
+	if actualMonsterModel != null:		
+		actualMonsterModel.queue_free()
+	monsterNode.add_child(_model)
 	
 	monsterNode.myModel = _model;
 
@@ -24,10 +23,7 @@ func _ready():
 	Global.setupLevel()
 
 func _process(delta):
-	$Label.text = str(Global.actualDirection)
-	
-	# Movimentar Camera
-	
+	pass
 
 ## Temporario
 func _input(event):

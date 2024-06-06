@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8qxqopmnb1sg"]
+
+[ext_resource type="SphereMesh" uid="uid://dkkowj6mdl6gw" path="res://Scenes/spawnParticleMesh.tres" id="1_q8r2t"]
+[ext_resource type="Script" path="res://Scripts/SpawnParticles.gd" id="1_q65un"]
+
+[sub_resource type="Curve" id="Curve_ciji2"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="SpawnParticles" type="CPUParticles3D"]
+emitting = false
+amount = 20
+lifetime = 1.2
+one_shot = true
+explosiveness = 0.85
+randomness = 0.5
+mesh = ExtResource("1_q8r2t")
+emission_shape = 1
+emission_sphere_radius = 2.0
+direction = Vector3(0, 1, 0)
+spread = 10.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+linear_accel_min = -1.0
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_ciji2")
+script = ExtResource("1_q65un")
+
+[connection signal="finished" from="." to="." method="_on_finished"]
