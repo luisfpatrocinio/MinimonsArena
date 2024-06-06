@@ -10,11 +10,14 @@ var server := UDPServer.new()
 ## Clientes conectados
 var peers = []
 
-# Propriedades em desuso:
-#var actualDirection = 0.0
-#var orientation = 0
-#var globalX = 0
-#var globalY = 0
+# Propriedades das tags lidas
+## Vetores de rotação, em strings.
+var rvecs: Array[String] = []
+## Vetores de transformação, em strings.
+var tvecs: Array[String] = []
+
+## Dicionário com informações das tags atualmente exibidas em tela.
+var detectedTagsDict: Dictionary = {}
 
 ## Referência do node do Level
 @onready var levelNode : Level = null
@@ -74,50 +77,63 @@ var scenesDict: Dictionary = {
 	"gameLevel": preload("res://Scenes/world.tscn")
 }
 
-## DEPRECATED: Converte um valor em graus para Vector2, utilizado no modelo de QR code antigo.
-func floatToVector2(angle_deg: float) -> Vector2:
-	var angle_rad = deg_to_rad(angle_deg)  # Converter ângulo de graus para radianos
-	var x = cos(angle_rad)
-	var y = sin(angle_rad)
-	return Vector2(x, y)
-
 
 func _ready():
+	# Iniciar servidor
 	server.listen(5569)
 	
 	
 func _process(delta):
 	server.poll() # Important!
+	
 	if server.is_connection_available():
 		var peer: PacketPeerUDP = server.take_connection()
 		var packet = peer.get_packet()
-		#print("Accepted peer: %s:%s" % [peer.get_packet_ip(), peer.get_packet_port()])
 		var content = packet.get_string_from_utf8()
-		#$Panel/Label.text = content
 		print("Received data: %s" % [content])
 		
-		# Dividir bastante o pacote:
+		# Fail fast: pacote inválido.
 		if not str(content).contains(":"):
+			# TODO: Não faz sentido encerrar a process. Transformar em função.
 			return
+		
+		# Limpar o dicionário, de modo que tags ausentes sejam removidas.
+		detectedTagsDict = {};
+		
+		# Dividir primeiramente em tags.
+		var tags: PackedStringArray = str(content).split("#");
+		
+		# Para cada tag, coletar valores de cada chave.
+		for _tagNo in range(len(tags)):
+			var tag: String = tags[_tagNo]; #  tagId:40$rvecs:4404404040404$tvecs:4449494949494
 			
-		#var commands = str(content).split("|")
-		#for command in commands:
-			#var commandParts = command.split(":")
-			#var _key = commandParts[0]
-			#match _key:
-				#"content":
-					#var monsterInd = commandParts[1]
-					#levelNode.setMonster(monsterInd)
-				
-				# Em desuso:
-				#"ang":
-					#actualDirection = float(commandParts[1])
-				#"x":
-					#globalX = float(commandParts[1])
-				#"y":
-					#globalY = float(commandParts[1])
-				#"ori":
-					#orientation = convertOrientationToInt(commandParts[1])
+			# Obter cada chave dessa [tag] atual.
+			var keys: PackedStringArray = str(tag).split("$")
+			
+			var _actualTagId = "";
+			for pairKey in keys:
+				var commandParts: PackedStringArray = pairKey.split(":") #["tag", "30"]
+				var _key: String = commandParts[0];
+				match _key:
+					"tag":
+						_actualTagId = int(commandParts[1]);
+						insertTagOnDict(_actualTagId);
+					
+					"tvecs":
+						var _tvec = str(commandParts[1]);
+						detectedTagsDict[_actualTagId]["tvec"] = convertArrayStrToVector3(_tvec);
+						
+					"rvecs":
+						print("bolas");
+						#rvecs[_tagNo] = str(commandParts[1]);
+					#"ang":
+						#actualDirection = float(commandParts[1])
+					#"x":
+						#globalX = float(commandParts[1])
+					#"y":
+						#globalY = float(commandParts[1])
+					#"ori":
+						#orientation = convertOrientationToInt(commandParts[1])
 
 		# Reply so it knows we received the message.
 		#peer.put_packet(packet)
@@ -133,8 +149,19 @@ func _process(delta):
 		camMode = camMode % 3;
 	
 	manageCamera()
-	
-	
+
+func insertTagOnDict(tagNo: int) -> void:
+	# Perguntar se já existe essa tag, para ver se podemos inserir.
+	if detectedTagsDict.has(tagNo):
+		print("Já temos a tag %s no dicionário." % [tagNo]);
+		return
+	detectedTagsDict[tagNo] = {
+		"tag": tagNo,
+		"tvec": Vector3.ZERO
+	}
+	print("Tag %s inserida com sucesso." % [tagNo]);
+
+
 ## Altera o comportamento da câmera de acordo o camMode.
 func manageCamera() -> void:
 	if levelNode == null:
@@ -172,3 +199,20 @@ func transitionTo(sceneKey: String) -> void:
 	var _trans = transitionFadeInScene.instantiate();
 	_trans.destinySceneKey = sceneKey;
 	Global.add_child(_trans);
+
+func convertArrayStrToVector3(arrayStr: String) -> Vector3:
+	if arrayStr == "":
+		return Vector3.ZERO;
+	# [[-0.10224713], [-0.06778016], [ 0.22128833]]
+	# Retirar todos os colchetes
+	var _fixedStr = arrayStr.replacen("[", "");
+	_fixedStr = _fixedStr.replacen("]", "");
+	print(_fixedStr);
+	
+	var _elements = _fixedStr.split(", ");
+	var _x = float(_elements[0]) * -100;
+	var _y = float(_elements[1]) * -100;
+	var _z = float(_elements[2]) * -100;
+	var _vector3 = Vector3(_x, _y, _z);
+	return _vector3;
+	
