@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://4v1r6yh22gnt"]
+
+[ext_resource type="Script" path="res://Scenes/score_scene_script.gd" id="1_x8471"]
+[ext_resource type="Environment" uid="uid://b4abc0fnu2i5s" path="res://Scenes/mainEnvironment.tres" id="2_0by6b"]
+
+[node name="Score" type="Node3D"]
+script = ExtResource("1_x8471")
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = ExtResource("2_0by6b")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+
+[node name="Label3D" type="Label3D" parent="."]
+text = "Camera Adventures"

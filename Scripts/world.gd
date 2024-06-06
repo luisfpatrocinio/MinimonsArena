@@ -15,7 +15,6 @@ func setMonster(monsterKey):
 	if actualMonsterModel != null:		
 		actualMonsterModel.queue_free()
 	monsterNode.add_child(_model)
-	
 	monsterNode.myModel = _model;
 
 func _ready():

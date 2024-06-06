@@ -4,6 +4,18 @@ class_name Monster
 const speed = 6.9
 const JUMP_VELOCITY = 4.5
 
+## Pontos totais adquiridos em uma run
+# TODO: usar isso
+var points: int = 0;
+
+## Turnos sobrevividos em uma run
+# TODO: usar isso
+var stagesSurvived: int = 0;
+
+## Inimigos mortos pelo player em uma run
+# TODO: usar isso
+var enemiesKilled: int = 0;
+
 var modelDir: Vector2 = Vector2(0, 0);
 
 var myModel: Node3D = null;
@@ -13,6 +25,9 @@ var attackScene: PackedScene = preload("res://Scenes/attackHitBox.tscn");
 var attacking: bool = false;
 
 func _ready():
+	# Conecta o sinal do player morrendo ( que vem da entidade )
+	self.dying.connect(_onDying)
+	
 	Global.monsterNode = self;
 
 func _physics_process(delta):
@@ -35,6 +50,11 @@ func _physics_process(delta):
 		else:
 			velocity.x = move_toward(velocity.x, 0, speed)
 			velocity.z = move_toward(velocity.z, 0, speed)
+			
+	
+	## WARNING: TESTES
+	if Input.is_action_just_pressed("ui_home"):
+		dying.emit()
 	
 	move_and_slide();
 	
@@ -72,8 +92,14 @@ func attack():
 	var player_position = global_transform.origin
 	var direction_3d = Vector3(modelDir.x, 0, modelDir.y).normalized()
 	var hitbox_position = player_position + direction_3d * 4
-
 	var hitbox_instance = attackScene.instantiate()
 	hitbox_instance.global_transform.origin = hitbox_position
 	get_parent().add_child(hitbox_instance)
 
+# TODO: Adcionar mais variáveis e detalhes ao scoreboard, assim que mais coisas forem se desenvolvendo
+func _onDying():
+	var _monsterKey = Global.monsterKey
+	var levelScore = ScoreManager.generateLevelScore(_monsterKey, points, stagesSurvived, enemiesKilled)
+	ScoreManager.lastGamePlayedScore = levelScore
+	ScoreManager.registerScore(levelScore)
+	Global.transitionTo("scoreScene")
