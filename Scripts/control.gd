@@ -20,7 +20,7 @@ var peers = []
 @onready var levelNode : Level = null
 
 ## Referência do node do Player
-@onready var monsterNode = null
+@onready var monsterNode: Monster = null
 
 ## Chave do player atual.
 var monsterKey: String = "";
