@@ -74,7 +74,8 @@ var monsterDict: Dictionary = {
 var scenesDict: Dictionary = {
 	"title": preload("res://Scenes/title.tscn"),
 	"characterSelect": preload("res://Scenes/character_select.tscn"),
-	"gameLevel": preload("res://Scenes/world.tscn")
+	"gameLevel": preload("res://Scenes/world.tscn"),
+	"scoreScene" : preload("res://Scenes/score_scene.tscn")
 }
 
 
