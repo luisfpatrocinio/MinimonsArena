@@ -23,7 +23,12 @@ func _ready():
 	Global.setupLevel()
 
 func _process(delta):
-	pass
+	$Label.text = "";
+	var _keys = Global.detectedTagsDict.keys();
+	for i in range(len(_keys)):
+		var _thisKey = _keys[i];
+		$Label.text += str(Global.detectedTagsDict.get(_thisKey).get("tvec"));
+		$Label.text += "\n"
 
 ## Temporario
 func _input(event):

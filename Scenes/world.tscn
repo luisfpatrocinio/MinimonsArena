@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://b3eptbovcwbmb"]
+[gd_scene load_steps=15 format=3 uid="uid://b3eptbovcwbmb"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_p07bg"]
 [ext_resource type="PackedScene" uid="uid://dxdn7yd6rqcma" path="res://Scenes/enemies_manager.tscn" id="4_3djf7"]
 [ext_resource type="PackedScene" uid="uid://cak5nljhetspk" path="res://Scenes/monster.tscn" id="5_usidi"]
 [ext_resource type="PackedScene" uid="uid://c64v5kyxmvoml" path="res://Ultimate Stylized Nature - May 2022/Convertidos/MapleTree_1.tscn" id="6_povv4"]
 [ext_resource type="Texture2D" uid="uid://b0tm65haakwu7" path="res://Assets/360_F_17205038_hgzmLmIIwmCs15SbpsWolqqQz3PLa3O8.jpg" id="6_xwosx"]
+[ext_resource type="PackedScene" uid="uid://cermwnbb42c4" path="res://Scenes/test_box.tscn" id="7_bneyl"]
 [ext_resource type="PackedScene" uid="uid://d08m8ykkwnjva" path="res://Ultimate Stylized Nature - May 2022/Convertidos/MapleTree_2.tscn" id="7_ub4g5"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xuw14"]
@@ -88,3 +89,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.0608, 9.53674e-07, 0.4688
 
 [node name="MapleTree2" parent="Scenario" instance=ExtResource("7_ub4g5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, -18)
+
+[node name="TestBox" parent="." instance=ExtResource("7_bneyl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.93209, 1.5, 3.06141)
