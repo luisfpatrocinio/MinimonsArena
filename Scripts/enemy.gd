@@ -1,8 +1,8 @@
 extends Entity
 class_name Enemy
 
-func setEnemyModel(ind: int):
-	var _enemyModelPackage = Global.enemyDict.get(str(ind)).get("model") as PackedScene;
+func setEnemyModel(monsterKey: String):
+	var _enemyModelPackage = Global.monsterDict.get(monsterKey).get("model") as PackedScene;
 	var _model = _enemyModelPackage.instantiate();
 	add_child(_model);
 

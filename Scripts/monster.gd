@@ -22,10 +22,7 @@ func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta;
-	
-	var lAxisY = Input.get_axis("ui_up", "ui_down");
-	var lAxisX = Input.get_axis("ui_left", "ui_right");
-	
+		
 	var _axis = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down");
 	if _axis.length() < 0.20:
 		_axis = Vector2.ZERO;
