@@ -1,4 +1,4 @@
-extends Node
+extends Node3D
 
 ## Classe responsável por gerenciar todo tipo de entidade de item
 class_name ItensManager
@@ -9,6 +9,8 @@ class_name ItensManager
 ## Scene de partículas de spawn
 @onready var spawnParticlesScene: PackedScene = preload("res://Scenes/spawn_particles.tscn");
 
+const itemPackage = preload("res://Scenes/item.tscn");
+
 ## Temporario
 var randInd: int;
 
@@ -17,14 +19,14 @@ const chestPackage = preload("res://Scenes/chest.tscn")
 ##TODO: depois trocar por um json ou csv
 var itensData: Array[Dictionary] = [
 	{ 
-		"itemName": "Maçã",
+		"itemName": "Health Potion",
 		"iconPath": "res://icon.svg",
-		"modelPath": "res://Ultimate Stylized Nature - May 2022/glTF/Bush.gltf",
+		"modelPath": "res://Assets/Objects/PickupHealth.glb",
 	},
 	{ 
-		"itemName": "Pera",
+		"itemName": "Coin",
 		"iconPath": "res://icon.svg",
-		"modelPath": "res://Ultimate Stylized Nature - May 2022/glTF/Bush_Small.gltf",
+		"modelPath": "res://Assets/Objects/Coin.glb",
 	}
 ];
 
@@ -51,10 +53,29 @@ func loadItens():
 		
 		itens.append(_i);
 
+func dropItem(dropPosition: Vector2 = defaultDropPos, res: ItemRes = null):
+	if !res:
+		res = pickRandomItem();
+		
+	## Coloquei por enquanto, apenas pra obter um y satisfatório
+	var _playerPos = Global.monsterNode.global_position;
+	
+	var _item: Item = itemPackage.instantiate();
+	_item.setItemRes(res) 
+	_item.global_position = Vector3(
+		dropPosition.x,
+		_playerPos.y + 2,
+		dropPosition.y
+	);
+	
+	get_parent().add_child(_item);
+	
+	randomizeSpawnSettings();
+
 ## Instancia um baú e adiciona como filho 
 func dropChest(dropPosition: Vector2 = defaultDropPos):
 	
-	var _chest = chestPackage.instantiate();
+	var _chest: Chest = chestPackage.instantiate();
 	
 	## O baú está atribuindo aléatoriamente um tipo de item a ele
 	_chest.setItemRes(pickRandomItem());
