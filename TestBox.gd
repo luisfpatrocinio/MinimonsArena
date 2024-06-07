@@ -12,7 +12,7 @@ func _ready():
 	$Label3D.text = str(tagId);
 
 func _process(delta):
-	$Label3D.look_at(Global.levelNode.cameraPivot.global_position);
+	$Label3D.look_at(Global.levelNode.cameraPivot.global_position * Vector3(1, -1, -1));
 	
 	scale.x = lerp(scale.x, myScale, 0.169);
 	scale.z = lerp(scale.z, myScale, 0.169);

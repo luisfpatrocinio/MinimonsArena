@@ -11,6 +11,9 @@ class_name Level
 @onready var spawnParticlesScene: PackedScene = preload("res://Scenes/spawn_particles.tscn");
 
 func setMonster(monsterKey):
+	if monsterNode == null:
+		return;
+		
 	print("Definindo monstro: ", monsterKey);
 	var _monsterModel = Global.monsterDict.get(monsterKey).get("model") as PackedScene;
 	var _model = _monsterModel.instantiate();
@@ -26,13 +29,8 @@ func _ready():
 	Global.setupLevel()
 
 func _process(delta):
-	$Label.text = "";
-	var _keys = Global.detectedTagsDict.keys();
-	for i in range(len(_keys)):
-		var _thisKey = _keys[i];
-		$Label.text += str(_thisKey) + " --- ";
-		$Label.text += str(Global.detectedTagsDict.get(_thisKey).get("tvec"));
-		$Label.text += "\n"
+	pass
+	#debugShowPositions();
 
 func dropChest():
 	itensManager.dropChest();
@@ -61,3 +59,12 @@ func createSpawnParticles(spawnPosition: Vector3) -> void:
 func updateBoard() -> void:
 	for child: Entity in enemiesManager.get_children():
 		child.despawn();
+
+func debugShowPositions():
+	$Label.text = "";
+	var _keys = Global.detectedTagsDict.keys();
+	for i in range(len(_keys)):
+		var _thisKey = _keys[i];
+		$Label.text += str(_thisKey) + " --- ";
+		$Label.text += str(Global.detectedTagsDict.get(_thisKey).get("tvec"));
+		$Label.text += "\n"
