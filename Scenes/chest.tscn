@@ -1,10 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://ctp1pidq70joh"]
+[gd_scene load_steps=8 format=3 uid="uid://ctp1pidq70joh"]
 
+[ext_resource type="Script" path="res://Scripts/chest.gd" id="1_0qqwj"]
 [ext_resource type="Texture2D" uid="uid://d0b371mknnhcd" path="res://Assets/Objects/Wood Chest_Atlas.png" id="1_gj5y8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pr02y"]
 resource_name = "Atlas"
-albedo_color = Color(1, 1, 1, 1)
 albedo_texture = ExtResource("1_gj5y8")
 metallic = 0.4
 
@@ -42,9 +42,29 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_8hpqc")
 
-[node name="Chest" type="Node3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_ix76d"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qe0fw"]
+size = Vector3(1.18921, 1, 1.21118)
+
+[node name="Chest" type="RigidBody3D"]
+script = ExtResource("1_0qqwj")
 
 [node name="Chest_Closed" type="MeshInstance3D" parent="."]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
 mesh = SubResource("ArrayMesh_8i4oq")
 skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.501561, 0)
+shape = SubResource("BoxShape3D_ix76d")
+
+[node name="Area" type="Area3D" parent="."]
+collision_layer = 8
+collision_mask = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_qe0fw")
+
+[connection signal="body_entered" from="Area" to="." method="_on_body_entered"]
