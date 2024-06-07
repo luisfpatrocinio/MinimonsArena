@@ -1,7 +1,11 @@
 extends CPUParticles3D
 
 func _ready():
-	emitting = true;
+	pass
 
 func _on_finished():
 	queue_free();
+
+
+func _on_timer_timeout():
+	emitting = true;
