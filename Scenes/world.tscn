@@ -93,5 +93,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.0608, 9.53674e-07, 0.4688
 [node name="MapleTree2" parent="Scenario" instance=ExtResource("7_ub4g5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, -18)
 
-[node name="TestBox" parent="." instance=ExtResource("7_bneyl")]
+[node name="TestBoxes" type="Node3D" parent="."]
+
+[node name="TestBox" parent="TestBoxes" instance=ExtResource("7_bneyl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.93209, 1.5, 3.06141)
+
+[node name="TestBox2" parent="TestBoxes" instance=ExtResource("7_bneyl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0861, 1.5, 0.0574007)
+tagId = 1
+
+[node name="TestBox3" parent="TestBoxes" instance=ExtResource("7_bneyl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.67162, 1.5, 10.2324)
+tagId = 2

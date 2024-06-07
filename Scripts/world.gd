@@ -27,6 +27,7 @@ func _process(delta):
 	var _keys = Global.detectedTagsDict.keys();
 	for i in range(len(_keys)):
 		var _thisKey = _keys[i];
+		$Label.text += str(_thisKey) + " --- ";
 		$Label.text += str(Global.detectedTagsDict.get(_thisKey).get("tvec"));
 		$Label.text += "\n"
 

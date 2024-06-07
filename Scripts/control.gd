@@ -147,7 +147,7 @@ func _process(delta):
 	# Alterar modo de câmera
 	if Input.is_action_just_pressed("ui_cancel"):
 		camMode += 1;
-		camMode = camMode % 3;
+		camMode = camMode % 4;
 	
 	manageCamera()
 
@@ -183,6 +183,11 @@ func manageCamera() -> void:
 		var _newPos = monsterNode.position + Vector3(monsterNode.modelDir.x, 0, monsterNode.modelDir.y) * -16
 		_cam.position = _cam.position.lerp(_newPos, 0.169 / 4.0);
 		_cam.look_at(monsterNode.position)
+	elif camMode == 3:
+		_cam.position.x = 0
+		_cam.position.z = 0
+		_cam.position.y = 32;
+		_cam.look_at(levelNode.position);
 
 ## Inicializa o Level
 func setupLevel() -> void:
@@ -211,9 +216,12 @@ func convertArrayStrToVector3(arrayStr: String) -> Vector3:
 	print(_fixedStr);
 	
 	var _elements = _fixedStr.split(", ");
-	var _x = float(_elements[0]) * -100;
-	var _y = float(_elements[1]) * -100;
-	var _z = float(_elements[2]) * -100;
+	var _dist = 80;
+	var _x = float(_elements[0]) * _dist;
+	var _y = float(_elements[1]) * _dist;
+	var _z = float(_elements[2]) * _dist;
 	var _vector3 = Vector3(_x, _y, _z);
 	return _vector3;
 	
+func getBoardVec3() -> Vector3:
+	return detectedTagsDict.get(0, {"tvec": Vector3.ZERO}).get("tvec");
