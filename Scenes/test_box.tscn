@@ -6,6 +6,7 @@
 
 [sub_resource type="BoxMesh" id="BoxMesh_o152s"]
 material = SubResource("StandardMaterial3D_1nyat")
+size = Vector3(2, 0.5, 2)
 
 [node name="TestBox" type="Node3D"]
 script = ExtResource("1_yhanp")

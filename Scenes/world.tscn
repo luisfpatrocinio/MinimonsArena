@@ -1,9 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://b3eptbovcwbmb"]
+[gd_scene load_steps=15 format=3 uid="uid://b3eptbovcwbmb"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_p07bg"]
 [ext_resource type="Environment" uid="uid://b4abc0fnu2i5s" path="res://Scenes/mainEnvironment.tres" id="2_bojx3"]
 [ext_resource type="PackedScene" uid="uid://dxdn7yd6rqcma" path="res://Scenes/enemies_manager.tscn" id="4_3djf7"]
-[ext_resource type="PackedScene" uid="uid://chf6qds01oibv" path="res://Scenes/itens_manager.tscn" id="5_0vl1h"]
+[ext_resource type="PackedScene" path="res://Scenes/itens_manager.tscn" id="5_0vl1h"]
 [ext_resource type="PackedScene" uid="uid://cak5nljhetspk" path="res://Scenes/monster.tscn" id="5_usidi"]
 [ext_resource type="PackedScene" uid="uid://cermwnbb42c4" path="res://Scenes/test_box.tscn" id="7_bneyl"]
 
@@ -12,10 +12,10 @@ albedo_color = Color(0.215686, 1, 0.188235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_4xjy6"]
 material = SubResource("StandardMaterial3D_ymcgn")
-size = Vector3(32, 1, 32)
+size = Vector3(14, 1, 8)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_68wja"]
-size = Vector3(30, 1, 30)
+size = Vector3(14, 1, 8)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_edstc"]
 albedo_color = Color(0.211765, 0.823529, 0, 1)
@@ -48,7 +48,7 @@ light_energy = 0.5
 shadow_enabled = true
 
 [node name="Monster" parent="." instance=ExtResource("5_usidi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.1561, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 
 [node name="FloorArea3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.90735e-06, 3.8147e-06)
@@ -100,11 +100,11 @@ tagId = 2
 [node name="Scenario" type="Node3D" parent="."]
 
 [node name="ArrowX" type="MeshInstance3D" parent="Scenario"]
-transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 16, 2, 0)
+transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 9, 2, 0)
 mesh = SubResource("PrismMesh_ytcn7")
 skeleton = NodePath("../..")
 
 [node name="ArrowZ" type="MeshInstance3D" parent="Scenario"]
-transform = Transform3D(-1, -8.74228e-08, -3.82137e-15, 0, -4.37114e-08, 1, -8.74228e-08, 1, 4.37114e-08, 0, 2, 16)
+transform = Transform3D(-1, -8.74228e-08, -3.82137e-15, 0, -4.37114e-08, 1, -8.74228e-08, 1, 4.37114e-08, 0, 2, 6)
 mesh = SubResource("PrismMesh_hk46u")
 skeleton = NodePath("../..")

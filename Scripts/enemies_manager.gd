@@ -4,9 +4,6 @@ class_name EnemiesManager
 ## Posição padrão de spawn de inimigos.
 @export var defaultSpawnPos: Vector2 = Vector2(10, 10);
 
-## Scene de partículas de spawn
-@onready var spawnParticlesScene: PackedScene = preload("res://Scenes/spawn_particles.tscn");
-
 ## Temporario
 var randInd: int;
 
@@ -30,12 +27,9 @@ func spawnEnemy(spawnPosition: Vector2 = defaultSpawnPos, modelInd: int = -1):
 	add_child(_enemy);
 	var _spawnPosition = Vector3(spawnPosition.x, 0, spawnPosition.y);
 	_enemy.global_position = _spawnPosition;
+	_enemy.createSpawnParticles();
 	
-	var _part = spawnParticlesScene.instantiate();
-	_part.global_position = _spawnPosition;
-	Global.levelNode.add_child(_part);
-	
-	randomizeSpawnSettings()
+	#randomizeSpawnSettings()
 	
 	
 ## Randomiza índice do monstro e posição de spawn:

@@ -7,6 +7,9 @@ class_name Level
 @onready var enemiesManager: EnemiesManager = get_node("EnemiesManager");
 @onready var itensManager: ItensManager = $ItensManager
 
+## Scene de partículas de spawn
+@onready var spawnParticlesScene: PackedScene = preload("res://Scenes/spawn_particles.tscn");
+
 func setMonster(monsterKey):
 	print("Definindo monstro: ", monsterKey);
 	var _monsterModel = Global.monsterDict.get(monsterKey).get("model") as PackedScene;
@@ -33,7 +36,6 @@ func _process(delta):
 
 func dropChest():
 	itensManager.dropChest();
-	
 
 ## Temporario
 func _input(event):
@@ -45,3 +47,17 @@ func _input(event):
 		if event.keycode == KEY_C and event.pressed:
 			## Recebe uma posição
 			dropChest();
+			
+		if event.keycode == KEY_V and event.pressed:
+			## Limpa tabuleiro
+			updateBoard();
+
+## Cria partículas de surgimento ou dessurgimento. Foi adicionada no Level para evitar pequenas falhas visuais.
+func createSpawnParticles(spawnPosition: Vector3) -> void:
+	var _part = spawnParticlesScene.instantiate();
+	_part.global_position = spawnPosition;	
+	Global.levelNode.add_child(_part);
+	
+func updateBoard() -> void:
+	for child: Entity in enemiesManager.get_children():
+		child.despawn();

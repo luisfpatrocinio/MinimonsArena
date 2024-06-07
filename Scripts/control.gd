@@ -170,9 +170,9 @@ func manageCamera() -> void:
 	var _cam = levelNode.cameraPivot as Node3D;	
 	var _ang = Time.get_ticks_msec() / 5000.0;
 	if camMode == 0:
-		var _y = 10 + sin(_ang) * 4;
-		_cam.position = Vector3(0, _y, 30);
-		_cam.look_at(Vector3(0, 0, 0));
+		var _y = 5 + sin(_ang) * 1;
+		_cam.position = Vector3(0, _y, 12);
+		_cam.look_at(Vector3(0, -2, 5));
 	elif camMode == 1:
 		var _l = 24;
 		_cam.position.x = cos(_ang) * _l;
@@ -217,9 +217,9 @@ func convertArrayStrToVector3(arrayStr: String) -> Vector3:
 	
 	var _elements = _fixedStr.split(", ");
 	var _dist = 80;
-	var _x = float(_elements[0]) * _dist;
-	var _y = float(_elements[1]) * _dist;
-	var _z = float(_elements[2]) * _dist;
+	var _x = float(_elements[0]) * -_dist;
+	var _y = float(_elements[1]) * -_dist;
+	var _z = float(_elements[2]) * -_dist;
 	var _vector3 = Vector3(_x, _y, _z);
 	return _vector3;
 	
