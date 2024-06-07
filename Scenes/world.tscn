@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_p07bg"]
 [ext_resource type="PackedScene" uid="uid://dxdn7yd6rqcma" path="res://Scenes/enemies_manager.tscn" id="4_3djf7"]
+[ext_resource type="PackedScene" uid="uid://chf6qds01oibv" path="res://Scenes/itens_manager.tscn" id="5_0vl1h"]
 [ext_resource type="PackedScene" uid="uid://cak5nljhetspk" path="res://Scenes/monster.tscn" id="5_usidi"]
 [ext_resource type="PackedScene" uid="uid://c64v5kyxmvoml" path="res://Ultimate Stylized Nature - May 2022/Convertidos/MapleTree_1.tscn" id="6_povv4"]
 [ext_resource type="Texture2D" uid="uid://b0tm65haakwu7" path="res://Assets/360_F_17205038_hgzmLmIIwmCs15SbpsWolqqQz3PLa3O8.jpg" id="6_xwosx"]
@@ -76,6 +77,8 @@ vertical_alignment = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
 
 [node name="EnemiesManager" parent="." instance=ExtResource("4_3djf7")]
+
+[node name="ItensManager" parent="." instance=ExtResource("5_0vl1h")]
 
 [node name="ScenarioFloor" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)

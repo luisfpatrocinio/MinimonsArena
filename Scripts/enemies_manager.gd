@@ -24,7 +24,6 @@ func spawnEnemy(spawnPosition: Vector2 = defaultSpawnPos, modelInd: int = -1):
 	if modelInd < 0:
 		modelInd = randInd;
 	
-	## Mesmo que usar o instantiate, só que com parametros (e sem precisar do pacote)
 	var _enemy: Enemy = enemyPackage.instantiate();
 	var _monsterKey = Global.monsterDict.keys()[modelInd];
 	_enemy.setEnemyModel(_monsterKey);
@@ -38,7 +37,6 @@ func spawnEnemy(spawnPosition: Vector2 = defaultSpawnPos, modelInd: int = -1):
 	
 	randomizeSpawnSettings()
 	
-
 	
 ## Randomiza índice do monstro e posição de spawn:
 func randomizeSpawnSettings() -> void:
