@@ -1,0 +1,151 @@
+[gd_scene load_steps=12 format=3 uid="uid://bsvbrfc41ghgx"]
+
+[ext_resource type="PackedScene" uid="uid://cf0ryhc2sxkj1" path="res://Monsters/Alien.gltf" id="1_3uatd"]
+[ext_resource type="Texture2D" uid="uid://bb4vpcvxjjm0b" path="res://Labiras_Logo.png" id="1_estuy"]
+[ext_resource type="PackedScene" uid="uid://clnogdkf4bx42" path="res://Monsters/Chicken.gltf" id="2_ntr20"]
+[ext_resource type="PackedScene" uid="uid://clu3nkfwflxw3" path="res://Monsters/Crab.gltf" id="3_c1rfd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jrp8a"]
+albedo_color = Color(0.215686, 1, 0.188235, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_23b6s"]
+material = SubResource("StandardMaterial3D_jrp8a")
+size = Vector2(50, 50)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rchw1"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_8gx31"]
+sky_material = SubResource("ProceduralSkyMaterial_rchw1")
+
+[sub_resource type="Environment" id="Environment_8j7aa"]
+background_mode = 2
+sky = SubResource("Sky_8gx31")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pwo2w"]
+bg_color = Color(0.392157, 0.392157, 0.392157, 0.356863)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6bwsg"]
+bg_color = Color(0.605487, 0.769473, 0.994172, 0.258824)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[node name="mainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="MainMenuPreview" type="Node3D" parent="SubViewportContainer/SubViewport"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/MainMenuPreview"]
+mesh = SubResource("PlaneMesh_23b6s")
+
+[node name="Alien2" parent="SubViewportContainer/SubViewport/MainMenuPreview" instance=ExtResource("1_3uatd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00032109, 0, 1.71963)
+
+[node name="Chicken2" parent="SubViewportContainer/SubViewport/MainMenuPreview" instance=ExtResource("2_ntr20")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.32787, -0.10929, 0.225228)
+
+[node name="Crab2" parent="SubViewportContainer/SubViewport/MainMenuPreview" instance=ExtResource("3_c1rfd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.25059, 0, 0.234821)
+
+[node name="Camera" type="Camera3D" parent="SubViewportContainer/SubViewport/MainMenuPreview"]
+transform = Transform3D(1, 0, 0, 0, 0.989521, 0.144391, 0, -0.144391, 0.989521, 0, 1.48982, 5.23319)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/MainMenuPreview"]
+environment = SubResource("Environment_8j7aa")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/MainMenuPreview"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Logo" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+mouse_filter = 1
+
+[node name="TextureRect" type="TextureRect" parent="Logo"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -172.5
+offset_top = 117.0
+offset_right = 172.5
+offset_bottom = 249.0
+grow_horizontal = 2
+texture = ExtResource("1_estuy")
+
+[node name="options" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -47.5
+offset_top = -324.0
+offset_right = 47.5
+offset_bottom = -157.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="StartButton" type="Button" parent="options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
+text = "START"
+
+[node name="OptionsButton" type="Button" parent="options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
+text = "Quit"

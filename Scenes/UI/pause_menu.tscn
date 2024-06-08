@@ -1,0 +1,98 @@
+[gd_scene load_steps=6 format=3 uid="uid://c2sg4pixfovxv"]
+
+[ext_resource type="Script" path="res://Scripts/UI/pause_menu.gd" id="1_1fk5m"]
+[ext_resource type="Texture2D" uid="uid://dgb4n0lt1p2dg" path="res://Assets/UI/menu-button.png" id="1_4oxd6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3bmh6"]
+bg_color = Color(0.255659, 0.255659, 0.255659, 0.411765)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qdfg"]
+bg_color = Color(0.392157, 0.392157, 0.392157, 0.356863)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i5wu6"]
+bg_color = Color(0.605487, 0.769473, 0.994172, 0.258824)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_1fk5m")
+
+[node name="PanelOptions" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_3bmh6")
+
+[node name="options" type="VBoxContainer" parent="PanelOptions"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -102.5
+offset_top = -85.5
+offset_right = 102.5
+offset_bottom = 85.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+
+[node name="ResumeButton" type="Button" parent="PanelOptions/options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_7qdfg")
+theme_override_styles/hover = SubResource("StyleBoxFlat_i5wu6")
+text = "Resume"
+
+[node name="OptionsButton" type="Button" parent="PanelOptions/options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_7qdfg")
+theme_override_styles/hover = SubResource("StyleBoxFlat_i5wu6")
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="PanelOptions/options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_7qdfg")
+theme_override_styles/hover = SubResource("StyleBoxFlat_i5wu6")
+text = "Quit to menu"
+
+[node name="MenuButton" type="TextureButton" parent="."]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 42.0
+offset_bottom = 39.0
+texture_normal = ExtResource("1_4oxd6")
+ignore_texture_size = true
+stretch_mode = 0
+
+[connection signal="pressed" from="PanelOptions/options/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="MenuButton" to="." method="_on_menu_button_pressed"]

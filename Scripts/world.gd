@@ -19,7 +19,7 @@ func setMonster(monsterKey):
 	var _model = _monsterModel.instantiate();
 	
 	var actualMonsterModel = monsterNode.get_child(1)
-	if actualMonsterModel != null:		
+	if actualMonsterModel != null:
 		actualMonsterModel.queue_free()
 	monsterNode.add_child(_model)
 	monsterNode.myModel = _model;
@@ -35,6 +35,9 @@ func _process(delta):
 func dropChest():
 	itensManager.dropChest();
 
+func dropItem():
+	itensManager.dropItem();
+
 ## Temporario
 func _input(event):
 	if event is InputEventKey:
@@ -45,6 +48,10 @@ func _input(event):
 		if event.keycode == KEY_C and event.pressed:
 			## Recebe uma posição
 			dropChest();
+			
+		if event.keycode == KEY_C and event.pressed:
+			## Recebe uma posição
+			dropItem();
 			
 		if event.keycode == KEY_V and event.pressed:
 			## Limpa tabuleiro
