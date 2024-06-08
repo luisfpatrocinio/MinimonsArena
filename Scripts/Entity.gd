@@ -8,6 +8,10 @@ signal dying();
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity");
 var hp = 3;
 
+func _ready():
+	#createSpawnParticles()
+	pass
+
 func _physics_process(delta) -> void:
 	applyGravity(delta);
 	
@@ -21,3 +25,13 @@ func takeDamage(amount):
 		hp -= amount;
 		return
 	dying.emit();
+
+## Cria partículas de sumiço e se destrói.
+func despawn():
+	createSpawnParticles()
+	queue_free();
+
+## Create Spawn Particles
+func createSpawnParticles() -> void:
+	Global.levelNode.createSpawnParticles(global_position);
+	pass

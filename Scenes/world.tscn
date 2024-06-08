@@ -1,10 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://b3eptbovcwbmb"]
+[gd_scene load_steps=17 format=3 uid="uid://b3eptbovcwbmb"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_p07bg"]
 [ext_resource type="Environment" uid="uid://b4abc0fnu2i5s" path="res://Scenes/mainEnvironment.tres" id="2_bojx3"]
 [ext_resource type="PackedScene" uid="uid://dxdn7yd6rqcma" path="res://Scenes/enemies_manager.tscn" id="4_3djf7"]
 [ext_resource type="PackedScene" uid="uid://chf6qds01oibv" path="res://Scenes/itens_manager.tscn" id="5_0vl1h"]
-[ext_resource type="PackedScene" uid="uid://cak5nljhetspk" path="res://Scenes/monster.tscn" id="5_usidi"]
 [ext_resource type="PackedScene" uid="uid://cermwnbb42c4" path="res://Scenes/test_box.tscn" id="7_bneyl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ymcgn"]
@@ -12,10 +11,10 @@ albedo_color = Color(0.215686, 1, 0.188235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_4xjy6"]
 material = SubResource("StandardMaterial3D_ymcgn")
-size = Vector3(32, 1, 32)
+size = Vector3(14, 1, 8)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_68wja"]
-size = Vector3(30, 1, 30)
+size = Vector3(14, 1, 8)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_edstc"]
 albedo_color = Color(0.211765, 0.823529, 0, 1)
@@ -34,6 +33,17 @@ albedo_color = Color(0, 0.45098, 1, 1)
 material = SubResource("StandardMaterial3D_4fdo6")
 size = Vector3(2, 2, 2)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0hv4k"]
+transparency = 1
+blend_mode = 1
+
+[sub_resource type="BoxMesh" id="BoxMesh_qdb38"]
+material = SubResource("StandardMaterial3D_0hv4k")
+
+[sub_resource type="Curve" id="Curve_gtlpm"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.124481, 1), 0.0, 0.0, 0, 0, Vector2(0.858921, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
 [node name="World" type="Node3D"]
 script = ExtResource("1_p07bg")
 
@@ -46,9 +56,6 @@ environment = ExtResource("2_bojx3")
 transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 light_energy = 0.5
 shadow_enabled = true
-
-[node name="Monster" parent="." instance=ExtResource("5_usidi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.1561, 0)
 
 [node name="FloorArea3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.90735e-06, 3.8147e-06)
@@ -100,11 +107,42 @@ tagId = 2
 [node name="Scenario" type="Node3D" parent="."]
 
 [node name="ArrowX" type="MeshInstance3D" parent="Scenario"]
-transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 16, 2, 0)
+transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 9, 2, 0)
 mesh = SubResource("PrismMesh_ytcn7")
 skeleton = NodePath("../..")
 
 [node name="ArrowZ" type="MeshInstance3D" parent="Scenario"]
-transform = Transform3D(-1, -8.74228e-08, -3.82137e-15, 0, -4.37114e-08, 1, -8.74228e-08, 1, 4.37114e-08, 0, 2, 16)
+transform = Transform3D(-1, -8.74228e-08, -3.82137e-15, 0, -4.37114e-08, 1, -8.74228e-08, 1, 4.37114e-08, 0, 2, 6)
 mesh = SubResource("PrismMesh_hk46u")
 skeleton = NodePath("../..")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+amount = 32
+lifetime = 8.0
+mesh = SubResource("BoxMesh_qdb38")
+emission_shape = 6
+emission_ring_axis = Vector3(0, -10, 1)
+emission_ring_height = 4.0
+emission_ring_radius = 32.0
+emission_ring_inner_radius = 16.0
+direction = Vector3(0, 1, 0)
+spread = 2.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 3.0
+initial_velocity_max = 8.0
+scale_amount_min = 4.0
+scale_amount_max = 6.0
+scale_amount_curve = SubResource("Curve_gtlpm")
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="Interface"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "INTERFACE LABEL"
+horizontal_alignment = 1

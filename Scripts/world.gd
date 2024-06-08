@@ -7,7 +7,13 @@ class_name Level
 @onready var enemiesManager: EnemiesManager = get_node("EnemiesManager");
 @onready var itensManager: ItensManager = $ItensManager
 
+## Scene de partículas de spawn
+@onready var spawnParticlesScene: PackedScene = preload("res://Scenes/spawn_particles.tscn");
+
 func setMonster(monsterKey):
+	if monsterNode == null:
+		return;
+		
 	print("Definindo monstro: ", monsterKey);
 	var _monsterModel = Global.monsterDict.get(monsterKey).get("model") as PackedScene;
 	var _model = _monsterModel.instantiate();
@@ -23,13 +29,8 @@ func _ready():
 	Global.setupLevel()
 
 func _process(delta):
-	$Label.text = "";
-	var _keys = Global.detectedTagsDict.keys();
-	for i in range(len(_keys)):
-		var _thisKey = _keys[i];
-		$Label.text += str(_thisKey) + " --- ";
-		$Label.text += str(Global.detectedTagsDict.get(_thisKey).get("tvec"));
-		$Label.text += "\n"
+	pass
+	#debugShowPositions();
 
 func dropChest():
 	itensManager.dropChest();
@@ -48,6 +49,29 @@ func _input(event):
 			## Recebe uma posição
 			dropChest();
 			
-		if event.keycode == KEY_V and event.pressed:
+		if event.keycode == KEY_C and event.pressed:
 			## Recebe uma posição
 			dropItem();
+			
+		if event.keycode == KEY_V and event.pressed:
+			## Limpa tabuleiro
+			updateBoard();
+
+## Cria partículas de surgimento ou dessurgimento. Foi adicionada no Level para evitar pequenas falhas visuais.
+func createSpawnParticles(spawnPosition: Vector3) -> void:
+	var _part = spawnParticlesScene.instantiate();
+	_part.global_position = spawnPosition;	
+	Global.levelNode.add_child(_part);
+	
+func updateBoard() -> void:
+	for child: Entity in enemiesManager.get_children():
+		child.despawn();
+
+func debugShowPositions():
+	$Label.text = "";
+	var _keys = Global.detectedTagsDict.keys();
+	for i in range(len(_keys)):
+		var _thisKey = _keys[i];
+		$Label.text += str(_thisKey) + " --- ";
+		$Label.text += str(Global.detectedTagsDict.get(_thisKey).get("tvec"));
+		$Label.text += "\n"
