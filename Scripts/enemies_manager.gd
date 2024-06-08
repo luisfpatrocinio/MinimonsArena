@@ -22,7 +22,7 @@ func spawnEnemy(spawnPosition: Vector2 = defaultSpawnPos, modelInd: int = -1):
 		modelInd = randInd;
 	
 	var _enemy: Enemy = enemyPackage.instantiate();
-	var _monsterKey = Global.monsterDict.keys()[modelInd];
+	var _monsterKey = Global.getEntityKeyById(modelInd);
 	_enemy.setEnemyModel(_monsterKey);
 	add_child(_enemy);
 	var _spawnPosition = Vector3(spawnPosition.x, 0, spawnPosition.y);
