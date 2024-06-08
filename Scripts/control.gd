@@ -34,36 +34,49 @@ var editMode: bool = false;
 ## Dicionário de modelos de monstros.
 var monsterDict: Dictionary = {
 	"chicken": {
+		"id": 1,
 		"model": preload("res://Monsters/Chicken.gltf"),
 		"name": "Chicken"
 	},
 	"demon": {
+		"id": 2,
 		"model": preload("res://Monsters/Demon.gltf"),
 		"name": "Demon"
 	},
 	"panda": {
+		"id": 3,
 		"model": preload("res://Monsters/Panda.gltf"),
 		"name": "Panda"
 	},
 	"skull": {
+		"id": 4,
 		"model": preload("res://Monsters/Skull.gltf"),
 		"name": "Skull"
 	},
 	"alien": {
+		"id": 5,
 		"model": preload("res://Monsters/Alien_Tall.gltf"),
 		"name": "Alien"
 	},
 	"bat": {
+		"id": 6,
 		"model": preload("res://Monsters/Bat.gltf"),
 		"name": "Bat"
 	},
 	"bee": {
+		"id": 7,
 		"model": preload("res://Monsters/Bee.gltf"),
 		"name": "Bee"
 	},
 	"cyclops": {
+		"id": 8,
 		"model": preload("res://Monsters/Cyclops.gltf"),
 		"name": "Cyclops"
+	},
+	"cactus": {
+		"id": 9,
+		"model": preload("res://Monsters/Cactus.gltf"),
+		"name": "Cactus"
 	},
 }
 
@@ -225,3 +238,12 @@ func convertArrayStrToVector3(arrayStr: String) -> Vector3:
 	
 func getBoardVec3() -> Vector3:
 	return detectedTagsDict.get(0, {"tvec": Vector3.ZERO}).get("tvec");
+
+## Retorna o dicionário da entidade a partir do identificador da Tag ARUCO.
+func getEntityKeyById(tagId: int) -> String:
+	# Percorre todas as keys do dicionário, até encontrar uma com o ID desejado.
+	var _keys = monsterDict.keys();
+	for key in _keys:
+		if monsterDict[key].get("id") == tagId:
+			return key
+	return ""
