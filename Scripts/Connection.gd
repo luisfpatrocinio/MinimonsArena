@@ -1,5 +1,4 @@
 extends Node
-class_name ConnectionManager
 
 ## Classe responsável por conectar o jogo ao servidor em Python.
 
@@ -22,12 +21,14 @@ func _process(delta):
 	
 	# Um pacote com uma nova combinação de endereço/porta foi recebido no socket:
 	#print("Conectado: ", connected);
-	connected = server.is_connection_available();
-	if connected:
+	if server.is_connection_available():
+		connected = true;
 		var peer: PacketPeerUDP = server.take_connection();
 		var packet = peer.get_packet();
 		managePackageContent(packet);
 		
+	if !server.is_listening():
+		connected = false;
 
 func managePackageContent(packet):
 	var content = packet.get_string_from_utf8();

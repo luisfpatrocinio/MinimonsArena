@@ -86,7 +86,7 @@ var scenesDict: Dictionary = {
 	
 func _process(delta):	
 	# Alterar modo de câmera
-	if Input.is_action_just_pressed("ui_cancel"):
+	if Input.is_action_just_pressed("ui_cancel") and false:
 		camMode += 1;
 		camMode = camMode % 4;
 	
@@ -142,10 +142,10 @@ func checkLevel() -> bool:
 
 ## Inicia uma transição para uma Scene específica por meio da chave do scenesDict.
 func transitionTo(sceneKey: String) -> void:
-	#var _scene = Global.scenesDict.get(sceneKey);
-	var _trans = transitionFadeInScene.instantiate();
-	_trans.destinySceneKey = sceneKey;
-	Global.add_child(_trans);
+	if Global.find_child("TransitionFadeIn") == null:
+		var _trans = transitionFadeInScene.instantiate();
+		_trans.destinySceneKey = sceneKey;
+		Global.add_child(_trans);
 
 func convertArrayStrToVector3(arrayStr: String) -> Vector3:
 	if arrayStr == "":

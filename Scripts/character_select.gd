@@ -42,6 +42,13 @@ func _process(delta):
 	# Animar modelo
 	if characterNode.get_child_count() >= 0:
 		var _model = characterNode.get_child(0)
+		if _model != null:
+			var _anim : AnimationPlayer = _model.get_node("AnimationPlayer");
+			if _anim.has_animation("Dance"):
+				_anim.play("Dance");
+			else:
+				_anim.play("Flying");
+			
 		
 	# Confirmar Personagem
 	if Input.is_action_just_pressed("ui_accept"):
