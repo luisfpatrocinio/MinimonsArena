@@ -10,12 +10,13 @@ func _ready():
 	_material.albedo_color = _colors[tagId % len(_colors)]
 	
 	$Label3D.text = str(tagId);
+	$Label3D.scale.x = -1;
 
 func _process(delta):
 	# Apontar a label para a câmera, de modo a tornar legível o texto.
-	$Label3D.look_at(Global.levelNode.cameraPivot.global_position * Vector3(1, -1, -1));
+	$Label3D.look_at(Global.levelNode.cameraPivot.global_position);
 	
-	adjustScale();
+	#adjustScale();
 	
 	#TODO: Seria interessante fazer a carta sumir caso não esteja no tabuleiro
 	
@@ -23,7 +24,9 @@ func _process(delta):
 	if tagId == 0:
 		global_position = Vector3(0, global_position.y, 0);
 	else:
+		visible = false;
 		if Global.detectedTagsDict.has(tagId):
+			visible = true;
 			var _myDict = Global.detectedTagsDict[tagId];
 			var _sp = 0.169;
 			var _targetPosition: Vector3 = Vector3(_myDict["tvec"].x, 2, _myDict["tvec"].y);

@@ -1,14 +1,7 @@
-class_name ServerNode
 extends Node
 
 ## Modo de câmera atual. (em desuso)
 var camMode: int = 0;
-
-## Inicializar servidor
-var server := UDPServer.new()
-
-## Clientes conectados
-var peers = []
 
 # Propriedades das tags lidas
 ## Vetores de rotação, em strings.
@@ -90,73 +83,8 @@ var scenesDict: Dictionary = {
 	"gameLevel": preload("res://Scenes/world.tscn"),
 	"scoreScene" : preload("res://Scenes/score_scene.tscn")
 }
-
-
-func _ready():
-	# Iniciar servidor
-	server.listen(5569)
 	
-	
-func _process(delta):
-	server.poll() # Important!
-	
-	if server.is_connection_available():
-		var peer: PacketPeerUDP = server.take_connection()
-		var packet = peer.get_packet()
-		var content = packet.get_string_from_utf8()
-		print("Received data: %s" % [content])
-		
-		# Fail fast: pacote inválido.
-		if not str(content).contains(":"):
-			# TODO: Não faz sentido encerrar a process. Transformar em função.
-			return
-		
-		# Limpar o dicionário, de modo que tags ausentes sejam removidas.
-		detectedTagsDict = {};
-		
-		# Dividir primeiramente em tags.
-		var tags: PackedStringArray = str(content).split("#");
-		
-		# Para cada tag, coletar valores de cada chave.
-		for _tagNo in range(len(tags)):
-			var tag: String = tags[_tagNo]; #  tagId:40$rvecs:4404404040404$tvecs:4449494949494
-			
-			# Obter cada chave dessa [tag] atual.
-			var keys: PackedStringArray = str(tag).split("$")
-			
-			var _actualTagId = "";
-			for pairKey in keys:
-				var commandParts: PackedStringArray = pairKey.split(":") #["tag", "30"]
-				var _key: String = commandParts[0];
-				match _key:
-					"tag":
-						_actualTagId = int(commandParts[1]);
-						insertTagOnDict(_actualTagId);
-					
-					"tvecs":
-						var _tvec = str(commandParts[1]);
-						detectedTagsDict[_actualTagId]["tvec"] = convertArrayStrToVector3(_tvec);
-						
-					"rvecs":
-						print("bolas");
-						#rvecs[_tagNo] = str(commandParts[1]);
-					#"ang":
-						#actualDirection = float(commandParts[1])
-					#"x":
-						#globalX = float(commandParts[1])
-					#"y":
-						#globalY = float(commandParts[1])
-					#"ori":
-						#orientation = convertOrientationToInt(commandParts[1])
-
-		# Reply so it knows we received the message.
-		#peer.put_packet(packet)
-		## Keep a reference so we can keep contacting the remote peer.
-		#peers.append(peer)
-	
-	#for i in range(0, peers.size()):
-		#pass # Do something with the connected peers.
-	
+func _process(delta):	
 	# Alterar modo de câmera
 	if Input.is_action_just_pressed("ui_cancel"):
 		camMode += 1;
@@ -226,7 +154,6 @@ func convertArrayStrToVector3(arrayStr: String) -> Vector3:
 	# Retirar todos os colchetes
 	var _fixedStr = arrayStr.replacen("[", "");
 	_fixedStr = _fixedStr.replacen("]", "");
-	print(_fixedStr);
 	
 	var _elements = _fixedStr.split(", ");
 	var _dist = 80;
@@ -247,3 +174,13 @@ func getEntityKeyById(tagId: int) -> String:
 		if monsterDict[key].get("id") == tagId:
 			return key
 	return ""
+
+## Remove todas as entradas do dicionário detectedTagsDict, exceto aquelas cujas chaves estão 
+## listadas no array tagsArray.
+func removeAllTagsExcept(tagsArray):
+	var _keys = detectedTagsDict.keys();
+	for _key in _keys:
+		# Verifica se essa key pertence ao array das que devem permanecer.
+		if !tagsArray.has(_key):
+			detectedTagsDict.erase(_key);
+			print("[GLOBAL] - Tag removida: ", _key);
