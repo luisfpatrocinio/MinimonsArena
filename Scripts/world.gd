@@ -72,7 +72,7 @@ func generateEntities() -> void:
 	
 	var _testBoxes: Node3D = get_node("TestBoxes");
 	for box in _testBoxes.get_children():
-		if box.tagId == 0:
+		if box.tagId == 0 or !box.visible:
 			continue
 			
 		## TODO: Chave do modelo a partir do TagID (int)
