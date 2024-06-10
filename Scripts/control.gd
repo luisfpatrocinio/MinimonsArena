@@ -83,6 +83,9 @@ var scenesDict: Dictionary = {
 	"gameLevel": preload("res://Scenes/world.tscn"),
 	"scoreScene" : preload("res://Scenes/score_scene.tscn")
 }
+
+# 
+signal insertTag(pos, id)
 	
 func _process(delta):	
 	# Alterar modo de câmera
@@ -101,6 +104,8 @@ func insertTagOnDict(tagNo: int) -> void:
 		"tvec": Vector3.ZERO
 	}
 	print("[GLOBAL.insertTagOnDict] - Tag %s inserida com sucesso." % [tagNo]);
+	insertTag.emit(Vector3.ZERO, tagNo);
+	# NÃO USADO MAIS: emit_signal("InsertTag", Vector3.ZERO, tagNo);
 
 
 ## Altera o comportamento da câmera de acordo o camMode.
@@ -183,3 +188,8 @@ func removeAllTagsExcept(tagsArray):
 		if !tagsArray.has(_key):
 			detectedTagsDict.erase(_key);
 			print("[GLOBAL] - Tag removida: ", _key);
+			var _cards = Global.levelNode.get_node("Cards");
+			for _card in _cards.get_children():
+				if _card.tagId == int(_key):
+					_card.queue_free();
+			

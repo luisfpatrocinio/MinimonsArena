@@ -1,11 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://b3eptbovcwbmb"]
+[gd_scene load_steps=18 format=3 uid="uid://b3eptbovcwbmb"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_p07bg"]
 [ext_resource type="Environment" uid="uid://b4abc0fnu2i5s" path="res://Scenes/mainEnvironment.tres" id="2_bojx3"]
 [ext_resource type="PackedScene" uid="uid://dxdn7yd6rqcma" path="res://Scenes/enemies_manager.tscn" id="4_3djf7"]
 [ext_resource type="PackedScene" path="res://Scenes/itens_manager.tscn" id="5_0vl1h"]
 [ext_resource type="PackedScene" uid="uid://b1bq7ry26iwgp" path="res://Scenes/game.tscn" id="6_kcy4s"]
-[ext_resource type="PackedScene" uid="uid://cermwnbb42c4" path="res://Scenes/test_box.tscn" id="7_bneyl"]
 [ext_resource type="MeshLibrary" uid="uid://c5e5rg07ejk8n" path="res://MeshLibrary/arenaMeshs.tres" id="7_j4you"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_edstc"]
@@ -93,18 +92,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
 
 [node name="ItensManager" parent="." instance=ExtResource("5_0vl1h")]
 
-[node name="TestBoxes" type="Node3D" parent="."]
-
-[node name="TestBox" parent="TestBoxes" instance=ExtResource("7_bneyl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.93209, 1, 3.06141)
-
-[node name="TestBox2" parent="TestBoxes" instance=ExtResource("7_bneyl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0861, 1, 0.0574007)
-tagId = 1
-
-[node name="TestBox3" parent="TestBoxes" instance=ExtResource("7_bneyl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.67162, 1, 10.2324)
-tagId = 2
+[node name="Cards" type="Node3D" parent="."]
 
 [node name="Scenario" type="Node3D" parent="."]
 

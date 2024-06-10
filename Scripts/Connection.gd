@@ -33,6 +33,10 @@ func _process(delta):
 func managePackageContent(packet):
 	var content = packet.get_string_from_utf8();
 	
+	# Limpar array de tags caso não hajam tags detectadas.
+	if str(content).contains("EMPTY"):
+		Global.detectedTagsDict = {};
+	
 	# Fail fast: pacote inválido. Para nosso jogo, um pacote sem ":" não tem utilidade.
 	if not str(content).contains(":"):
 		return
