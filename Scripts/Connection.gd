@@ -32,7 +32,6 @@ func _process(delta):
 
 func managePackageContent(packet):
 	var content = packet.get_string_from_utf8();
-	print("[CONNECTION] - Received data: %s" % [content])
 	
 	# Fail fast: pacote inválido. Para nosso jogo, um pacote sem ":" não tem utilidade.
 	if not str(content).contains(":"):
@@ -74,4 +73,7 @@ func managePackageContent(packet):
 					Global.detectedTagsDict[_actualTagId]["rvec"] = Global.convertArrayStrToVector3(_rvec);
 
 	# Depois de tudo, precisamos remover as tags que não estão no dicionário.
+	print("[CONNECTION] - Received data. Detected tags: ", _detectedTagsIds);	
 	Global.removeAllTagsExcept(_detectedTagsIds);
+	
+

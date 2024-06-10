@@ -95,13 +95,12 @@ func _process(delta):
 func insertTagOnDict(tagNo: int) -> void:
 	# Perguntar se já existe essa tag, para ver se podemos inserir.
 	if detectedTagsDict.has(tagNo):
-		print("Já temos a tag %s no dicionário." % [tagNo]);
 		return
 	detectedTagsDict[tagNo] = {
 		"tag": tagNo,
 		"tvec": Vector3.ZERO
 	}
-	print("Tag %s inserida com sucesso." % [tagNo]);
+	print("[GLOBAL.insertTagOnDict] - Tag %s inserida com sucesso." % [tagNo]);
 
 
 ## Altera o comportamento da câmera de acordo o camMode.
