@@ -83,6 +83,9 @@ var scenesDict: Dictionary = {
 	"gameLevel": preload("res://Scenes/world.tscn"),
 	"scoreScene" : preload("res://Scenes/score_scene.tscn")
 }
+
+# 
+signal insertTag(pos, id)
 	
 func _process(delta):	
 	# Alterar modo de câmera
@@ -93,15 +96,17 @@ func _process(delta):
 	manageCamera()
 
 func insertTagOnDict(tagNo: int) -> void:
+	
 	# Perguntar se já existe essa tag, para ver se podemos inserir.
 	if detectedTagsDict.has(tagNo):
-		print("Já temos a tag %s no dicionário." % [tagNo]);
 		return
 	detectedTagsDict[tagNo] = {
 		"tag": tagNo,
 		"tvec": Vector3.ZERO
 	}
-	print("Tag %s inserida com sucesso." % [tagNo]);
+	print("[GLOBAL.insertTagOnDict] - Tag %s inserida com sucesso." % [tagNo]);
+	insertTag.emit(Vector3.ZERO, tagNo);
+	# NÃO USADO MAIS: emit_signal("InsertTag", Vector3.ZERO, tagNo);
 
 
 ## Altera o comportamento da câmera de acordo o camMode.
@@ -178,9 +183,16 @@ func getEntityKeyById(tagId: int) -> String:
 ## Remove todas as entradas do dicionário detectedTagsDict, exceto aquelas cujas chaves estão 
 ## listadas no array tagsArray.
 func removeAllTagsExcept(tagsArray):
+	if Global.levelNode == null:
+		return
 	var _keys = detectedTagsDict.keys();
 	for _key in _keys:
 		# Verifica se essa key pertence ao array das que devem permanecer.
 		if !tagsArray.has(_key):
 			detectedTagsDict.erase(_key);
 			print("[GLOBAL] - Tag removida: ", _key);
+			var _cards = Global.levelNode.get_node("Cards");
+			for _card in _cards.get_children():
+				if _card.tagId == int(_key):
+					_card.queue_free();
+			

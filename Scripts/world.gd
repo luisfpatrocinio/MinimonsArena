@@ -8,8 +8,25 @@ class_name Level
 @onready var itensManager: ItensManager = $ItensManager;
 @onready var interfaceNode: CanvasLayer = get_node("Interface");
 
+## Scene de carta
+@onready var cardScene: PackedScene = preload("res://Scenes/cardTag.tscn");
+
 ## Scene de partículas de spawn
 @onready var spawnParticlesScene: PackedScene = preload("res://Scenes/spawn_particles.tscn");
+
+## Level Details
+var level = {
+	"requiredTags": [0, 1, 2]
+}
+
+func _ready():
+	Global.levelNode = self
+	Global.setupLevel()
+	Global.insertTag.connect(spawnCard)
+
+func _process(delta):
+	pass
+	#debugShowPositions();
 
 func setMonster(monsterKey):
 	if monsterNode == null:
@@ -24,14 +41,6 @@ func setMonster(monsterKey):
 		actualMonsterModel.queue_free()
 	monsterNode.add_child(_model)
 	monsterNode.myModel = _model;
-
-func _ready():
-	Global.levelNode = self
-	Global.setupLevel()
-
-func _process(delta):
-	pass
-	#debugShowPositions();
 
 func dropChest():
 	itensManager.dropChest();
@@ -63,32 +72,45 @@ func createSpawnParticles(spawnPosition: Vector3) -> void:
 	var _part = spawnParticlesScene.instantiate();
 	_part.global_position = spawnPosition;	
 	Global.levelNode.add_child(_part);
+	
+## Cria partículas de surgimento ou dessurgimento. Foi adicionada no Level para evitar pequenas falhas visuais.
+func spawnCard(spawnPosition: Vector3, tagId: int) -> void:
+	var _part = cardScene.instantiate();
+	_part.global_position = spawnPosition;
+	_part.tagId = tagId;
+	Global.levelNode.get_node("Cards").add_child(_part);
+	print("[WORLD.spawnCard] - Carta posicionada: ", tagId);
 
 
 ## Transforma todas as cartas do tabuleiro em inimigos.
 func generateEntities() -> void:
+	print("[WORLD.generateEntities] - Gerando entidades a partir das cartas.")
 	for child: Entity in enemiesManager.get_children():
 		child.despawn();
 	
-	var _testBoxes: Node3D = get_node("TestBoxes");
-	for box in _testBoxes.get_children():
-		if box.tagId == 0 or !box.visible:
+	var _cards: Node3D = get_node("Cards");
+	for _card in _cards.get_children():
+		if _card.tagId == 0 or !_card.visible:
 			continue
 			
 		## TODO: Chave do modelo a partir do TagID (int)
-		var _modelKey = Global.getEntityKeyById(box.tagId);
-		enemiesManager.spawnEnemy(Vector2(box.global_position.x, box.global_position.z), box.tagId)
-		box.visible = false;
+		var _modelKey = Global.getEntityKeyById(_card.tagId);
+		enemiesManager.spawnEnemy(Vector2(_card.global_position.x, _card.global_position.z), _card.tagId)
+		_card.visible = false;
 
 ## Destrói entidades e repõe as cartas no tabuleiro.	
 func startPreparation() -> void:
+	print("[WORLD.startPreparation] - Etapa de preparação.")
 	for child: Entity in enemiesManager.get_children():
 		child.despawn();
 	
-	var _testBoxes: Node3D = get_node("TestBoxes");
-	for box in _testBoxes.get_children():
-		box.visible = true;
+	var _cards: Node3D = get_node("Cards");
+	for _card in _cards.get_children():
+		print("[WORLD] - Carta destruída: ", _card.tagId);
+		_card.despawn();
 	
+	# Limpa dicionário.
+	Global.detectedTagsDict = {};
 
 func debugShowPositions():
 	$Label.text = "";
