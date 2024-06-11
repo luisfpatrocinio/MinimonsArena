@@ -84,6 +84,10 @@ var scenesDict: Dictionary = {
 	"scoreScene" : preload("res://Scenes/score_scene.tscn")
 }
 
+## Array que guarda a chave dos personagens selecionados. Permite a inserção de mais de uma chave
+## para que seja possível mais de um jogador.
+var selectedCharacters = []
+
 # 
 signal insertTag(pos, id)
 	
@@ -183,14 +187,14 @@ func getEntityKeyById(tagId: int) -> String:
 ## Remove todas as entradas do dicionário detectedTagsDict, exceto aquelas cujas chaves estão 
 ## listadas no array tagsArray.
 func removeAllTagsExcept(tagsArray):
-	if Global.levelNode == null:
-		return
 	var _keys = detectedTagsDict.keys();
 	for _key in _keys:
 		# Verifica se essa key pertence ao array das que devem permanecer.
 		if !tagsArray.has(_key):
 			detectedTagsDict.erase(_key);
 			print("[GLOBAL] - Tag removida: ", _key);
+			if Global.levelNode == null:
+				return
 			var _cards = Global.levelNode.get_node("Cards");
 			for _card in _cards.get_children():
 				if _card.tagId == int(_key):

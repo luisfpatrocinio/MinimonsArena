@@ -58,10 +58,6 @@ func managePackageContent(packet):
 				_detectedTagsIds.append(int(_pairParts[1]));
 	print("[CONNECTION] - Received Detected Tags IDs: ", _detectedTagsIds)
 	
-	# Só devemos adicionar no dicionário se estivermos num level.
-	if Global.levelNode == null:
-		return
-	
 	# Para cada tag, coletar valores de cada chave.
 	for i in range(len(tags)):
 		var tag: String = tags[i]; 

@@ -21,6 +21,7 @@ var level = {
 
 func _ready():
 	Global.levelNode = self
+	Global.removeAllTagsExcept([0]);	# Remover todas as cartas, exceto tabuleiro.
 	Global.setupLevel()
 	Global.insertTag.connect(spawnCard)
 

@@ -8,20 +8,22 @@ var selectedKey: String = "";
 
 func _process(delta):
 	# Detectar qual player o jogador deseja.
-	label.text = "Selecione seu personagem:\n"
-	for i in range(len(monsterKeys)):
-		var _monsterKey = monsterKeys[i];
-		label.text += "%s %s\n" % ["> " if selected == i else "", _monsterKey];
-
-	# Alterar cursor
-	var _upKey = int(Input.is_action_just_pressed("ui_up"));
-	var _downKey = int(Input.is_action_just_pressed("ui_down"));
-	selected += _downKey - _upKey;
-	selected = wrap(selected, 0, len(monsterKeys));
+	label.text = "Posicione seu herói no tabuleiro:\n"
+	
+	var _detectedCharacters = []
+	for i in Global.detectedTagsDict:
+		if i != 0:
+			_detectedCharacters.append(Global.getEntityKeyById(i))
+			
+	for char in _detectedCharacters:
+		label.text += char + "\n"
 	
 	## Atribuir character
 	# Chave do monstro atual.
-	var _selectedMonsterKey = monsterKeys[selected];
+	if len(_detectedCharacters) <= 0:
+		return
+		
+	var _selectedMonsterKey = _detectedCharacters[0];
 	# Modelo do monstro atual.
 	var _monsterModel = Global.monsterDict.get(_selectedMonsterKey).get("model") as PackedScene;
 	# Caso não tenha modelo 3D
