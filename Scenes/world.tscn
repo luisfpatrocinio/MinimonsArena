@@ -3,12 +3,15 @@
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_p07bg"]
 [ext_resource type="Environment" uid="uid://b4abc0fnu2i5s" path="res://Scenes/mainEnvironment.tres" id="2_bojx3"]
 [ext_resource type="PackedScene" uid="uid://dxdn7yd6rqcma" path="res://Scenes/enemies_manager.tscn" id="4_3djf7"]
+
 [ext_resource type="PackedScene" path="res://Scenes/itens_manager.tscn" id="5_0vl1h"]
 [ext_resource type="PackedScene" uid="uid://b1bq7ry26iwgp" path="res://Scenes/game.tscn" id="6_kcy4s"]
 [ext_resource type="MeshLibrary" uid="uid://c5e5rg07ejk8n" path="res://MeshLibrary/arenaMeshs.tres" id="7_j4you"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_edstc"]
 albedo_color = Color(0.211765, 0.823529, 0, 1)
+
+[ext_resource type="PackedScene" uid="uid://chf6qds01oibv" path="res://Scenes/itens_manager.tscn" id="5_0vl1h"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ymcgn"]
 albedo_color = Color(0.733333, 0.894118, 0.596078, 1)
