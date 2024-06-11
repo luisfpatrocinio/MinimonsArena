@@ -48,6 +48,19 @@ func managePackageContent(packet):
 	var tags: PackedStringArray = str(content).split("#");
 	
 	var _detectedTagsIds: Array[int] = [];
+	for i in range(len(tags)):
+		var tag: String = tags[i]; 
+		var keys: PackedStringArray = str(tag).split("$");
+		for pair in keys:
+			var _pairParts = pair.split(":");
+			var _key = _pairParts[0];
+			if _key == "tag":
+				_detectedTagsIds.append(int(_pairParts[1]));
+	print("[CONNECTION] - Received Detected Tags IDs: ", _detectedTagsIds)
+	
+	# Só devemos adicionar no dicionário se estivermos num level.
+	if Global.levelNode == null:
+		return
 	
 	# Para cada tag, coletar valores de cada chave.
 	for i in range(len(tags)):
@@ -66,7 +79,7 @@ func managePackageContent(packet):
 				"tag":
 					_actualTagId = int(_pairParts[1]);
 					Global.insertTagOnDict(_actualTagId);
-					_detectedTagsIds.append(_actualTagId);
+					#_detectedTagsIds.append(_actualTagId);
 				
 				"tvecs":
 					var _tvec = str(_pairParts[1]);
@@ -77,7 +90,6 @@ func managePackageContent(packet):
 					Global.detectedTagsDict[_actualTagId]["rvec"] = Global.convertArrayStrToVector3(_rvec);
 
 	# Depois de tudo, precisamos remover as tags que não estão no dicionário.
-	print("[CONNECTION] - Received data. Detected tags: ", _detectedTagsIds);	
 	Global.removeAllTagsExcept(_detectedTagsIds);
 	
 

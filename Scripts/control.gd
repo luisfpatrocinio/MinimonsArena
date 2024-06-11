@@ -96,6 +96,7 @@ func _process(delta):
 	manageCamera()
 
 func insertTagOnDict(tagNo: int) -> void:
+	
 	# Perguntar se já existe essa tag, para ver se podemos inserir.
 	if detectedTagsDict.has(tagNo):
 		return
@@ -182,6 +183,8 @@ func getEntityKeyById(tagId: int) -> String:
 ## Remove todas as entradas do dicionário detectedTagsDict, exceto aquelas cujas chaves estão 
 ## listadas no array tagsArray.
 func removeAllTagsExcept(tagsArray):
+	if Global.levelNode == null:
+		return
 	var _keys = detectedTagsDict.keys();
 	for _key in _keys:
 		# Verifica se essa key pertence ao array das que devem permanecer.
