@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://d1nho8oit4i7f"]
+
+[ext_resource type="Script" path="res://Scripts/dice.gd" id="1_mgxbg"]
+[ext_resource type="PackedScene" uid="uid://bbpb4tltyvqw3" path="res://Scenes/dice_ray_cast.tscn" id="2_ersrl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7jt1t"]
+albedo_color = Color(1, 1, 1, 0.0627451)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hholo"]
+material = SubResource("StandardMaterial3D_7jt1t")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6evms"]
+
+[node name="Dice" type="RigidBody3D"]
+script = ExtResource("1_mgxbg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_hholo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_6evms")
+
+[node name="RayCasts" type="Node3D" parent="."]
+
+[node name="DiceRayCast1" parent="RayCasts" instance=ExtResource("2_ersrl")]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.48157, 0, 0)
+oppositeSide = 6
+
+[node name="DiceRayCast2" parent="RayCasts" instance=ExtResource("2_ersrl")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0.491409)
+oppositeSide = 5
+
+[node name="DiceRayCast3" parent="RayCasts" instance=ExtResource("2_ersrl")]
+transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0, 0.499368, 0)
+oppositeSide = 4
+
+[node name="DiceRayCast4" parent="RayCasts" instance=ExtResource("2_ersrl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.499367, 0)
+oppositeSide = 3
+
+[node name="DiceRayCast5" parent="RayCasts" instance=ExtResource("2_ersrl")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.5)
+oppositeSide = 2
+
+[node name="DiceRayCast6" parent="RayCasts" instance=ExtResource("2_ersrl")]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.502358, 0, 0)
+oppositeSide = 1
+
+[connection signal="sleeping_state_changed" from="." to="." method="_on_sleeping_state_changed"]
