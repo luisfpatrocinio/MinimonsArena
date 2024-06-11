@@ -108,7 +108,7 @@ func insertTagOnDict(tagNo: int) -> void:
 		"tag": tagNo,
 		"tvec": Vector3.ZERO
 	}
-	print("[GLOBAL.insertTagOnDict] - Tag %s inserida com sucesso." % [tagNo]);
+	print_rich("[color=orange][b][GLOBAL.insertTagOnDict][/b] - Tag %s inserida com sucesso." % [tagNo]);
 	insertTag.emit(Vector3.ZERO, tagNo);
 	# NÃO USADO MAIS: emit_signal("InsertTag", Vector3.ZERO, tagNo);
 
@@ -192,7 +192,7 @@ func removeAllTagsExcept(tagsArray):
 		# Verifica se essa key pertence ao array das que devem permanecer.
 		if !tagsArray.has(_key):
 			detectedTagsDict.erase(_key);
-			print("[GLOBAL] - Tag removida: ", _key);
+			print_rich("[color=orange][b][GLOBAL][/b] - Tag removida: ", _key);
 			if Global.levelNode == null:
 				return
 			var _cards = Global.levelNode.get_node("Cards");

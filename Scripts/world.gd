@@ -80,12 +80,12 @@ func spawnCard(spawnPosition: Vector3, tagId: int) -> void:
 	_part.global_position = spawnPosition;
 	_part.tagId = tagId;
 	Global.levelNode.get_node("Cards").add_child(_part);
-	print("[WORLD.spawnCard] - Carta posicionada: ", tagId);
+	print_rich("[b][WORLD.spawnCard][/b] - Carta posicionada: ", tagId);
 
 
 ## Transforma todas as cartas do tabuleiro em inimigos.
 func generateEntities() -> void:
-	print("[WORLD.generateEntities] - Gerando entidades a partir das cartas.")
+	print_rich("[b][WORLD.generateEntities][/b] - Gerando entidades a partir das cartas.")
 	for child: Entity in enemiesManager.get_children():
 		child.despawn();
 	
@@ -101,13 +101,13 @@ func generateEntities() -> void:
 
 ## Destrói entidades e repõe as cartas no tabuleiro.	
 func startPreparation() -> void:
-	print("[WORLD.startPreparation] - Etapa de preparação.")
+	print_rich("[b][WORLD.startPreparation][/b] - Etapa de preparação.")
 	for child: Entity in enemiesManager.get_children():
 		child.despawn();
 	
 	var _cards: Node3D = get_node("Cards");
 	for _card in _cards.get_children():
-		print("[WORLD] - Carta destruída: ", _card.tagId);
+		print_rich("[b][WORLD][/b] - Carta destruída: ", _card.tagId);
 		_card.despawn();
 	
 	# Limpa dicionário.
