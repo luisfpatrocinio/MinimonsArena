@@ -56,7 +56,7 @@ func managePackageContent(packet):
 			var _key = _pairParts[0];
 			if _key == "tag":
 				_detectedTagsIds.append(int(_pairParts[1]));
-	print("[CONNECTION] - Received Detected Tags IDs: ", _detectedTagsIds)
+	print_rich("[color=green][b][CONNECTION][/b] - Received Detected Tags IDs: ", _detectedTagsIds)
 	
 	# Para cada tag, coletar valores de cada chave.
 	for i in range(len(tags)):

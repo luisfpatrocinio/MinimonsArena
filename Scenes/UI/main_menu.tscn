@@ -1,22 +1,32 @@
-[gd_scene load_steps=16 format=3 uid="uid://bsvbrfc41ghgx"]
+[gd_scene load_steps=18 format=3 uid="uid://bsvbrfc41ghgx"]
 
 [ext_resource type="PackedScene" uid="uid://cf0ryhc2sxkj1" path="res://Monsters/Alien.gltf" id="1_3uatd"]
 [ext_resource type="Texture2D" uid="uid://bb4vpcvxjjm0b" path="res://Labiras_Logo.png" id="1_estuy"]
 [ext_resource type="Script" path="res://Scripts/title.gd" id="1_gjc81"]
 [ext_resource type="PackedScene" uid="uid://clnogdkf4bx42" path="res://Monsters/Chicken.gltf" id="2_ntr20"]
+[ext_resource type="Texture2D" uid="uid://b6b05eunywog4" path="res://Assets/Grass_Hill.png" id="2_txh7e"]
 [ext_resource type="PackedScene" uid="uid://clu3nkfwflxw3" path="res://Monsters/Crab.gltf" id="3_c1rfd"]
+[ext_resource type="PackedScene" uid="uid://bpwqvs3blu2h6" path="res://Monsters/Bat.gltf" id="5_70nx5"]
 [ext_resource type="Shader" path="res://Assets/Shaders/blur.gdshader" id="6_g803k"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jrp8a"]
-albedo_color = Color(0.215686, 1, 0.188235, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ryjk"]
+albedo_texture = ExtResource("2_txh7e")
+uv1_scale = Vector3(0.2, 0.2, 0.2)
+uv1_triplanar = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_23b6s"]
-material = SubResource("StandardMaterial3D_jrp8a")
-size = Vector2(50, 50)
+lightmap_size_hint = Vector2i(322, 322)
+material = SubResource("StandardMaterial3D_0ryjk")
+size = Vector2(64, 64)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rchw1"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+sky_top_color = Color(0.819608, 0.956863, 0.968627, 1)
+sky_horizon_color = Color(0.34902, 0.796078, 0.835294, 1)
+sky_curve = 0.369344
+ground_bottom_color = Color(0.117647, 0.258824, 0.270588, 1)
+ground_horizon_color = Color(0, 0.160784, 0.32549, 1)
+sun_angle_max = 6.26
+sun_curve = 0.9415
 
 [sub_resource type="Sky" id="Sky_8gx31"]
 sky_material = SubResource("ProceduralSkyMaterial_rchw1")
@@ -88,47 +98,59 @@ render_target_update_mode = 4
 
 [node name="MainMenuPreview" type="Node3D" parent="Menu/SubViewportContainer/SubViewport"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview"]
+[node name="Floor" type="MeshInstance3D" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview"]
 mesh = SubResource("PlaneMesh_23b6s")
 
-[node name="Alien2" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview" instance=ExtResource("1_3uatd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00032109, 0, 1.71963)
-
-[node name="Chicken2" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview" instance=ExtResource("2_ntr20")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.32787, -0.10929, 0.225228)
-
-[node name="Crab2" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview" instance=ExtResource("3_c1rfd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.25059, 0, 0.234821)
-
 [node name="Camera" type="Camera3D" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview"]
-transform = Transform3D(1, 0, 0, 0, 0.989521, 0.144391, 0, -0.144391, 0.989521, 0, 1.48982, 5.23319)
+transform = Transform3D(0.866025, 0.0721955, -0.49476, 0, 0.989521, 0.144391, 0.5, -0.125046, 0.85695, -4, 1.48982, 4.23319)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview"]
 environment = SubResource("Environment_8j7aa")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview"]
-transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+transform = Transform3D(-0.998762, 0.0430869, -0.0248761, 1.47562e-08, 0.499998, 0.866026, 0.0497524, 0.864954, -0.499379, 0, 0, 0)
 shadow_enabled = true
+
+[node name="Models" type="Node3D" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview"]
+unique_name_in_owner = true
+
+[node name="Alien" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview/Models" instance=ExtResource("1_3uatd")]
+transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 0.292, 0, 1.542)
+
+[node name="Chicken" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview/Models" instance=ExtResource("2_ntr20")]
+transform = Transform3D(0.999521, 0, -0.0309572, 0, 1, 0, 0.0309572, 0, 0.999521, -3.61829, -0.10929, -0.349842)
+
+[node name="Crab" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview/Models" instance=ExtResource("3_c1rfd")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 1.39853, -1.90735e-06, -1.91351)
+
+[node name="Bat" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview/Models" instance=ExtResource("5_70nx5")]
+transform = Transform3D(0.959171, -0.086238, -0.269359, 0, 0.95238, -0.304914, 0.282827, 0.292465, 0.913495, -1.37295, 2.99455, -3.01609)
 
 [node name="Logo" type="Control" parent="Menu"]
 unique_name_in_owner = true
 layout_mode = 3
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-grow_horizontal = 2
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -173.0
+offset_top = 549.0
+offset_right = -173.0
+offset_bottom = 549.0
+grow_horizontal = 0
 mouse_filter = 1
 
 [node name="TextureRect" type="TextureRect" parent="Menu/Logo"]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-offset_left = -172.5
-offset_top = 117.0
-offset_right = 172.5
-offset_bottom = 249.0
+anchor_bottom = 0.5
+offset_right = 345.0
+offset_bottom = 132.0
 grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_estuy")
 
 [node name="MenuButtons" type="VBoxContainer" parent="Menu"]
@@ -137,10 +159,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -61.5
-offset_top = -324.0
-offset_right = 61.5
-offset_bottom = -157.0
+offset_left = -492.0
+offset_top = -377.0
+offset_right = -369.0
+offset_bottom = -210.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 0
@@ -219,28 +241,29 @@ text = "Return"
 [node name="Cover" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = 2
-visible = false
 
 [node name="CoverRect" type="ColorRect" parent="Cover"]
-anchors_preset = 15
+anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -48.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 color = Color(0, 0, 0, 1)
 
 [node name="InfoLabel" type="Label" parent="Cover"]
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
+anchor_bottom = 1.0
 offset_left = -102.5
-offset_top = -16.0
+offset_top = -40.0
 offset_right = 102.5
-offset_bottom = 16.0
+offset_bottom = -8.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 text = "MAIN_MENU_INFO"
 label_settings = SubResource("LabelSettings_061ir")
 horizontal_alignment = 1

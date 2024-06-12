@@ -6,11 +6,12 @@ var titleStep = 0;
 var waitedTooLong: bool = false;
 
 ## Controla o estado das opções
-
-
 @onready var infoLabel: Label = $Cover/InfoLabel
 @onready var menuButtons = $Menu/MenuButtons
 @onready var options = $Menu/Options
+
+# Referências dos modelos 3D:
+@onready var models = %Models.get_children()
 
 # Caso precise
 enum STEPS {
@@ -23,24 +24,24 @@ func _ready():
 	setInitialConfig();
 
 func _process(delta):
+	animateModels();
+	
 	match titleStep:
 		STEPS.CONNECTING:
-			# Desabilita o subviewport para não consumir muito processamento ( faça o teste no Debugger>visual profiler > start )
-			%Menu.visible = false;
-			
 			var _pointsCount = (Time.get_ticks_msec() / 500) % 4;
 			
 			if Connection.connected:
 				%Menu.visible = true;
-				titleStep = STEPS.MENU;
 				infoLabel.text = "Conexão com a câmera estabelecida!";
 				await get_tree().create_timer(2).timeout;
+				titleStep = STEPS.MENU;
 				#Global.transitionTo("characterSelect");
 			else:
 				infoLabel.text = "Tentando conectar à câmera" + str(".").repeat(_pointsCount);
 				
 				if waitedTooLong:
-					infoLabel.text += "\nAperte ESC para iniciar de qualquer forma."
+					pass
+					#infoLabel.text += "\nAperte ESC para iniciar de qualquer forma."
 				
 				# DEBUG: Atravessar bloqueio. TODO: Retirar.
 				if Input.is_action_just_pressed("ui_cancel"):
@@ -51,11 +52,11 @@ func _process(delta):
 
 		 ## TODO: tirar caso seja desnecessario
 		STEPS.MENU:
-			%Cover.visible = false;
+			pass
+			#%Cover.visible = false;
 
 func setInitialConfig():
 	%Cover.visible = true;
-	%Menu.visible = false;
 	changeOptionsVisibility(Color.TRANSPARENT);
 	
 	titleStep = STEPS.CONNECTING;
@@ -95,3 +96,15 @@ func _on_return_button_pressed():
 	titleStep = STEPS.MENU;
 	changeMenuButtonsVisibility(Color.WHITE);
 	changeOptionsVisibility(Color.TRANSPARENT);
+
+## Animar modelos 3D:
+func animateModels():
+	for model in models:
+		var _anim = model.get_node("AnimationPlayer") as AnimationPlayer;
+		if _anim.has_animation("Idle"):
+			if model.name == "Crab":
+				_anim.play("Walk");
+			else:
+				_anim.play("Idle");
+		else:
+			_anim.play("Flying");
