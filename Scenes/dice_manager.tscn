@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://buphp4fw3upmt"]
+[gd_scene load_steps=9 format=3 uid="uid://buphp4fw3upmt"]
 
 [ext_resource type="Script" path="res://Scripts/dice_manager.gd" id="1_k0nof"]
+[ext_resource type="PackedScene" uid="uid://2c7a4tvv661p" path="res://Scenes/camera.tscn" id="2_uutfn"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0733t"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -44,8 +45,5 @@ shape = SubResource("ConcavePolygonShape3D_n6t54")
 mesh = SubResource("PlaneMesh_5ei13")
 skeleton = NodePath("../..")
 
-[node name="Pivot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 36)
-
-[node name="Camera3D" type="Camera3D" parent="Pivot"]
-transform = Transform3D(1, -1.86006e-09, 5.56938e-17, 1.53079e-09, 0.822978, 0.568074, -1.05665e-09, -0.568074, 0.822978, 9.53674e-07, 1.72012, 2.66186)
+[node name="Camera" parent="." instance=ExtResource("2_uutfn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55668, 0)

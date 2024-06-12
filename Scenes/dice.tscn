@@ -23,27 +23,27 @@ shape = SubResource("BoxShape3D_6evms")
 [node name="RayCasts" type="Node3D" parent="."]
 
 [node name="DiceRayCast1" parent="RayCasts" instance=ExtResource("2_ersrl")]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.48157, 0, 0)
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.418137, 0, 0)
 oppositeSide = 6
 
 [node name="DiceRayCast2" parent="RayCasts" instance=ExtResource("2_ersrl")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0.491409)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0.407519)
 oppositeSide = 5
 
 [node name="DiceRayCast3" parent="RayCasts" instance=ExtResource("2_ersrl")]
-transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0, 0.499368, 0)
+transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0, 0.430067, 0)
 oppositeSide = 4
 
 [node name="DiceRayCast4" parent="RayCasts" instance=ExtResource("2_ersrl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.499367, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.395184, 0)
 oppositeSide = 3
 
 [node name="DiceRayCast5" parent="RayCasts" instance=ExtResource("2_ersrl")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.5)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.412462)
 oppositeSide = 2
 
 [node name="DiceRayCast6" parent="RayCasts" instance=ExtResource("2_ersrl")]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.502358, 0, 0)
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.424509, 0, 0)
 oppositeSide = 1
 
 [connection signal="sleeping_state_changed" from="." to="." method="_on_sleeping_state_changed"]
