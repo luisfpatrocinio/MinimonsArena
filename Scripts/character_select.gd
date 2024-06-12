@@ -1,6 +1,7 @@
 extends Node3D
 
-@onready var label: Label3D = get_node("Label3D");
+@onready var instructionLabel: Label3D = get_node("InstructionLabel");
+@onready var characterNameLabel: Label3D = get_node("CharacterNameLabel");
 var selected = 0;
 @onready var characterNode = get_node("Character");
 @onready var monsterKeys = Global.monsterDict.keys()
@@ -13,22 +14,35 @@ func _ready():
 
 func _process(delta):
 	# Detectar qual player o jogador deseja.
-	label.text = "Posicione seu herói no tabuleiro:\n"
-	
 	detectedCharacters = [];
 	for i in Global.detectedTagsDict:
 		if i != 0:
 			var _charKey = Global.getEntityKeyById(i);
 			detectedCharacters.append(_charKey)
 	
-	for char in detectedCharacters:
-		label.text += char + "\n"
+	if len(detectedCharacters) > 0:
+		var char = detectedCharacters[0];
+		var _monsterName = Global.monsterDict.get(char).name;
+		characterNameLabel.text = _monsterName;
+		instructionLabel.text = "Aperte START para começar!"
+	else:
+		instructionLabel.text = "Posicione seu herói no tabuleiro: "
+		characterNameLabel.text = "";
 	
 	# Aqui teremos detectedCharacters = ["cyclops"]
 	
 	changeCharacter();
 	
 	# Animar modelo
+	animateModel();
+		
+	# Confirmar Personagem
+	if Input.is_action_just_pressed("ui_accept"):
+		Global.monsterKey = selectedKey;
+		Global.transitionTo("gameLevel");
+
+func animateModel():
+	characterNode.rotation.y += 0.02;
 	if characterNode.get_child_count() > 0:
 		var _model = characterNode.get_child(0)
 		if _model != null:
@@ -37,12 +51,8 @@ func _process(delta):
 				_anim.play("Dance");
 			else:
 				_anim.play("Flying");
-			
-		
-	# Confirmar Personagem
-	if Input.is_action_just_pressed("ui_accept"):
-		Global.monsterKey = selectedKey;
-		Global.transitionTo("gameLevel");
+	else:
+		characterNode.rotation.y += 0.02;
 
 ## Atribuir character
 func changeCharacter():

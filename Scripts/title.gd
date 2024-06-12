@@ -52,7 +52,8 @@ func _process(delta):
 
 		 ## TODO: tirar caso seja desnecessario
 		STEPS.MENU:
-			%Cover.visible = false;
+			pass
+			#%Cover.visible = false;
 
 func setInitialConfig():
 	%Cover.visible = true;
