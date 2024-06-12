@@ -24,5 +24,10 @@ text = "Escolha seu Personagem
 1 - Pinto
 2 - Capeta"
 
+[node name="Characters" type="Node3D" parent="."]
+
+[node name="Character2" type="Node3D" parent="Characters"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
 [node name="Character" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
