@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bsvbrfc41ghgx"]
+[gd_scene load_steps=27 format=3 uid="uid://bsvbrfc41ghgx"]
 
 [ext_resource type="PackedScene" uid="uid://cf0ryhc2sxkj1" path="res://Monsters/Alien.gltf" id="1_3uatd"]
 [ext_resource type="Texture2D" uid="uid://bb4vpcvxjjm0b" path="res://Labiras_Logo.png" id="1_estuy"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://clu3nkfwflxw3" path="res://Monsters/Crab.gltf" id="3_c1rfd"]
 [ext_resource type="PackedScene" uid="uid://bpwqvs3blu2h6" path="res://Monsters/Bat.gltf" id="5_70nx5"]
 [ext_resource type="Shader" path="res://Assets/Shaders/blur.gdshader" id="6_g803k"]
+[ext_resource type="FontFile" uid="uid://b4vqht41tykpl" path="res://Assets/Dinofiles.ttf" id="9_nt4on"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ryjk"]
 albedo_texture = ExtResource("2_txh7e")
@@ -20,8 +21,8 @@ material = SubResource("StandardMaterial3D_0ryjk")
 size = Vector2(64, 64)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rchw1"]
-sky_top_color = Color(0.819608, 0.956863, 0.968627, 1)
-sky_horizon_color = Color(0.34902, 0.796078, 0.835294, 1)
+sky_top_color = Color(0.858824, 0, 0.858824, 1)
+sky_horizon_color = Color(0.34902, 0, 0.760784, 1)
 sky_curve = 0.369344
 ground_bottom_color = Color(0.117647, 0.258824, 0.270588, 1)
 ground_horizon_color = Color(0, 0.160784, 0.32549, 1)
@@ -36,6 +37,71 @@ background_mode = 2
 sky = SubResource("Sky_8gx31")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_e084b"]
+size = Vector3(8, 4, 8)
+
+[sub_resource type="Shader" id="Shader_mnqf0"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.2.1.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
+uniform float point_size : hint_range(0,128);
+uniform float roughness : hint_range(0,1);
+uniform sampler2D texture_metallic : hint_default_white,filter_linear_mipmap,repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r,filter_linear_mipmap,repeat_enable;
+uniform float specular;
+uniform float metallic;
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+
+void vertex() {
+	UV=UV*uv1_scale.xy+uv1_offset.xy;
+}
+
+
+
+
+
+
+void fragment() {
+	vec2 base_uv = UV;
+	vec4 albedo_tex = texture(texture_albedo,base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+	float metallic_tex = dot(texture(texture_metallic,base_uv),metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	vec4 roughness_texture_channel = vec4(1.0,0.0,0.0,0.0);
+	float roughness_tex = dot(texture(texture_roughness,base_uv),roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+	SPECULAR = specular;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qjego"]
+render_priority = 0
+shader = SubResource("Shader_mnqf0")
+shader_parameter/albedo = Color(0.12549, 0.592157, 0.780392, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3hhd5"]
+size = Vector3(8, 6, 8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_er3gf"]
+albedo_color = Color(0.105882, 0.317647, 0.654902, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pwo2w"]
 bg_color = Color(0, 0, 0, 0.360784)
@@ -65,6 +131,33 @@ shader_parameter/blur_type = 0
 shader_parameter/blur_amount = 6
 shader_parameter/blur_radius = 1.0
 shader_parameter/blur_direction = Vector2(1, 1)
+
+[sub_resource type="Shader" id="Shader_a3crn"]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+void fragment() {
+	COLOR.a = texture(TEXTURE, UV).a;
+	vec2 my_uv = vec2(UV.y * 5.0, UV.y);
+	COLOR.rgb = COLOR.rgb * vec3(1.00, 0.50, 0.50);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7wf4l"]
+shader = SubResource("Shader_a3crn")
+
+[sub_resource type="Theme" id="Theme_bk2h8"]
+default_font = ExtResource("9_nt4on")
+default_font_size = 64
+/colors/TitleColor = Color(0.713726, 0.329412, 0.396078, 1)
+/font_sizes/Title = 1
+Label/colors/font_color = Color(0, 0.909804, 1, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/colors/font_shadow_color = Color(0, 0.12549, 0.411765, 0)
+Label/constants/outline_size = 8
+Label/constants/shadow_offset_x = 4
+Label/constants/shadow_offset_y = 1
+Label/font_sizes/font_size = 64
+Label/fonts/font = ExtResource("9_nt4on")
 
 [sub_resource type="LabelSettings" id="LabelSettings_061ir"]
 font_size = 23
@@ -102,7 +195,7 @@ render_target_update_mode = 4
 mesh = SubResource("PlaneMesh_23b6s")
 
 [node name="Camera" type="Camera3D" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview"]
-transform = Transform3D(0.866025, 0.0721955, -0.49476, 0, 0.989521, 0.144391, 0.5, -0.125046, 0.85695, -4, 1.48982, 4.23319)
+transform = Transform3D(0.866025, 0.0721954, -0.494761, 0, 0.989521, 0.144391, 0.5, -0.125046, 0.85695, -4, 1.48982, 4.23319)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview"]
 environment = SubResource("Environment_8j7aa")
@@ -121,10 +214,22 @@ transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 0.292, 0, 
 transform = Transform3D(0.999521, 0, -0.0309572, 0, 1, 0, 0.0309572, 0, 0.999521, -3.61829, -0.10929, -0.349842)
 
 [node name="Crab" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview/Models" instance=ExtResource("3_c1rfd")]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 1.39853, -1.90735e-06, -1.91351)
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 1.399, 0, -1.914)
 
 [node name="Bat" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview/Models" instance=ExtResource("5_70nx5")]
 transform = Transform3D(0.959171, -0.086238, -0.269359, 0, 0.95238, -0.304914, 0.282827, 0.292465, 0.913495, -1.37295, 2.99455, -3.01609)
+
+[node name="Scenario" type="Node3D" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview"]
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview/Scenario"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9877, 0.0228364, -18.7265)
+mesh = SubResource("BoxMesh_e084b")
+material = SubResource("ShaderMaterial_qjego")
+
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview/Scenario"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.6663, 0.0228364, -2.37848)
+mesh = SubResource("BoxMesh_3hhd5")
+material = SubResource("StandardMaterial3D_er3gf")
 
 [node name="Logo" type="Control" parent="Menu"]
 unique_name_in_owner = true
@@ -174,6 +279,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
 theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
+disabled = true
 text = "START"
 
 [node name="OptionsButton" type="Button" parent="Menu/MenuButtons"]
@@ -229,6 +335,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
 theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
+disabled = true
 text = "START"
 
 [node name="ReturnButton" type="Button" parent="Menu/Options/OptionsButtons"]
@@ -237,6 +344,20 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
 theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
 text = "Return"
+
+[node name="GameNameLabel" type="Label" parent="Menu"]
+material = SubResource("ShaderMaterial_7wf4l")
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -217.0
+offset_bottom = -154.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_bk2h8")
+text = "Minimons QR Arena"
+horizontal_alignment = 1
 
 [node name="Cover" type="CanvasLayer" parent="."]
 unique_name_in_owner = true

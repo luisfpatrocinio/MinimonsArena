@@ -27,13 +27,13 @@ func _process(delta):
 		global_position = Vector3(0, global_position.y, 0);
 	else:
 		if Global.detectedTagsDict.has(tagId):
-			var _myDict = Global.detectedTagsDict[tagId];
-			var _sp = 0.169;
-			var _targetPosition: Vector3 = Vector3(_myDict["tvec"].x, 2, _myDict["tvec"].y);
-			_targetPosition = adjustPos(_targetPosition);
-			global_position.x = lerp(global_position.x, _targetPosition.x, _sp);
-			global_position.z = lerp(global_position.z, _targetPosition.z, _sp);
-			#global_position = lerp(global_position, _targetPosition, _sp);
+			if Global.checkHasBoard():			
+				var _myDict = Global.detectedTagsDict[tagId];
+				var _sp = 0.169;
+				var _targetPosition: Vector3 = Vector3(_myDict["tvec"].x, 2, _myDict["tvec"].y);
+				_targetPosition = adjustPos(_targetPosition);
+				global_position.x = lerp(global_position.x, _targetPosition.x, _sp);
+				global_position.z = lerp(global_position.z, _targetPosition.z, _sp);
 	
 ## Tornar visível caso a tag exista no dicionário.
 func adjustScale():

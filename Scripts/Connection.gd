@@ -35,7 +35,7 @@ func managePackageContent(packet):
 	
 	# Limpar array de tags caso não hajam tags detectadas.
 	if str(content).contains("EMPTY"):
-		Global.detectedTagsDict = {};
+		Global.clearDetectedTagsDict()
 	
 	# Fail fast: pacote inválido. Para nosso jogo, um pacote sem ":" não tem utilidade.
 	if not str(content).contains(":"):
@@ -61,6 +61,7 @@ func managePackageContent(packet):
 	# Para cada tag, coletar valores de cada chave.
 	for i in range(len(tags)):
 		var tag: String = tags[i]; 
+		#print_rich("[color=green][b][CONNECTION][/b] - Operando tag: ", tag)
 		
 		# Obter cada chave dessa tag atual.
 		var keys: PackedStringArray = str(tag).split("$");

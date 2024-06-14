@@ -98,9 +98,8 @@ func _process(delta):
 		camMode = camMode % 4;
 	
 	manageCamera()
-
-func insertTagOnDict(tagNo: int) -> void:
 	
+func insertTagOnDict(tagNo: int) -> void:
 	# Perguntar se já existe essa tag, para ver se podemos inserir.
 	if detectedTagsDict.has(tagNo):
 		return
@@ -110,7 +109,6 @@ func insertTagOnDict(tagNo: int) -> void:
 	}
 	print_rich("[color=orange][b][GLOBAL.insertTagOnDict][/b] - Tag %s inserida com sucesso." % [tagNo]);
 	insertTag.emit(Vector3.ZERO, tagNo);
-	# NÃO USADO MAIS: emit_signal("InsertTag", Vector3.ZERO, tagNo);
 
 
 ## Altera o comportamento da câmera de acordo o camMode.
@@ -141,7 +139,8 @@ func manageCamera() -> void:
 
 ## Inicializa o Level
 func setupLevel() -> void:
-	levelNode.setMonster(Global.monsterKey)
+	pass;
+	#levelNode.setMonster(Global.monsterKey)
 
 ## Função que vai analisar se o level está atendendo as condições necessárias.
 func checkLevel() -> bool:
@@ -199,4 +198,23 @@ func removeAllTagsExcept(tagsArray):
 			for _card in _cards.get_children():
 				if _card.tagId == int(_key):
 					_card.queue_free();
-			
+
+## Retorna se a carta de tabuleiro está posicionada		
+func checkHasBoard() -> bool:
+	return Global.detectedTagsDict.has(0);
+	
+## Retorna se a carta do player atual está em campo		
+func checkHasPlayer() -> bool:
+	var _playerKey = Global.selectedCharacters[0];
+	for tag in Global.detectedTagsDict:
+		var _key = Global.getEntityKeyById(tag);
+		if _key == _playerKey:
+			return true;
+	return false;
+	
+	
+func clearDetectedTagsDict() -> void:
+	Global.detectedTagsDict = {};
+	for tag in Global.detectedTagsDict:
+		if tag != 0:
+			Global.detectedTagsDict.erase(tag);

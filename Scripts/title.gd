@@ -22,22 +22,21 @@ enum STEPS {
 
 func _ready():
 	setInitialConfig();
+	
 
 func _process(delta):
 	animateModels();
+	manageHeaderText();
 	
 	match titleStep:
 		STEPS.CONNECTING:
-			var _pointsCount = (Time.get_ticks_msec() / 500) % 4;
-			
 			if Connection.connected:
 				%Menu.visible = true;
-				infoLabel.text = "Conexão com a câmera estabelecida!";
+				
 				await get_tree().create_timer(2).timeout;
 				titleStep = STEPS.MENU;
 				#Global.transitionTo("characterSelect");
 			else:
-				infoLabel.text = "Tentando conectar à câmera" + str(".").repeat(_pointsCount);
 				
 				if waitedTooLong:
 					pass
@@ -45,6 +44,7 @@ func _process(delta):
 				
 				# DEBUG: Atravessar bloqueio. TODO: Retirar.
 				if Input.is_action_just_pressed("ui_cancel"):
+					menuButtons.get_node("StartButton").disabled = false;
 					#Global.transitionTo("characterSelect");
 					
 					%Menu.visible = true;
@@ -54,6 +54,14 @@ func _process(delta):
 		STEPS.MENU:
 			pass
 			#%Cover.visible = false;
+
+func manageHeaderText():
+	if Connection.connected:
+		infoLabel.text = "Conexão com a câmera estabelecida!";
+		menuButtons.get_node("StartButton").disabled = false;
+	else:
+		var _pointsCount = (Time.get_ticks_msec() / 500) % 4;
+		infoLabel.text = "Tentando conectar à câmera" + str(".").repeat(_pointsCount);
 
 func setInitialConfig():
 	%Cover.visible = true;
@@ -103,7 +111,9 @@ func animateModels():
 		var _anim = model.get_node("AnimationPlayer") as AnimationPlayer;
 		if _anim.has_animation("Idle"):
 			if model.name == "Crab":
-				_anim.play("Walk");
+				_anim.play("Dance");
+			elif model.name == "Chicken":
+				_anim.play("Jump");
 			else:
 				_anim.play("Idle");
 		else:

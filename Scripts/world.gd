@@ -14,6 +14,10 @@ class_name Level
 ## Scene de partículas de spawn
 @onready var spawnParticlesScene: PackedScene = preload("res://Scenes/spawn_particles.tscn");
 
+## Scene do Player
+const playerScene: PackedScene = preload("res://Scenes/monster.tscn");
+@onready var charactersNode: Node3D = get_node("Character");
+
 ## Level Details
 var level = {
 	"requiredTags": [0, 1, 2]
@@ -27,21 +31,6 @@ func _ready():
 
 func _process(delta):
 	pass
-	#debugShowPositions();
-
-func setMonster(monsterKey):
-	if monsterNode == null:
-		return;
-		
-	print("Definindo monstro: ", monsterKey);
-	var _monsterModel = Global.monsterDict.get(monsterKey).get("model") as PackedScene;
-	var _model = _monsterModel.instantiate();
-	
-	var actualMonsterModel = monsterNode.get_child(1)
-	if actualMonsterModel != null:
-		actualMonsterModel.queue_free()
-	monsterNode.add_child(_model)
-	monsterNode.myModel = _model;
 
 func dropChest():
 	itensManager.dropChest();
@@ -76,42 +65,82 @@ func createSpawnParticles(spawnPosition: Vector3) -> void:
 	
 ## Cria partículas de surgimento ou dessurgimento. Foi adicionada no Level para evitar pequenas falhas visuais.
 func spawnCard(spawnPosition: Vector3, tagId: int) -> void:
+	if tagId == 0:
+		return;
 	var _part = cardScene.instantiate();
 	_part.global_position = spawnPosition;
 	_part.tagId = tagId;
-	Global.levelNode.get_node("Cards").add_child(_part);
+	Global.levelNode.get_node("Cards").add_child(_part);	
 	print_rich("[b][WORLD.spawnCard][/b] - Carta posicionada: ", tagId);
 
 
 ## Transforma todas as cartas do tabuleiro em inimigos.
 func generateEntities() -> void:
-	print_rich("[b][WORLD.generateEntities][/b] - Gerando entidades a partir das cartas.")
+	print_rich("[b][WORLD.generateEntities][/b] - Gerando entidades a partir das cartas.");
+	
+	# Destrói todas as entidades, só pra garantir.
 	for child: Entity in enemiesManager.get_children():
 		child.despawn();
 	
+	# Percorre todas as cartas.
 	var _cards: Node3D = get_node("Cards");
 	for _card in _cards.get_children():
+		# Não instanciar a carta de tabuleiro.
 		if _card.tagId == 0 or !_card.visible:
 			continue
+		
+		_card.visible = false;		
+		
+		var _modelKey = Global.getEntityKeyById(_card.tagId);
+		
+		# Se for o player:		
+		if _modelKey == Global.selectedCharacters[0]:
+			spawnPlayer(Vector2(_card.global_position.x, _card.global_position.z), _card.tagId)
+			continue;
 			
 		## TODO: Chave do modelo a partir do TagID (int)
-		var _modelKey = Global.getEntityKeyById(_card.tagId);
 		enemiesManager.spawnEnemy(Vector2(_card.global_position.x, _card.global_position.z), _card.tagId)
-		_card.visible = false;
 
 ## Destrói entidades e repõe as cartas no tabuleiro.	
 func startPreparation() -> void:
 	print_rich("[b][WORLD.startPreparation][/b] - Etapa de preparação.")
+	for player: Monster in charactersNode.get_children():
+		print_rich("[b][WORLD.startPreparation][/b] - Player despawnado.")		
+		player.despawn();
+	
 	for child: Entity in enemiesManager.get_children():
+		print_rich("[b][WORLD.startPreparation][/b] - Entidade %s despawnada." % [child.name])		
 		child.despawn();
 	
 	var _cards: Node3D = get_node("Cards");
 	for _card in _cards.get_children():
-		print_rich("[b][WORLD][/b] - Carta destruída: ", _card.tagId);
+		print_rich("[b][WORLD][/b] - Carta destruída: ", _card.tagId);				
 		_card.despawn();
 	
 	# Limpa dicionário.
-	Global.detectedTagsDict = {};
+	Global.clearDetectedTagsDict();
+
+func spawnPlayer(spawnPosition: Vector2, modelInd: int):
+	## Instancia um inimigo e adiciona como filho 
+	var _player: Monster = playerScene.instantiate();
+	var _monsterKey = Global.getEntityKeyById(modelInd);
+		
+	print("Definindo player: ", _monsterKey);
+	var _monsterModel = Global.monsterDict.get(_monsterKey).get("model") as PackedScene;
+	var _model = _monsterModel.instantiate();
+	
+	var actualMonsterModel = _player.get_child(1)
+	if actualMonsterModel != null:
+		actualMonsterModel.queue_free()
+	_player.add_child(_model)
+	_player.myModel = _model;
+	
+	charactersNode.add_child(_player);
+	
+	var _spawnPosition = Vector3(spawnPosition.x, 0, spawnPosition.y);
+	_player.global_position = _spawnPosition;
+	_player.createSpawnParticles();
+	print("[WORLD] - Player instanciado na posição: ", _spawnPosition);
 
 func debugShowPositions():
 	$Label.text = "";
