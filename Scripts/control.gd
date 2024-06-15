@@ -218,3 +218,4 @@ func clearDetectedTagsDict() -> void:
 	for tag in Global.detectedTagsDict:
 		if tag != 0:
 			Global.detectedTagsDict.erase(tag);
+			

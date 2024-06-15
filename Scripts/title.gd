@@ -21,6 +21,7 @@ enum STEPS {
 }
 
 func _ready():
+	AudioManager.playBGM("title");
 	setInitialConfig();
 	
 

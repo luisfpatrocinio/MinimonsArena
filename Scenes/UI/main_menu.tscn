@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bsvbrfc41ghgx"]
+[gd_scene load_steps=26 format=3 uid="uid://bsvbrfc41ghgx"]
 
 [ext_resource type="PackedScene" uid="uid://cf0ryhc2sxkj1" path="res://Monsters/Alien.gltf" id="1_3uatd"]
 [ext_resource type="Texture2D" uid="uid://bb4vpcvxjjm0b" path="res://Labiras_Logo.png" id="1_estuy"]
@@ -103,6 +103,22 @@ size = Vector3(8, 6, 8)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_er3gf"]
 albedo_color = Color(0.105882, 0.317647, 0.654902, 1)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7wf4l"]
+
+[sub_resource type="Theme" id="Theme_bk2h8"]
+default_font = ExtResource("9_nt4on")
+default_font_size = 64
+/colors/TitleColor = Color(0.713726, 0.329412, 0.396078, 1)
+/font_sizes/Title = 1
+Label/colors/font_color = Color(0, 0.909804, 1, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/colors/font_shadow_color = Color(0, 0.12549, 0.411765, 0)
+Label/constants/outline_size = 8
+Label/constants/shadow_offset_x = 4
+Label/constants/shadow_offset_y = 1
+Label/font_sizes/font_size = 64
+Label/fonts/font = ExtResource("9_nt4on")
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pwo2w"]
 bg_color = Color(0, 0, 0, 0.360784)
 corner_radius_top_left = 10
@@ -131,33 +147,6 @@ shader_parameter/blur_type = 0
 shader_parameter/blur_amount = 6
 shader_parameter/blur_radius = 1.0
 shader_parameter/blur_direction = Vector2(1, 1)
-
-[sub_resource type="Shader" id="Shader_a3crn"]
-code = "shader_type canvas_item;
-render_mode blend_mix;
-
-void fragment() {
-	COLOR.a = texture(TEXTURE, UV).a;
-	vec2 my_uv = vec2(UV.y * 5.0, UV.y);
-	COLOR.rgb = COLOR.rgb * vec3(1.00, 0.50, 0.50);
-}"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7wf4l"]
-shader = SubResource("Shader_a3crn")
-
-[sub_resource type="Theme" id="Theme_bk2h8"]
-default_font = ExtResource("9_nt4on")
-default_font_size = 64
-/colors/TitleColor = Color(0.713726, 0.329412, 0.396078, 1)
-/font_sizes/Title = 1
-Label/colors/font_color = Color(0, 0.909804, 1, 1)
-Label/colors/font_outline_color = Color(0, 0, 0, 1)
-Label/colors/font_shadow_color = Color(0, 0.12549, 0.411765, 0)
-Label/constants/outline_size = 8
-Label/constants/shadow_offset_x = 4
-Label/constants/shadow_offset_y = 1
-Label/font_sizes/font_size = 64
-Label/fonts/font = ExtResource("9_nt4on")
 
 [sub_resource type="LabelSettings" id="LabelSettings_061ir"]
 font_size = 23
@@ -230,6 +219,20 @@ material = SubResource("ShaderMaterial_qjego")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.6663, 0.0228364, -2.37848)
 mesh = SubResource("BoxMesh_3hhd5")
 material = SubResource("StandardMaterial3D_er3gf")
+
+[node name="GameNameLabel" type="Label" parent="Menu"]
+material = SubResource("ShaderMaterial_7wf4l")
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -178.0
+offset_bottom = -115.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_bk2h8")
+text = "Minimons QR Arena"
+horizontal_alignment = 1
 
 [node name="Logo" type="Control" parent="Menu"]
 unique_name_in_owner = true
@@ -344,20 +347,6 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
 theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
 text = "Return"
-
-[node name="GameNameLabel" type="Label" parent="Menu"]
-material = SubResource("ShaderMaterial_7wf4l")
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -217.0
-offset_bottom = -154.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = SubResource("Theme_bk2h8")
-text = "Minimons QR Arena"
-horizontal_alignment = 1
 
 [node name="Cover" type="CanvasLayer" parent="."]
 unique_name_in_owner = true

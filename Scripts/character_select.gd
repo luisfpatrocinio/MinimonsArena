@@ -10,6 +10,7 @@ var detectedCharacters = [];
 var modelProgress: float = 0.0;
 
 func _ready():
+	AudioManager.playBGM("characterSelect");
 	pass
 	#Global.insertTag.connect(changeCharacter)
 
