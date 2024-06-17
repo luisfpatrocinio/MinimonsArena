@@ -1,14 +1,16 @@
-[gd_scene load_steps=26 format=3 uid="uid://bsvbrfc41ghgx"]
+[gd_scene load_steps=28 format=3 uid="uid://bsvbrfc41ghgx"]
 
 [ext_resource type="PackedScene" uid="uid://cf0ryhc2sxkj1" path="res://Monsters/Alien.gltf" id="1_3uatd"]
 [ext_resource type="Texture2D" uid="uid://bb4vpcvxjjm0b" path="res://Labiras_Logo.png" id="1_estuy"]
 [ext_resource type="Script" path="res://Scripts/title.gd" id="1_gjc81"]
+[ext_resource type="PackedScene" uid="uid://dhj0psbjnlra2" path="res://Scenes/transition_fade_out.tscn" id="2_nohxo"]
 [ext_resource type="PackedScene" uid="uid://clnogdkf4bx42" path="res://Monsters/Chicken.gltf" id="2_ntr20"]
 [ext_resource type="Texture2D" uid="uid://b6b05eunywog4" path="res://Assets/Grass_Hill.png" id="2_txh7e"]
 [ext_resource type="PackedScene" uid="uid://clu3nkfwflxw3" path="res://Monsters/Crab.gltf" id="3_c1rfd"]
 [ext_resource type="PackedScene" uid="uid://bpwqvs3blu2h6" path="res://Monsters/Bat.gltf" id="5_70nx5"]
 [ext_resource type="Shader" path="res://Assets/Shaders/blur.gdshader" id="6_g803k"]
 [ext_resource type="FontFile" uid="uid://b4vqht41tykpl" path="res://Assets/Dinofiles.ttf" id="9_nt4on"]
+[ext_resource type="Theme" uid="uid://ct8inj6dankkt" path="res://Themes/stageLabelTheme.tres" id="10_jsls7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ryjk"]
 albedo_texture = ExtResource("2_txh7e")
@@ -165,6 +167,8 @@ script = ExtResource("1_gjc81")
 [node name="Menu" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 
+[node name="TransitionFadeOut" parent="Menu" instance=ExtResource("2_nohxo")]
+
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Menu"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -179,6 +183,7 @@ size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="MainMenuPreview" type="Node3D" parent="Menu/SubViewportContainer/SubViewport"]
+unique_name_in_owner = true
 
 [node name="Floor" type="MeshInstance3D" parent="Menu/SubViewportContainer/SubViewport/MainMenuPreview"]
 mesh = SubResource("PlaneMesh_23b6s")
@@ -279,25 +284,25 @@ alignment = 1
 
 [node name="StartButton" type="Button" parent="Menu/MenuButtons"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme = ExtResource("10_jsls7")
 theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
 theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
 disabled = true
-text = "START"
+text = "Iniciar"
 
 [node name="OptionsButton" type="Button" parent="Menu/MenuButtons"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme = ExtResource("10_jsls7")
 theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
 theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
-text = "Options"
+text = "Opções"
 
 [node name="QuitButton" type="Button" parent="Menu/MenuButtons"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme = ExtResource("10_jsls7")
 theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
 theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
-text = "Quit"
+text = "Sair"
 
 [node name="Options" type="Control" parent="Menu"]
 visible = false
@@ -374,9 +379,9 @@ offset_right = 102.5
 offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("10_jsls7")
 text = "MAIN_MENU_INFO"
 label_settings = SubResource("LabelSettings_061ir")
-horizontal_alignment = 1
 vertical_alignment = 1
 
 [connection signal="pressed" from="Menu/MenuButtons/StartButton" to="." method="_on_start_button_pressed"]

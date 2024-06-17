@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://b3eptbovcwbmb"]
+[gd_scene load_steps=27 format=3 uid="uid://b3eptbovcwbmb"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_p07bg"]
 [ext_resource type="Environment" uid="uid://b4abc0fnu2i5s" path="res://Scenes/mainEnvironment.tres" id="2_bojx3"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://Scenes/itens_manager.tscn" id="5_0vl1h"]
 [ext_resource type="PackedScene" uid="uid://rbvx8hdavul4" path="res://Scenes/Game/gameInterface.tscn" id="6_2c1c1"]
 [ext_resource type="PackedScene" uid="uid://b1bq7ry26iwgp" path="res://Scenes/game.tscn" id="6_kcy4s"]
+[ext_resource type="PackedScene" uid="uid://dhj0psbjnlra2" path="res://Scenes/transition_fade_out.tscn" id="8_asfrc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_edstc"]
 albedo_color = Color(0.211765, 0.823529, 0, 1)
@@ -135,15 +136,6 @@ shape = SubResource("ConvexPolygonShape3D_ame5q")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0.75, -1)
 shape = SubResource("ConvexPolygonShape3D_kq1c8")
 
-[node name="Label" type="Label" parent="."]
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 23.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 32
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="CameraPivot" type="Node3D" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
@@ -192,3 +184,5 @@ scale_amount_curve = SubResource("Curve_gtlpm")
 [node name="Interface" parent="." instance=ExtResource("6_2c1c1")]
 
 [node name="Game" parent="." instance=ExtResource("6_kcy4s")]
+
+[node name="TransitionFadeOut" parent="." instance=ExtResource("8_asfrc")]

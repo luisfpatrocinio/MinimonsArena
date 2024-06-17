@@ -15,6 +15,9 @@ var detectedTagsDict: Dictionary = {}
 ## Referência do node do Level
 @onready var levelNode : Level = null
 
+## Referência do node de Interface
+@onready var interfaceNode : Interface = null
+
 ## Referência do node do Player
 @onready var monsterNode: Monster = null
 
@@ -78,7 +81,7 @@ var monsterDict: Dictionary = {
 
 ## Dicionário com as [PackedScene] utilizadas no jogo.
 var scenesDict: Dictionary = {
-	"title": preload("res://Scenes/title.tscn"),
+	"title": preload("res://Scenes/UI/main_menu.tscn"),
 	"characterSelect": preload("res://Scenes/character_select.tscn"),
 	"gameLevel": preload("res://Scenes/world.tscn"),
 	"scoreScene" : preload("res://Scenes/score_scene.tscn")
@@ -205,6 +208,9 @@ func checkHasBoard() -> bool:
 	
 ## Retorna se a carta do player atual está em campo		
 func checkHasPlayer() -> bool:
+	if len(Global.selectedCharacters) <= 0:
+		return false
+		
 	var _playerKey = Global.selectedCharacters[0];
 	for tag in Global.detectedTagsDict:
 		var _key = Global.getEntityKeyById(tag);

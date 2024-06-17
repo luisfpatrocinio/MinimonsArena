@@ -66,6 +66,11 @@ func _process(delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		Global.monsterKey = selectedKey;
 		Global.transitionTo("gameLevel");
+		
+	# Cancelar
+	elif Input.is_action_just_pressed("ui_cancel"):
+		# TODO: Criar função de redefinir valores globais.
+		Global.transitionTo("title");
 
 func animateModel():
 	var _ang = Time.get_ticks_msec() / 100.0;
@@ -96,7 +101,9 @@ func changeCharacter():
 	
 	var _selectedMonsterKey = detectedCharacters[0];
 	# Modelo do monstro atual.
-	var _monsterModel = Global.monsterDict.get(_selectedMonsterKey).get("model") as PackedScene;
+	var _monsterDict = Global.monsterDict.get(_selectedMonsterKey);
+	if _monsterDict == null: return
+	var _monsterModel = _monsterDict.get("model") as PackedScene;
 	# Caso não tenha modelo 3D
 	if characterNode.get_child_count() <= 1:
 		print("Modelo 3D atribuído.")

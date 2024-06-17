@@ -31,11 +31,13 @@ func _process(delta):
 		connected = false;
 
 func managePackageContent(packet):
+	print("Pacote recebido.");
 	var content = packet.get_string_from_utf8();
 	
 	# Limpar array de tags caso não hajam tags detectadas.
-	if str(content).contains("EMPTY"):
-		Global.clearDetectedTagsDict()
+	if len(content) <= 0:
+		print_rich("[color=green][b][CONNECTION][/b] - Pacote vazio recebido. Limpando dicionário.");
+		Global.removeAllTagsExcept([]);
 	
 	# Fail fast: pacote inválido. Para nosso jogo, um pacote sem ":" não tem utilidade.
 	if not str(content).contains(":"):
@@ -56,7 +58,7 @@ func managePackageContent(packet):
 			var _key = _pairParts[0];
 			if _key == "tag":
 				_detectedTagsIds.append(int(_pairParts[1]));
-	print_rich("[color=green][b][CONNECTION][/b] - Received Detected Tags IDs: ", _detectedTagsIds)
+	print_rich("[color=green][b][CONNECTION][/b] - Received Detected Tags IDs: ", _detectedTagsIds);
 	
 	# Para cada tag, coletar valores de cada chave.
 	for i in range(len(tags)):

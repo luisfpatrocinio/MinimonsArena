@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://b6sibll0f1jav"]
+[gd_scene load_steps=5 format=3 uid="uid://b6sibll0f1jav"]
 
 [ext_resource type="Script" path="res://Scripts/character_select.gd" id="1_j64ju"]
 [ext_resource type="Environment" uid="uid://b4abc0fnu2i5s" path="res://Scenes/mainEnvironment.tres" id="2_el54s"]
+[ext_resource type="FontFile" uid="uid://derw4345bswfu" path="res://Assets/Super Boys.ttf" id="3_wxioc"]
+[ext_resource type="PackedScene" uid="uid://dhj0psbjnlra2" path="res://Scenes/transition_fade_out.tscn" id="4_i3yr7"]
 
 [node name="CharacterSelect" type="Node3D"]
 script = ExtResource("1_j64ju")
@@ -22,11 +24,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 [node name="InstructionLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 text = "Posicione seu herói no tabuleiro:"
+font = ExtResource("3_wxioc")
 font_size = 96
 outline_size = 24
 
 [node name="CharacterNameLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+font = ExtResource("3_wxioc")
 font_size = 96
 outline_size = 24
 
@@ -36,3 +40,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 [node name="Card" type="CSGBox3D" parent="Character"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.125, 0)
 size = Vector3(2, 0.2, 2)
+
+[node name="TransitionFadeOut" parent="." instance=ExtResource("4_i3yr7")]

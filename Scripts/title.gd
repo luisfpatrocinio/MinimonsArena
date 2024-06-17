@@ -13,6 +13,12 @@ var waitedTooLong: bool = false;
 # Referências dos modelos 3D:
 @onready var models = %Models.get_children()
 
+# Referência da câmera
+@onready var camera = %MainMenuPreview/Camera as Camera3D;
+
+# Variável para gerenciar animações iniciais.
+var startingProgress: float = 0.0;
+
 # Caso precise
 enum STEPS {
 	CONNECTING,
@@ -24,6 +30,10 @@ func _ready():
 	AudioManager.playBGM("title");
 	setInitialConfig();
 	focusFirstButton();
+	
+	var _camInitialPos = camera.position;
+
+	await camera.create_tween().tween_property(camera, "position", _camInitialPos.lerp(Vector3(-10, 0, -5), 0.069), 20).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT).finished;
 
 
 ## Função para focar o primeiro botão de acordo com a visibilidade das seções do menu
@@ -39,6 +49,9 @@ func focusFirstButton():
 func _process(delta):
 	animateModels();
 	manageHeaderText();
+	manageCamera();
+	
+	menuButtons.get_node("StartButton").disabled = !Connection.connected;
 	
 	match titleStep:
 		STEPS.CONNECTING:
@@ -67,10 +80,14 @@ func _process(delta):
 			pass
 			#%Cover.visible = false;
 
+func manageCamera():
+	camera.look_at(Vector3(-2, 1, 0))
+	pass
+	#camera.translate(Vector3.BACK * (1.0 - startingProgress));
+
 func manageHeaderText():
 	if Connection.connected:
 		infoLabel.text = "Conexão com a câmera estabelecida!";
-		menuButtons.get_node("StartButton").disabled = false;
 	else:
 		infoLabel.text = "Tentando conectar à câmera" + Global.getDotsString();
 

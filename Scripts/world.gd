@@ -67,6 +67,11 @@ func createSpawnParticles(spawnPosition: Vector3) -> void:
 func spawnCard(spawnPosition: Vector3, tagId: int) -> void:
 	if tagId == 0:
 		return;
+	
+	if Global.levelNode.get_node("Game").stage != Game.STAGES.PREPARATION:
+		print_rich("[b][WORLD.spawnCard][/b] - Carta %s não instanciada pois estamos em jogo.: "  % [tagId]);
+		return;
+	
 	var _part = cardScene.instantiate();
 	_part.global_position = spawnPosition;
 	_part.tagId = tagId;
@@ -142,11 +147,3 @@ func spawnPlayer(spawnPosition: Vector2, modelInd: int):
 	_player.createSpawnParticles();
 	print("[WORLD] - Player instanciado na posição: ", _spawnPosition);
 
-func debugShowPositions():
-	$Label.text = "";
-	var _keys = Global.detectedTagsDict.keys();
-	for i in range(len(_keys)):
-		var _thisKey = _keys[i];
-		$Label.text += str(_thisKey) + " --- ";
-		$Label.text += str(Global.detectedTagsDict.get(_thisKey).get("tvec"));
-		$Label.text += "\n"
