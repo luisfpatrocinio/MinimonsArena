@@ -90,10 +90,11 @@ func manageAnimations():
 	
 func attack():
 	var player_position = global_transform.origin
-	var direction_3d = Vector3(modelDir.x, 0, modelDir.y).normalized()
-	var hitbox_position = player_position + direction_3d * 4
+	var direction_3d = Vector3(modelDir.x, 0.10, modelDir.y).normalized()
+	var hitbox_position = player_position + direction_3d * 2
 	var hitbox_instance = attackScene.instantiate()
 	hitbox_instance.global_transform.origin = hitbox_position
+	hitbox_instance.hitboxOwner = self;
 	get_parent().add_child(hitbox_instance)
 
 # TODO: Adcionar mais variáveis e detalhes ao scoreboard, assim que mais coisas forem se desenvolvendo

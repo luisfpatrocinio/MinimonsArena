@@ -81,6 +81,7 @@ environment = ExtResource("2_bojx3")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Enviroment"]
 transform = Transform3D(1, 0, 0, 0, 0.644724, 0.764415, 0, -0.764415, 0.644724, 0, 0, 0)
+light_energy = 2.0
 shadow_enabled = true
 
 [node name="ScenarioFloor" type="CSGBox3D" parent="."]
