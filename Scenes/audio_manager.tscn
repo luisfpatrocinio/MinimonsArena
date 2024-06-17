@@ -6,3 +6,4 @@
 script = ExtResource("1_t73rk")
 
 [node name="BGMPlayer" type="AudioStreamPlayer" parent="."]
+autoplay = true

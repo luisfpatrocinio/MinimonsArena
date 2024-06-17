@@ -339,7 +339,7 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
 theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
 disabled = true
-text = "START"
+text = "OptionsPlaceholder"
 
 [node name="ReturnButton" type="Button" parent="Menu/Options/OptionsButtons"]
 layout_mode = 2

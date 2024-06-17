@@ -25,23 +25,29 @@ func _process(delta):
 	var _instructionY: float = 0.0;
 	var _characterY: float = -2.0;
 	
-	if len(detectedCharacters) > 0:
-		if checkOnlyOneChar():
-			var char = detectedCharacters[0];
-			var _monsterName = Global.monsterDict.get(char, {name: "NOME NÃO ENCONTRADO"}).name;
-			characterNameLabel.text = _monsterName;
-			instructionLabel.text = "Aperte START para começar!"
-			_instructionY = 2.0;
-			_characterY = -1.0;
-		else:
-			deleteCharacterNodeModel()	# Deletar modelo atual caso haja.
-			instructionLabel.text = "Posicione apenas UM monstro no tabuleiro."
-			characterNameLabel.text= "";
-			_instructionY = 0.0;
-			_characterY = -1.0;
-	else:
-		instructionLabel.text = "Posicione seu herói no tabuleiro: "
+	if !Global.checkHasBoard():
+		instructionLabel.text = "Localizando tabuleiro..."
 		characterNameLabel.text = "";
+		_instructionY = 2.0;
+		_characterY = -1.0;
+	else:	
+		if len(detectedCharacters) > 0:
+			if checkOnlyOneChar():
+				var char = detectedCharacters[0];
+				var _monsterName = Global.monsterDict.get(char, {name: "NOME NÃO ENCONTRADO"}).name;
+				characterNameLabel.text = _monsterName;
+				instructionLabel.text = "Aperte START para começar!"
+				_instructionY = 2.0;
+				_characterY = -1.0;
+			else:
+				deleteCharacterNodeModel()	# Deletar modelo atual caso haja.
+				instructionLabel.text = "Posicione apenas UM monstro no tabuleiro."
+				characterNameLabel.text= "";
+				_instructionY = 0.0;
+				_characterY = -2.0;
+		else:
+			instructionLabel.text = "Posicione seu herói no tabuleiro: "
+			characterNameLabel.text = "";
 	
 	instructionLabel.position.y = lerp(instructionLabel.position.y, _instructionY, 0.169);
 	if characterNode.get_child_count() > 1:

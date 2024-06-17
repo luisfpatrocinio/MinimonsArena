@@ -95,7 +95,7 @@ func attack():
 	var hitbox_instance = attackScene.instantiate()
 	hitbox_instance.global_transform.origin = hitbox_position
 	hitbox_instance.hitboxOwner = self;
-	get_parent().add_child(hitbox_instance)
+	Global.levelNode.add_child(hitbox_instance)
 
 # TODO: Adcionar mais variáveis e detalhes ao scoreboard, assim que mais coisas forem se desenvolvendo
 func _onDying():

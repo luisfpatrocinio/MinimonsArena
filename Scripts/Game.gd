@@ -31,15 +31,11 @@ func _process(delta):
 	
 	# Alertar se faltar tabuleiro
 	if !Global.checkHasBoard():
-		_warningLabel.text = "Localizando tabuleiro";
-		var _pointsCount = (Time.get_ticks_msec() / 500) % 4;
-		_warningLabel.text += str(".").repeat(_pointsCount);
+		_warningLabel.text = "Localizando tabuleiro" + Global.getDotsString();
 		_rect.color.a = lerp(_rect.color.a, 0.50, 0.169);
 	elif !Global.checkHasPlayer():
 		var _playerName = Global.monsterDict.get(Global.selectedCharacters[0]).get("name", "NOME NÃO ENCONTRADO");
-		_warningLabel.text = "Coloque a carta do herói %s" % [_playerName];
-		var _pointsCount = (Time.get_ticks_msec() / 500) % 4;
-		_warningLabel.text += str(".").repeat(_pointsCount);
+		_warningLabel.text = "Coloque a carta do herói %s" % [_playerName] + Global.getDotsString();
 		_rect.color.a = lerp(_rect.color.a, 0.50, 0.169);
 		
 	else:

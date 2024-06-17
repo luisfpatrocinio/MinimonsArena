@@ -23,7 +23,18 @@ enum STEPS {
 func _ready():
 	AudioManager.playBGM("title");
 	setInitialConfig();
-	
+	focusFirstButton();
+
+
+## Função para focar o primeiro botão de acordo com a visibilidade das seções do menu
+func focusFirstButton():
+	var _firstButton: Button;
+	if %Menu/MenuButtons.visible:
+		_firstButton = %Menu/MenuButtons.get_child(0);
+	elif %Menu/Options.visible:
+		_firstButton = %Menu/Options/OptionsButtons.get_child(0);
+	print("[TITLE.focusFirstButton] - Focando: ", _firstButton.text);
+	_firstButton.grab_focus.call_deferred();
 
 func _process(delta):
 	animateModels();
@@ -61,8 +72,7 @@ func manageHeaderText():
 		infoLabel.text = "Conexão com a câmera estabelecida!";
 		menuButtons.get_node("StartButton").disabled = false;
 	else:
-		var _pointsCount = (Time.get_ticks_msec() / 500) % 4;
-		infoLabel.text = "Tentando conectar à câmera" + str(".").repeat(_pointsCount);
+		infoLabel.text = "Tentando conectar à câmera" + Global.getDotsString();
 
 func setInitialConfig():
 	%Cover.visible = true;
@@ -79,6 +89,7 @@ func _on_options_button_pressed():
 	titleStep = STEPS.OPTIONS;
 	changeMenuButtonsVisibility(Color.TRANSPARENT);
 	changeOptionsVisibility(Color.WHITE);
+	focusFirstButton()
 
 func _on_quit_button_pressed():
 	get_tree().quit();
@@ -89,7 +100,8 @@ func changeOptionsVisibility(color: Color):
 	
 	await options.create_tween().tween_property(options, "modulate", color, .3).finished;
 	options.visible = color == Color.WHITE;
-	
+
+## Controlar visibilidade do Menu
 func changeMenuButtonsVisibility(color: Color):
 	if color == Color.WHITE:
 		%Logo.visible = true;
@@ -101,10 +113,12 @@ func changeMenuButtonsVisibility(color: Color):
 	%Logo.visible = color == Color.WHITE;
 	menuButtons.visible = color == Color.WHITE
 
+
 func _on_return_button_pressed():
 	titleStep = STEPS.MENU;
 	changeMenuButtonsVisibility(Color.WHITE);
 	changeOptionsVisibility(Color.TRANSPARENT);
+	focusFirstButton()
 
 ## Animar modelos 3D:
 func animateModels():
@@ -119,3 +133,10 @@ func animateModels():
 				_anim.play("Idle");
 		else:
 			_anim.play("Flying");
+			
+# Método chamado sempre que uma entrada é recebida
+func _input(event):
+	if event is InputEventMouseButton:
+		if event.pressed:
+			focusFirstButton()
+

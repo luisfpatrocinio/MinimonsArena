@@ -218,4 +218,7 @@ func clearDetectedTagsDict() -> void:
 	for tag in Global.detectedTagsDict:
 		if tag != 0:
 			Global.detectedTagsDict.erase(tag);
-			
+
+func getDotsString() -> String:
+	var _pointsCount = (Time.get_ticks_msec() / 500) % 4;
+	return str(".").repeat(_pointsCount);
