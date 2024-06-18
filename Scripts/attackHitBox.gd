@@ -12,5 +12,6 @@ func _on_timer_timeout():
 func _on_body_entered(body):
 	print(hitboxOwner)
 	print(body)
-	if body != hitboxOwner:
+	if body != hitboxOwner and body is Entity:
+		body.takeDamage(1);
 		print("Machucamos um: ", body);

@@ -5,7 +5,7 @@ var titleStep = 0;
 ## Caso demore a conectar, o jogador será informado que pode atravessar o bloqueio.
 var waitedTooLong: bool = false;
 
-## Controla o estado das opções
+## Controla o 	estado das opções
 @onready var infoLabel: Label = $Cover/InfoLabel
 @onready var menuButtons = $Menu/MenuButtons
 @onready var options = $Menu/Options
@@ -38,13 +38,19 @@ func _ready():
 
 ## Função para focar o primeiro botão de acordo com a visibilidade das seções do menu
 func focusFirstButton():
-	var _firstButton: Button;
+	var _firstButton: Control;
 	if %Menu/MenuButtons.visible:
 		_firstButton = %Menu/MenuButtons.get_child(0);
 	elif %Menu/Options.visible:
 		_firstButton = %Menu/Options/OptionsButtons.get_child(0);
-	print("[TITLE.focusFirstButton] - Focando: ", _firstButton.text);
+	print("[TITLE.focusFirstButton] - Focando: ", _firstButton);
+	
+	if _firstButton is MenuBar:
+		pass
+		#_firstButton = _firstButton.get_child(0);
+	
 	_firstButton.grab_focus.call_deferred();
+
 
 func _process(delta):
 	animateModels();

@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bsvbrfc41ghgx"]
+[gd_scene load_steps=27 format=3 uid="uid://bsvbrfc41ghgx"]
 
 [ext_resource type="PackedScene" uid="uid://cf0ryhc2sxkj1" path="res://Monsters/Alien.gltf" id="1_3uatd"]
 [ext_resource type="Texture2D" uid="uid://bb4vpcvxjjm0b" path="res://Labiras_Logo.png" id="1_estuy"]
@@ -121,16 +121,12 @@ Label/constants/shadow_offset_y = 1
 Label/font_sizes/font_size = 64
 Label/fonts/font = ExtResource("9_nt4on")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pwo2w"]
-bg_color = Color(0, 0, 0, 0.360784)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-expand_margin_left = 5.0
-expand_margin_top = 5.0
-expand_margin_right = 5.0
-expand_margin_bottom = 5.0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0v41j"]
+shader = ExtResource("6_g803k")
+shader_parameter/blur_type = 0
+shader_parameter/blur_amount = 6
+shader_parameter/blur_radius = 1.0
+shader_parameter/blur_direction = Vector2(1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6bwsg"]
 bg_color = Color(0.605487, 0.769473, 0.994172, 0.258824)
@@ -142,13 +138,6 @@ expand_margin_left = 5.0
 expand_margin_top = 5.0
 expand_margin_right = 5.0
 expand_margin_bottom = 5.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0v41j"]
-shader = ExtResource("6_g803k")
-shader_parameter/blur_type = 0
-shader_parameter/blur_amount = 6
-shader_parameter/blur_radius = 1.0
-shader_parameter/blur_direction = Vector2(1, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_061ir"]
 font_size = 23
@@ -168,6 +157,7 @@ script = ExtResource("1_gjc81")
 unique_name_in_owner = true
 
 [node name="TransitionFadeOut" parent="Menu" instance=ExtResource("2_nohxo")]
+visible = false
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Menu"]
 anchors_preset = 15
@@ -285,27 +275,20 @@ alignment = 1
 [node name="StartButton" type="Button" parent="Menu/MenuButtons"]
 layout_mode = 2
 theme = ExtResource("10_jsls7")
-theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
-theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
 disabled = true
-text = "Iniciar"
+text = "MENU_START"
 
 [node name="OptionsButton" type="Button" parent="Menu/MenuButtons"]
 layout_mode = 2
 theme = ExtResource("10_jsls7")
-theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
-theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
-text = "Opções"
+text = "MENU_OPTIONS"
 
 [node name="QuitButton" type="Button" parent="Menu/MenuButtons"]
 layout_mode = 2
 theme = ExtResource("10_jsls7")
-theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
-theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
-text = "Sair"
+text = "MENU_EXIT"
 
 [node name="Options" type="Control" parent="Menu"]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -338,20 +321,28 @@ grow_vertical = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="StartButton" type="Button" parent="Menu/Options/OptionsButtons"]
+[node name="Language" type="MenuBar" parent="Menu/Options/OptionsButtons"]
 layout_mode = 2
+focus_mode = 2
+theme = ExtResource("10_jsls7")
 theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
 theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
-disabled = true
-text = "OptionsPlaceholder"
+start_index = 0
+
+[node name="MENU_LANGUAGE" type="PopupMenu" parent="Menu/Options/OptionsButtons/Language"]
+title = "MENU_LANGUAGE"
+size = Vector2i(183, 100)
+item_count = 2
+item_0/text = "LANG_PORTUGUESE"
+item_0/checked = true
+item_0/id = 0
+item_1/text = "LANG_ENGLISH"
+item_1/id = 1
 
 [node name="ReturnButton" type="Button" parent="Menu/Options/OptionsButtons"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxFlat_pwo2w")
-theme_override_styles/hover = SubResource("StyleBoxFlat_6bwsg")
-text = "Return"
+theme = ExtResource("10_jsls7")
+text = "MENU_BACK"
 
 [node name="Cover" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
@@ -387,5 +378,4 @@ vertical_alignment = 1
 [connection signal="pressed" from="Menu/MenuButtons/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="Menu/MenuButtons/OptionsButton" to="." method="_on_options_button_pressed"]
 [connection signal="pressed" from="Menu/MenuButtons/QuitButton" to="." method="_on_quit_button_pressed"]
-[connection signal="pressed" from="Menu/Options/OptionsButtons/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="Menu/Options/OptionsButtons/ReturnButton" to="." method="_on_return_button_pressed"]

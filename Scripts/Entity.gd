@@ -9,6 +9,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity");
 var hp = 3;
 
 func _ready():
+	connect("dying", despawn);
 	#createSpawnParticles()
 	pass
 
@@ -21,7 +22,7 @@ func applyGravity(delta):
 			
 
 func takeDamage(amount):
-	if self.hp > amount:
+	if self.hp >= amount:
 		hp -= amount;
 		return
 	dying.emit();

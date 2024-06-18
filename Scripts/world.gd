@@ -7,6 +7,7 @@ class_name Level
 @onready var enemiesManager: EnemiesManager = get_node("EnemiesManager");
 @onready var itensManager: ItensManager = $ItensManager;
 @onready var interfaceNode: CanvasLayer = get_node("Interface");
+@onready var gameManager: Game = get_node("Game");
 
 ## Scene de carta
 @onready var cardScene: PackedScene = preload("res://Scenes/cardTag.tscn");
@@ -108,6 +109,7 @@ func generateEntities() -> void:
 
 ## Destrói entidades e repõe as cartas no tabuleiro.	
 func startPreparation() -> void:
+	gameManager.stage = Game.STAGES.PREPARATION;
 	print_rich("[b][WORLD.startPreparation][/b] - Etapa de preparação.")
 	for player: Monster in charactersNode.get_children():
 		print_rich("[b][WORLD.startPreparation][/b] - Player despawnado.")		

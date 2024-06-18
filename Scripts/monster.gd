@@ -24,6 +24,10 @@ var myAnim: AnimationPlayer;
 var attackScene: PackedScene = preload("res://Scenes/attackHitBox.tscn");
 var attacking: bool = false;
 
+var dancing: bool = false;
+
+var inputAxis: Vector2 = Vector2.ZERO;
+
 func _ready():
 	# Conecta o sinal do player morrendo ( que vem da entidade )
 	self.dying.connect(_onDying)
@@ -38,15 +42,15 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta;
 		
-	var _axis = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down");
-	if _axis.length() < 0.20:
-		_axis = Vector2.ZERO;
+	inputAxis = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down");
+	if inputAxis.length() < 0.20:
+		inputAxis = Vector2.ZERO;
 	
 	if Global.camMode == 0 or Global.camMode == 1:
 		# Camera Top Down
-		if _axis and !attacking:
-			velocity.x = _axis.x * speed
-			velocity.z = _axis.y * speed
+		if inputAxis and !attacking:
+			velocity.x = inputAxis.x * speed
+			velocity.z = inputAxis.y * speed
 		else:
 			velocity.x = move_toward(velocity.x, 0, speed)
 			velocity.z = move_toward(velocity.z, 0, speed)
@@ -58,19 +62,34 @@ func _physics_process(delta):
 	
 	move_and_slide();
 	
-	# Definir nova direção de vista quando o Player se move
-	if _axis != Vector2.ZERO:
-		modelDir = modelDir.lerp(_axis, 0.20);
-	
-	# Olhar para direção do movimento
-	var _newDir = position - Vector3(modelDir.x, 0, modelDir.y);
-	if _newDir != position: myModel.look_at(_newDir)
+	manageDirection();
 	
 	manageAnimations();
 	attacking = myAnim.current_animation == "Bite_Front";
 
 
+func manageDirection():
+	if dancing:
+		myModel.look_at(Global.levelNode.cameraPivot.global_position * Vector3(1, -1.50, -1))
+		
+		return;
+	
+	# Definir nova direção de vista quando o Player se move
+	if inputAxis != Vector2.ZERO:
+		modelDir = modelDir.lerp(inputAxis, 0.20);
+	
+	# Olhar para direção do movimento
+	var _newDir = position - Vector3(modelDir.x, 0, modelDir.y);
+	if _newDir != position: myModel.look_at(_newDir)
+	
+	
+
 func manageAnimations():
+	if dancing:
+		if myAnim.has_animation("Dance"):
+			myAnim.play("Dance");
+			return
+	
 	if myAnim.current_animation != "Bite_Front":
 		if velocity == Vector3.ZERO:
 			if myAnim.has_animation("Idle"):
