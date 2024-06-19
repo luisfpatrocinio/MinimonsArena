@@ -1,5 +1,11 @@
 keys,pt,en
 MENU_START,Iniciar,Start
 MENU_OPTIONS,Opções,Options
+MENU_CREDITS,Créditos,Credits
 MENU_EXIT,Sair,Exit
 MENU_BACK,Voltar,Back
+SEARCHING_BOARD,Localizando Tabuleiro,Looking for Board
+PRESS_START,Aperte START para começar!,Press START to start!
+ONLY_ONE_MINIMON_CARD,Posicione uma carta de Minimon.,Place a Minimon card.
+ONLY_ONE_CARD,Posicione apenas UMA carta no tabuleiro.,Place only ONE card on the board.
+PLACE_A_MINIMON_CARD,Posicione seu Minimon no tabuleiro.,Place your Minimon on the board.

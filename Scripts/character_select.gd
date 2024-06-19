@@ -22,39 +22,7 @@ func _process(delta):
 			var _charKey = Global.getEntityKeyById(i);
 			detectedCharacters.append(_charKey)
 	
-	var _instructionY: float = 0.0;
-	var _characterY: float = -2.0;
-	
-	if !Global.checkHasBoard():
-		instructionLabel.text = "Localizando tabuleiro..."
-		characterNameLabel.text = "";
-		_instructionY = 2.0;
-		_characterY = -1.0;
-	else:	
-		if len(detectedCharacters) > 0:
-			if checkOnlyOneChar():
-				var char = detectedCharacters[0];
-				var _monsterName = Global.monsterDict.get(char, {name: "NOME NÃO ENCONTRADO"}).name;
-				characterNameLabel.text = _monsterName;
-				instructionLabel.text = "Aperte START para começar!"
-				_instructionY = 2.0;
-				_characterY = -1.0;
-			else:
-				deleteCharacterNodeModel()	# Deletar modelo atual caso haja.
-				instructionLabel.text = "Posicione apenas UM monstro no tabuleiro."
-				characterNameLabel.text= "";
-				_instructionY = 0.0;
-				_characterY = -2.0;
-		else:
-			instructionLabel.text = "Posicione seu herói no tabuleiro: "
-			characterNameLabel.text = "";
-	
-	instructionLabel.position.y = lerp(instructionLabel.position.y, _instructionY, 0.169);
-	if characterNode.get_child_count() > 1:
-		var _model = characterNode.get_child(1);
-		modelProgress = move_toward(modelProgress, 1.0, 0.035);		
-		_model.position.y = -1.0 * modelProgress**2 + modelProgress + 0.0
-	characterNode.position.y = lerp(characterNode.position.y, _characterY, 0.169);
+	manageInstructions();
 	
 	# Aqui teremos detectedCharacters = ["cyclops"]
 	changeCharacter();
@@ -125,6 +93,52 @@ func changeCharacter():
 			
 func checkOnlyOneChar() -> bool:
 	return len(detectedCharacters) == 1
+	
+func manageInstructions():
+	var _instructionY: float = 0.0;
+	var _characterY: float = -2.0;
+	
+	# Tabuleiro não encontrado
+	if !Global.checkHasBoard():
+		instructionLabel.text = tr("SEARCHING_BOARD") + Global.getDotsString();
+		characterNameLabel.text = "";
+		_instructionY = 2.0;
+		_characterY = -1.0;
+	else:	
+		# Verificar se há personagens.
+		if len(detectedCharacters) > 0:
+			# Caso só haja uma tag.
+			if checkOnlyOneChar():
+				var char: String = detectedCharacters[0];
+				var _isValid: bool = Global.monsterDict.has(char);
+				
+				var _monsterName = "ERROR" if !_isValid else Global.monsterDict.get(char).name;
+				characterNameLabel.text = _monsterName;
+				instructionLabel.text = tr("PRESS_START") if _isValid else tr("ONLY_ONE_MINIMON_CARD")
+				
+				if _isValid:
+					_instructionY = 2.0;
+					_characterY = -1.0;
+				else:
+					deleteCharacterNodeModel();
+					_instructionY = 1.0;
+					_characterY = -1.0;
+			else:
+				deleteCharacterNodeModel()	# Deletar modelo atual caso haja.
+				instructionLabel.text = tr("ONLY_ONE_CARD")
+				characterNameLabel.text= "";
+				_instructionY = 0.0;
+				_characterY = -2.0;
+		else:
+			instructionLabel.text = tr("PLACE_A_MINIMON_CARD")
+			characterNameLabel.text = "";
+	
+	instructionLabel.position.y = lerp(instructionLabel.position.y, _instructionY, 0.169);
+	if characterNode.get_child_count() > 1:
+		var _model = characterNode.get_child(1);
+		modelProgress = move_toward(modelProgress, 1.0, 0.035);		
+		_model.position.y = -1.0 * modelProgress**2 + modelProgress + 0.0
+	characterNode.position.y = lerp(characterNode.position.y, _characterY, 0.169);
 	
 func deleteCharacterNodeModel() -> void:
 	if characterNode.get_child_count() > 1:

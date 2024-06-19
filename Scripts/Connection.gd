@@ -31,7 +31,6 @@ func _process(delta):
 		connected = false;
 
 func managePackageContent(packet):
-	print("Pacote recebido.");
 	var content = packet.get_string_from_utf8();
 	
 	# Limpar array de tags caso não hajam tags detectadas.

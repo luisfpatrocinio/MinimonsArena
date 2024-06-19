@@ -9,6 +9,7 @@ var waitedTooLong: bool = false;
 @onready var infoLabel: Label = $Cover/InfoLabel
 @onready var menuButtons = $Menu/MenuButtons
 @onready var options = $Menu/Options
+@onready var views: Array = []
 
 # Referências dos modelos 3D:
 @onready var models = %Models.get_children()
@@ -114,6 +115,7 @@ func _on_options_button_pressed():
 	changeOptionsVisibility(Color.WHITE);
 	focusFirstButton()
 
+## Ao pressionar o botão de sair do jogo.
 func _on_quit_button_pressed():
 	get_tree().quit();
 
@@ -163,3 +165,8 @@ func _input(event):
 		if event.pressed:
 			focusFirstButton()
 
+func _on_credits_return_button_pressed():
+	titleStep = STEPS.MENU;
+	changeMenuButtonsVisibility(Color.WHITE);
+	changeOptionsVisibility(Color.TRANSPARENT);
+	focusFirstButton()

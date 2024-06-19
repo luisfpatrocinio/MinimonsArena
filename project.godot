@@ -28,6 +28,10 @@ AudioManager="*res://Scenes/audio_manager.tscn"
 
 enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg")
 
+[filesystem]
+
+import/fbx/enabled=false
+
 [internationalization]
 
 locale/translations=PackedStringArray("res://Translation/minimonsTranslation.en.translation", "res://Translation/minimonsTranslation.pt.translation")

@@ -283,12 +283,18 @@ layout_mode = 2
 theme = ExtResource("10_jsls7")
 text = "MENU_OPTIONS"
 
+[node name="CreditsButton" type="Button" parent="Menu/MenuButtons"]
+layout_mode = 2
+theme = ExtResource("10_jsls7")
+text = "MENU_CREDITS"
+
 [node name="QuitButton" type="Button" parent="Menu/MenuButtons"]
 layout_mode = 2
 theme = ExtResource("10_jsls7")
 text = "MENU_EXIT"
 
 [node name="Options" type="Control" parent="Menu"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -344,6 +350,60 @@ layout_mode = 2
 theme = ExtResource("10_jsls7")
 text = "MENU_BACK"
 
+[node name="Credits" type="Control" parent="Menu"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="bgBlur" type="ColorRect" parent="Menu/Credits"]
+material = SubResource("ShaderMaterial_0v41j")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/Credits"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -160.0
+offset_right = 160.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CreditsText" type="Label" parent="Menu/Credits/VBoxContainer"]
+layout_mode = 2
+text = "Minimons QR Arena
+Exemplo de Game utilizando a câmera
+
+Jogo desenvolvido para a Mostra Nacional de Robótica 2024.
+
+Desenvolvido por:
+Antônio Meireles Alves Neto
+Luis Felipe dos Santos Patrocinio
+Ryan Faustino Carvalho
+
+Labiras - IFPI"
+horizontal_alignment = 1
+
+[node name="CreditsReturnButton" type="Button" parent="Menu/Credits/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("10_jsls7")
+text = "MENU_BACK"
+
 [node name="Cover" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = 2
@@ -377,5 +437,7 @@ vertical_alignment = 1
 
 [connection signal="pressed" from="Menu/MenuButtons/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="Menu/MenuButtons/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="Menu/MenuButtons/CreditsButton" to="." method="_on_options_button_pressed"]
 [connection signal="pressed" from="Menu/MenuButtons/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="Menu/Options/OptionsButtons/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="pressed" from="Menu/Credits/VBoxContainer/CreditsReturnButton" to="." method="_on_credits_return_button_pressed"]
