@@ -4,6 +4,10 @@ class_name Interface
 var showingLabel: bool = false;
 @onready var stageLabel: Label = get_node("StageLabel");
 
+var scoreDraw: int = 0;
+@onready var scoreLabel: Label = get_node("HeaderBar/ScoreLabel");
+var healthPoints: int = 0;
+@onready var healthLabel: Label = get_node("HeaderBar/HealthLabel");
 var progress: float = 0.0;
 
 func _ready():
@@ -25,7 +29,7 @@ func setStageLabel(text):
 	
 	var _tween2 = stageLabel.create_tween();
 	_tween2.set_trans(Tween.TRANS_CUBIC);	
-	_tween2.tween_property(stageLabel, "position", Vector2(0, 32), .369);
+	_tween2.tween_property(stageLabel, "position", Vector2(0, 96), .369);
 	_tween2.set_ease(Tween.EASE_OUT);
 	await _tween2.finished;
 	
@@ -44,7 +48,17 @@ func showWarning(text: String):
 	
 
 func _process(delta):
+	# Update progress value
 	progress = move_toward(progress, 1.0, 0.025);
+	
+	# Get player health points
+	var _hp = 3;	# TODO: Obter a partir do jogador.
+	healthLabel.text = "HP: " + str(_hp);
+	
+	# Update Score
+	var _sp = 5 + abs(Global.score - scoreDraw) / 10;
+	scoreDraw = move_toward(scoreDraw, Global.score, _sp)
+	scoreLabel.text = tr("SCORE") + ": " + str(scoreDraw);
 	
 	var _rect = get_node("ColorRect") as ColorRect;
 	var _warningLabel = get_node("WarningLabel") as Label;

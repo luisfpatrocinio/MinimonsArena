@@ -6,6 +6,47 @@
 [node name="Interface" type="CanvasLayer"]
 script = ExtResource("1_evcsy")
 
+[node name="HeaderBar" type="ColorRect" parent="."]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -324.0
+offset_bottom = -260.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="HealthLabel" type="Label" parent="HeaderBar"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -29.5
+offset_right = 97.0
+offset_bottom = 29.5
+grow_vertical = 2
+theme = ExtResource("2_af2lk")
+text = "HP: "
+
+[node name="ScoreLabel" type="Label" parent="HeaderBar"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -292.0
+offset_top = -29.5
+offset_right = -23.0
+offset_bottom = 29.5
+grow_horizontal = 0
+grow_vertical = 2
+theme = ExtResource("2_af2lk")
+text = "Score: 99999"
+horizontal_alignment = 2
+
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0

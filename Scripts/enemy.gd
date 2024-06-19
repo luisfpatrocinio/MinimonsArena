@@ -8,7 +8,10 @@ func _ready():
 	connect("dying", die)
 
 func setEnemyModel(monsterKey: String):
-	var _enemyModelPackage = Global.monsterDict.get(monsterKey).get("model") as PackedScene;
+	if !Global.monsterDict.has(monsterKey):
+		return;
+	var _enemyDict: Dictionary = Global.monsterDict.get(monsterKey);
+	var _enemyModelPackage = _enemyDict.get("model") as PackedScene;
 	var _model = _enemyModelPackage.instantiate();
 	myModel = _model;
 	myAnim = myModel.get_node("AnimationPlayer") as AnimationPlayer;
@@ -20,8 +23,13 @@ func _physics_process(delta):
 
 func takeDamage(amount):
 	super(amount);
-	myAnim.play("HitRecieve");
+	playAnim("HitRecieve");
+
+func playAnim(animKey: String):
+	if myAnim != null and myAnim.has_animation(animKey):
+		myAnim.play(animKey);
 
 func die():
 	despawn();
+	Global.score += 100;	# TODO: Utilizar o ScoreManager
 	pass

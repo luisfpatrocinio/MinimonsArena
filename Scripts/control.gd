@@ -27,6 +27,9 @@ var monsterKey: String = "";
 ## Estado do Modo de Edição
 var editMode: bool = false;
 
+## Score
+var score: int = 0;	# TODO: Utilizar o ScoreManager e não a Global.
+
 ## Dicionário de modelos de monstros.
 var monsterDict: Dictionary = {
 	"chicken": {
