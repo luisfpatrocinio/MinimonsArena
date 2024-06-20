@@ -31,7 +31,7 @@ func _process(delta):
 	animateModel();
 		
 	# Confirmar Personagem
-	if Input.is_action_just_pressed("ui_accept"):
+	if len(detectedCharacters) == 1 or Global.debugMode and Input.is_action_just_pressed("ui_accept"):
 		Global.monsterKey = selectedKey;
 		Global.transitionTo("gameLevel");
 		

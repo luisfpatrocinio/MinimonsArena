@@ -61,6 +61,7 @@ func _process(delta):
 	manageHeaderText();
 	manageCamera();
 	
+	# Desativar opção de iniciar o jogo caso estejamos desconectados da câmera.	
 	menuButtons.get_node("StartButton").disabled = !Connection.connected;
 	
 	match titleStep:
@@ -195,3 +196,8 @@ func _on_credits_return_button_pressed():
 	#changeMenuButtonsVisibility(Color.WHITE);
 	#changeOptionsVisibility(Color.TRANSPARENT);
 	#focusFirstButton()
+
+
+func _on_debug_start_button_pressed():
+	Global.debugMode = true;
+	Global.transitionTo("characterSelect");

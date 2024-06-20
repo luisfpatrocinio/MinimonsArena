@@ -1,14 +1,11 @@
 extends Node
 
+var debugMode: bool = false;
+
 ## Modo de câmera atual. (em desuso)
 var camMode: int = 0;
 
 # Propriedades das tags lidas
-## Vetores de rotação, em strings.
-var rvecs: Array[String] = []
-## Vetores de transformação, em strings.
-var tvecs: Array[String] = []
-
 ## Dicionário com informações das tags atualmente exibidas em tela.
 var detectedTagsDict: Dictionary = {}
 
@@ -23,9 +20,6 @@ var detectedTagsDict: Dictionary = {}
 
 ## Chave do player atual.
 var monsterKey: String = "";
-
-## Estado do Modo de Edição
-var editMode: bool = false;
 
 ## Score
 var score: int = 0;	# TODO: Utilizar o ScoreManager e não a Global.
@@ -96,12 +90,13 @@ var selectedCharacters = []
 
 # 
 signal insertTag(pos, id)
-	
+
 func _process(delta):	
-	# Alterar modo de câmera
-	if Input.is_action_just_pressed("ui_cancel") and false:
+	# Alterar modo de câmera. TODO: Teste.
+	if Input.is_action_just_pressed("ui_end") and levelNode != null:
 		camMode += 1;
-		camMode = camMode % 4;
+		print("[GLOBAL] camMode = ", camMode);
+	camMode = camMode % 2;
 	
 	manageCamera()
 	
@@ -128,20 +123,14 @@ func manageCamera() -> void:
 		_cam.position = Vector3(0, _y, 12);
 		_cam.look_at(Vector3(0, -2, 5));
 	elif camMode == 1:
+		var _rvec = getBoardRVec3();
 		var _l = 24;
-		_cam.position.x = cos(_ang) * _l;
-		_cam.position.z = sin(_ang) * _l;
-		_cam.position.y = 0;
-		_cam.look_at(monsterNode.position);
-	elif camMode == 2:
-		var _newPos = monsterNode.position + Vector3(monsterNode.modelDir.x, 0, monsterNode.modelDir.y) * -16
-		_cam.position = _cam.position.lerp(_newPos, 0.169 / 4.0);
-		_cam.look_at(monsterNode.position)
-	elif camMode == 3:
-		_cam.position.x = 0
-		_cam.position.z = 0
-		_cam.position.y = 32;
-		_cam.look_at(levelNode.position);
+		var _ang2 = deg_to_rad(_rvec.x);
+		var _newPos = Vector3(cos(_ang2) * _l, 0, sin(_ang2) * _l);
+		_cam.position = _cam.position.lerp(_newPos, 0.20);
+		_cam.look_at(Vector3.ZERO);
+		
+	
 
 ## Inicializa o Level
 func setupLevel() -> void:
@@ -177,8 +166,11 @@ func convertArrayStrToVector3(arrayStr: String) -> Vector3:
 	var _vector3 = Vector3(_x, _y, _z);
 	return _vector3;
 	
-func getBoardVec3() -> Vector3:
+func getBoardTVec3() -> Vector3:
 	return detectedTagsDict.get(0, {"tvec": Vector3.ZERO}).get("tvec");
+	
+func getBoardRVec3() -> Vector3:
+	return detectedTagsDict.get(0, {"rvec": Vector3.ZERO}).get("rvec");
 
 ## Retorna o dicionário da entidade a partir do identificador da Tag ARUCO.
 func getEntityKeyById(tagId: int) -> String:

@@ -82,5 +82,9 @@ func _process(delta):
 	
 	_rectAlpha = 0.50 if showingLabel else _rectAlpha;
 	
+	if Global.debugMode:
+		_rectAlpha = 0.00;
+		showWarning("Debug Mode");
+	
 	_rect.color.a = lerp(_rect.color.a, _rectAlpha, 0.169);
 	

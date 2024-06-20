@@ -13,7 +13,7 @@ use_debanding = false
 sky_material = SubResource("ProceduralSkyMaterial_ioqpb")
 
 [resource]
-background_mode = 1
+background_mode = 2
 background_color = Color(0.192157, 0.0745098, 0.458824, 1)
 sky = SubResource("Sky_37jou")
 ambient_light_source = 2
