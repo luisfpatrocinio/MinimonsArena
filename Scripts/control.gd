@@ -132,11 +132,6 @@ func manageCamera() -> void:
 		
 	
 
-## Inicializa o Level
-func setupLevel() -> void:
-	pass;
-	#levelNode.setMonster(Global.monsterKey)
-
 ## Função que vai analisar se o level está atendendo as condições necessárias.
 func checkLevel() -> bool:
 	#TODO: Conferir dicionário de levels.

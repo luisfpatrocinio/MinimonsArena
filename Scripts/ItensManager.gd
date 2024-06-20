@@ -1,7 +1,7 @@
 extends Node3D
 
 ## Classe responsável por gerenciar todo tipo de entidade de item
-class_name ItensManager
+class_name ItemsManager
 
 ## Posição padrão de drop de itens.
 @export var defaultDropPos: Vector2 = Vector2(10, 10);

@@ -145,7 +145,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
 
 [node name="EnemiesManager" parent="." instance=ExtResource("4_3djf7")]
 
-[node name="ItensManager" parent="." instance=ExtResource("5_0vl1h")]
+[node name="ItemsManager" parent="." instance=ExtResource("5_0vl1h")]
 
 [node name="Cards" type="Node3D" parent="."]
 
