@@ -23,13 +23,13 @@ func setStageLabel(text):
 	_tween1.set_trans(Tween.TRANS_CUBIC);	
 	_tween1.tween_property(stageLabel, "position", Vector2(0, _viewHeight/2), .25);
 	_tween1.set_ease(Tween.EASE_OUT);
-	await _tween1.finished;
+	await _tween1.finished;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 	await get_tree().create_timer(1).timeout;
 	
 	var _tween2 = stageLabel.create_tween();
 	_tween2.set_trans(Tween.TRANS_CUBIC);	
-	_tween2.tween_property(stageLabel, "position", Vector2(0, 96), .369);
+	_tween2.tween_property(stageLabel, "position", Vector2(0, 72), .369);
 	_tween2.set_ease(Tween.EASE_OUT);
 	await _tween2.finished;
 	

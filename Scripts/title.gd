@@ -5,11 +5,11 @@ var titleStep = 0;
 ## Caso demore a conectar, o jogador será informado que pode atravessar o bloqueio.
 var waitedTooLong: bool = false;
 
-## Controla o 	estado das opções
+## Controla o estado das opções
 @onready var infoLabel: Label = $Cover/InfoLabel
 @onready var menuButtons = $Menu/MenuButtons
 @onready var options = $Menu/Options
-@onready var views: Array = []
+@onready var views: Array = [];
 
 # Referências dos modelos 3D:
 @onready var models = %Models.get_children()
@@ -33,6 +33,8 @@ func _ready():
 	focusFirstButton();
 	
 	var _camInitialPos = camera.position;
+	
+	views = [menuButtons, options, $Menu/Credits];
 
 	await camera.create_tween().tween_property(camera, "position", _camInitialPos.lerp(Vector3(-10, 0, -5), 0.069), 20).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT).finished;
 
@@ -50,7 +52,8 @@ func focusFirstButton():
 		pass
 		#_firstButton = _firstButton.get_child(0);
 	
-	_firstButton.grab_focus.call_deferred();
+	if _firstButton != null:
+		_firstButton.grab_focus.call_deferred();
 
 
 func _process(delta):
@@ -111,13 +114,33 @@ func _on_start_button_pressed():
 
 func _on_options_button_pressed():
 	titleStep = STEPS.OPTIONS;
-	changeMenuButtonsVisibility(Color.TRANSPARENT);
-	changeOptionsVisibility(Color.WHITE);
-	focusFirstButton()
+	changeViewVisibility("Options");
 
 ## Ao pressionar o botão de sair do jogo.
 func _on_quit_button_pressed():
 	get_tree().quit();
+	
+func _on_credits_button_pressed():
+	titleStep = STEPS.OPTIONS;
+	changeViewVisibility("Credits");
+	pass
+	#Visibilidade do Menu de Créditos
+	
+
+func changeViewVisibility(viewName: String) -> void:
+	for view in views:
+		var _viewName = view.name;
+		view.visible = false;
+	
+	for view in views:
+		var _viewName = view.name;		
+		if _viewName == viewName:
+			view.visible = true;
+			focusFirstButton();
+			
+		var _color = Color(1.0, 1.0, 1.0, float(view.visible));
+		await view.create_tween().tween_property(view, "modulate", _color, .3).finished;
+	
 
 func changeOptionsVisibility(color: Color):
 	if color == Color.WHITE:
@@ -141,9 +164,10 @@ func changeMenuButtonsVisibility(color: Color):
 
 func _on_return_button_pressed():
 	titleStep = STEPS.MENU;
-	changeMenuButtonsVisibility(Color.WHITE);
-	changeOptionsVisibility(Color.TRANSPARENT);
-	focusFirstButton()
+	changeViewVisibility("MenuButtons");
+	#changeMenuButtonsVisibility(Color.WHITE);
+	#changeOptionsVisibility(Color.TRANSPARENT);
+	#focusFirstButton()
 
 ## Animar modelos 3D:
 func animateModels():
@@ -167,6 +191,7 @@ func _input(event):
 
 func _on_credits_return_button_pressed():
 	titleStep = STEPS.MENU;
-	changeMenuButtonsVisibility(Color.WHITE);
-	changeOptionsVisibility(Color.TRANSPARENT);
-	focusFirstButton()
+	changeViewVisibility("MenuButtons");
+	#changeMenuButtonsVisibility(Color.WHITE);
+	#changeOptionsVisibility(Color.TRANSPARENT);
+	#focusFirstButton()
