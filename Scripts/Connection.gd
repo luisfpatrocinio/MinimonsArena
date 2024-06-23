@@ -1,54 +1,65 @@
 extends Node
 
-## Classe responsável por conectar o jogo ao servidor em Python.
+class_name CameraConnectionManagere
+## Classe responsável por conectar o jogo ao servidor em Python via UDP.
 
-## Inicializar servidor
+## Porta do servidor para incializar a comunicação.
 @export var port: int = 5569;
+
+## Instância do Servidor UDP.
 var server := UDPServer.new()
 
-## Clientes conectados
+## Lista de clientes conectados
 var peers = []
 
+## Indica se há uma conexão estabelecida com o servidor.
 var connected: bool = false;
 
+## Inicializar a comunicação com o Servidor na porta especificada.
 func _ready():
-	# Iniciar servidor
 	server.listen(port);
 
 func _process(delta):
-	# IMPORTANTE: Processar novos pacotes.
+	# Processa novos pacotes recebidos pelo servidor.
 	server.poll() 
 	
-	# Um pacote com uma nova combinação de endereço/porta foi recebido no socket:
-	#print("Conectado: ", connected);
+	# Verifica se um novo pacote com uma combinação de endereço/porta foi recebido.
 	if server.is_connection_available():
 		connected = true;
-		var peer: PacketPeerUDP = server.take_connection();
-		var packet = peer.get_packet();
-		managePackageContent(packet);
 		
+		# Aceita a conexão e obtém o peer do pacote UDP.
+		var peer: PacketPeerUDP = server.take_connection();
+		
+		# Obter o pacote recebido e gerenciar seu conteúdo.
+		var packet = peer.get_packet();	
+		managePackageContent(packet);
+	
+	# Verificar se o servidor não está mais escutando (listening).
 	if !server.is_listening():
 		connected = false;
 
+
+## Função para gerenciar o conteúdo de um pacote recebido.
 func managePackageContent(packet):
+	# Obtém o conteúdo do pacote como uma string UTF-8.
 	var content = packet.get_string_from_utf8();
 	
-	# Limpar array de tags caso não hajam tags detectadas.
+	# Limpa o array de tags se não houver conteúdo no pacote.
 	if len(content) <= 0:
 		print_rich("[color=green][b][CONNECTION][/b] - Pacote vazio recebido. Limpando dicionário.");
 		Global.removeAllTagsExcept([]);
 	
-	# Fail fast: pacote inválido. Para nosso jogo, um pacote sem ":" não tem utilidade.
+	# Fail fast: retorna se o pacote for inválido (não contém ":").
 	if not str(content).contains(":"):
 		return
 	
-	# Limpar o dicionário, de modo que tags ausentes sejam removidas.
-	#Global.detectedTagsDict = {};
+	# Divide o conteúdo em tags usando "#" como delimitador.
+	var tags: PackedStringArray = str(content).split("#")
 	
-	# Dividir primeiramente em tags.
-	var tags: PackedStringArray = str(content).split("#");
-	
+	# Array para armazenar os IDs das tags detectadas.
 	var _detectedTagsIds: Array[int] = [];
+	
+	# Itera sobre as tags para coletar os IDs das tags detectadas.
 	for i in range(len(tags)):
 		var tag: String = tags[i]; 
 		var keys: PackedStringArray = str(tag).split("$");
@@ -57,18 +68,18 @@ func managePackageContent(packet):
 			var _key = _pairParts[0];
 			if _key == "tag":
 				_detectedTagsIds.append(int(_pairParts[1]));
+	
 	print_rich("[color=green][b][CONNECTION][/b] - Received Detected Tags IDs: ", _detectedTagsIds);
 	
-	# Para cada tag, coletar valores de cada chave.
+	# Itera novamente sobre as tags para coletar os valores de cada chave.
 	for i in range(len(tags)):
 		var tag: String = tags[i]; 
-		#print_rich("[color=green][b][CONNECTION][/b] - Operando tag: ", tag)
+		# print_rich("[color=green][b][CONNECTION][/b] - Operando tag: ", tag)
 		
-		# Obter cada chave dessa tag atual.
+		# Obtém cada chave da tag atual.
 		var keys: PackedStringArray = str(tag).split("$");
 		
-		# Precisamos guardar o ID da tag atual, para que possamos atribuir valores às variáveis 
-		# corretas.
+		# Armazena o ID da tag atual para atribuir valores às variáveis corretas.
 		var _actualTagId = "";
 		for pair in keys:
 			var _pairParts: PackedStringArray = pair.split(":");
@@ -87,7 +98,5 @@ func managePackageContent(packet):
 					var _rvec = str(_pairParts[1]);
 					Global.detectedTagsDict[_actualTagId]["rvec"] = Global.convertArrayStrToVector3(_rvec);
 
-	# Depois de tudo, precisamos remover as tags que não estão no dicionário.
+	# Remove as tags que não estão no dicionário de tags detectadas.
 	Global.removeAllTagsExcept(_detectedTagsIds);
-	
-
