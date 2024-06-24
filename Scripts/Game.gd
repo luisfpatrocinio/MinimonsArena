@@ -21,6 +21,10 @@ func _process(delta):
 				Global.levelNode.generateEntities();
 				
 				Global.interfaceNode.setStageLabel(getActualStageString());
+				
+			# Retornar para tela de título. @TODO: Substituir por pause e não restringir apenas a etapa de preparação.
+			if Input.is_action_just_pressed("ui_cancel"):
+				Global.transitionTo("title");
 		STAGES.GAME:
 			# Verificar se existem inimigos vivos:
 			if Global.levelNode.enemiesManager.get_child_count() <= 0:
