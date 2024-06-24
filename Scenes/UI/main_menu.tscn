@@ -153,6 +153,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_gjc81")
 
+[node name="TransitionFadeOut" parent="." instance=ExtResource("2_nohxo")]
+
 [node name="Menu" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 

@@ -44,13 +44,6 @@ func adjustPos(vec3: Vector3) -> Vector3:
 	
 	var pos = vec3 - _boardPos;
 	
-	#var rvec = Global.getBoardRVec3().y;
-	#var l = pos.length();
-	#var ang1 = atan2(vec3.z - _boardPos.z, vec3.x - _boardPos.x);
-	#pos.x = l * cos(ang1);
-	#pos.z = l * sin(ang1);
-	#print("rvec: ",  rvec);
-	
 	return pos;
 	
 func despawn():

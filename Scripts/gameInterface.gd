@@ -87,4 +87,3 @@ func _process(delta):
 		showWarning("Debug Mode");
 	
 	_rect.color.a = lerp(_rect.color.a, _rectAlpha, 0.169);
-	

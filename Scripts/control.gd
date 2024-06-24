@@ -100,6 +100,11 @@ func _process(delta):
 	
 	manageCamera()
 	
+	# DEBUG - Interromper música.
+	if Input.is_action_just_pressed("ui_home"):
+		print("Interrompendo música.");
+		AudioServer.set_bus_mute(0, not AudioServer.is_bus_mute(0))
+	
 func insertTagOnDict(tagNo: int) -> void:
 	# Perguntar se já existe essa tag, para ver se podemos inserir.
 	if detectedTagsDict.has(tagNo):
