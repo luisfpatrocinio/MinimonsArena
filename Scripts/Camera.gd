@@ -6,16 +6,11 @@ class_name Camera
 ## Emitido quando a animação [moveTo] acaba
 signal moveToFinished;
 
-@export var SpringLength: float;
 
 @onready var camera3d: Camera3D = $SpringArm3D/Camera3D;
 @onready var springArm: SpringArm3D = $SpringArm3D;
 
 func _ready():
-	
-	# Aplica o valor do export apenas se tiver algo
-	if SpringLength:
-		springArm.spring_length = SpringLength;
 	
 	camera3d.look_at(springArm.global_position);
 
