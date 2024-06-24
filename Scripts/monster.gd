@@ -81,8 +81,6 @@ func manageDirection():
 	# Olhar para direção do movimento
 	var _newDir = position - Vector3(modelDir.x, 0, modelDir.y);
 	if _newDir != position: myModel.look_at(_newDir)
-	
-	
 
 func manageAnimations():
 	if dancing:
