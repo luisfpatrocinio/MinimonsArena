@@ -88,7 +88,8 @@ func manageAnimations():
 			myAnim.play("Dance");
 			return
 	
-	if myAnim.current_animation != "Bite_Front":
+	var actions = ["Bite_Front"]
+	if myAnim.current_animation not in actions:
 		if velocity == Vector3.ZERO:
 			if myAnim.has_animation("Idle"):
 				myAnim.play("Idle");
@@ -99,7 +100,6 @@ func manageAnimations():
 				myAnim.play("Walk");
 			else:
 				myAnim.play("Flying");
-		
 		# Atacar
 		if Input.is_action_just_pressed("ui_accept"):
 			myAnim.play("Bite_Front");
