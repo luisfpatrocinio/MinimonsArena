@@ -20,8 +20,7 @@ func _process(delta):
 # Função responsável por ler a última score e mostrar na tela
 func showResults():
 	var monsterPlayedKey = scoreStruct.get("monsterPlayedKey")
-	var monsterPlayedName = "TOMAAAAAAAAAAA"
-	#var monsterPlayedName = Global.monsterDict[monsterPlayedKey]["name"]
+	var monsterPlayedName = Global.monsterDict[monsterPlayedKey]["name"]
 	var pointsEarned = scoreStruct.get("levelPoints")
 	var enemiesKilled = scoreStruct.get("enemiesKilled")
 	var stagesSurvived = scoreStruct.get("stagesSurvived")
