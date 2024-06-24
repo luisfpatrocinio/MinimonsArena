@@ -11,6 +11,7 @@ class_name Game
 enum STAGES {PREPARATION, GAME, LEVELWIN}
 var stage: int = STAGES.PREPARATION;
 @onready var stageLabel: Label = null;
+var paused = false;
 
 func _ready():
 	Global.interfaceNode.setStageLabel(getActualStageString());
@@ -21,15 +22,12 @@ func _process(delta):
 	
 	match stage:
 		STAGES.PREPARATION:
-			if Input.is_action_just_pressed("ui_accept"):
-				stage = STAGES.GAME;
-				Global.levelNode.generateEntities();
-				
-				Global.interfaceNode.setStageLabel(getActualStageString());
-				
-			# Retornar para tela de título. @TODO: Substituir por pause e não restringir apenas a etapa de preparação.
-			if Input.is_action_just_pressed("ui_cancel"):
-				Global.transitionTo("title");
+			if !paused:
+				if Input.is_action_just_pressed("ui_accept"):
+					stage = STAGES.GAME;
+					Global.levelNode.generateEntities();
+					
+					Global.interfaceNode.setStageLabel(getActualStageString());
 		STAGES.GAME:
 			# Verificar se existem inimigos vivos:
 			if Global.levelNode.enemiesManager.get_child_count() <= 0:
@@ -39,8 +37,10 @@ func _process(delta):
 				stage = STAGES.PREPARATION;
 				Global.levelNode.startPreparation();
 				# TODO: Limpar entidades de itens e demais coletáveis.
-				
-				
+	
+	# Retornar para tela de título. @TODO: Substituir por pause e não restringir apenas a etapa de preparação.
+	if Input.is_action_just_pressed("ui_cancel"):
+		pause();
 
 func getActualStageString() -> String:
 	return "Etapa de Preparação" if stage == STAGES.PREPARATION else "Etapa de Batalha";
@@ -54,3 +54,10 @@ func winThisLevel():
 	await get_tree().create_timer(2).timeout;
 	Global.levelNode.startPreparation();
 	Global.interfaceNode.setStageLabel(getActualStageString());	
+
+## Pausa ou despausa o jogo.
+func pause() -> void:
+	paused = !paused;
+	if paused:
+		Global.interfaceNode.pauseNode.get_node("VBoxContainer").get_node("PauseResumeButton").grab_focus.call_deferred();
+	get_tree().paused = paused;	

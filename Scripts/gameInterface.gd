@@ -10,6 +10,8 @@ var healthPoints: int = 0;
 @onready var healthLabel: Label = get_node("HeaderBar/HealthLabel");
 var progress: float = 0.0;
 
+@onready var pauseNode: Control = get_node("Pause");
+
 func _ready():
 	Global.interfaceNode = self;
 
@@ -23,7 +25,7 @@ func setStageLabel(text):
 	_tween1.set_trans(Tween.TRANS_CUBIC);	
 	_tween1.tween_property(stageLabel, "position", Vector2(0, _viewHeight/2), .25);
 	_tween1.set_ease(Tween.EASE_OUT);
-	await _tween1.finished;;;;;;;;;;;;;;;;;;;;;;;;;;
+	await _tween1.finished;
 	
 	await get_tree().create_timer(1).timeout;
 	
@@ -80,6 +82,13 @@ func _process(delta):
 		showWarning("");
 		_rectAlpha = 0.00;		
 	
+	# Checar se o jogo está pausado.
+	var _paused = Global.levelNode.gameManager.paused;
+	if _paused:
+		_rectAlpha = 0.50;
+	
+	pauseNode.modulate.a = move_toward(pauseNode.modulate.a, float(_paused), 0.25);
+		
 	_rectAlpha = 0.50 if showingLabel else _rectAlpha;
 	
 	if Global.debugMode:
@@ -87,3 +96,13 @@ func _process(delta):
 		showWarning("Debug Mode");
 	
 	_rect.color.a = lerp(_rect.color.a, _rectAlpha, 0.169);
+
+
+func _on_pause_resume_button_pressed():
+	Global.levelNode.gameManager.pause();
+
+
+func _on_pause_menu_button_pressed():
+	print("Botão de voltar para o menu pressionado.");
+	Global.transitionTo("title");
+	get_tree().paused = false;

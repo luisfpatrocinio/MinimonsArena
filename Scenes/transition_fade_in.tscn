@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/TransitionFadeIn.gd" id="1_dws1e"]
 
 [node name="TransitionFadeIn" type="CanvasLayer"]
+layer = 99
 script = ExtResource("1_dws1e")
 
 [node name="ColorRect" type="ColorRect" parent="."]

@@ -3,4 +3,5 @@
 [ext_resource type="Script" path="res://Scripts/Global.gd" id="1_bghr7"]
 
 [node name="Global" type="Node"]
+process_mode = 3
 script = ExtResource("1_bghr7")
