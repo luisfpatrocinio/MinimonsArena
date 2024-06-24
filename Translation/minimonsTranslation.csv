@@ -10,3 +10,4 @@ ONLY_ONE_MINIMON_CARD,Posicione uma carta de Minimon.,Place a Minimon card.
 ONLY_ONE_CARD,Posicione apenas UMA carta no tabuleiro.,Place only ONE card on the board.
 PLACE_A_MINIMON_CARD,Posicione seu Minimon no tabuleiro.,Place your Minimon on the board.
 SCORE,Pontos,Score
+SCORE_TITLE, Resultados da partida, Game statistics
