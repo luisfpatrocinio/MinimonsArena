@@ -19,7 +19,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Global="*res://control.tscn"
+Global="*res://Scripts/Global.tscn"
 ScoreManager="*res://Scripts/score_manager.gd"
 Connection="*res://Scenes/Connection.tscn"
 AudioManager="*res://Scenes/audio_manager.tscn"

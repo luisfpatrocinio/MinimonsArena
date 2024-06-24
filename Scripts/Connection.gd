@@ -1,7 +1,8 @@
 extends Node
 
-class_name CameraConnectionManagere
-## Classe responsável por conectar o jogo ao servidor em Python via UDP.
+class_name CameraConnectionManager
+## Classe responsável por conectar o jogo ao servidor em Python via UDP. 
+## Ela lida com a comunicação de rede, recebendo dados das tags detectadas e processando-os para uso no jogo. 
 
 ## Porta do servidor para incializar a comunicação.
 @export var port: int = 5569;

@@ -1,7 +1,12 @@
 extends Node
 class_name Game
 
-## Classe responsável por gerenciar as regras do jogo.
+## A classe Game coordena a lógica principal do jogo, incluindo a inicialização do Level, controle 
+## de fluxo de jogo, e gerenciamento de estados. Este script é essencial para a execução e integração 
+## de todos os componentes. Ele gerencia as etapas do jogo, alternando entre preparação, jogo e 
+## vitória de nível, além de responder a entradas do jogador para iniciar o jogo, pausar ou retornar 
+## à tela de título. A classe também é responsável por atualizar a interface do usuário com o estado 
+## atual do jogo e iniciar entidades durante a fase de preparação.
 
 enum STAGES {PREPARATION, GAME, LEVELWIN}
 var stage: int = STAGES.PREPARATION;

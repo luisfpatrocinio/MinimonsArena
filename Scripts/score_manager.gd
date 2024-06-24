@@ -1,5 +1,7 @@
 extends Node
 ## Singleton responsável única e exclusivamente para gerenciar Scores e o Scoreboard [br]
+## Isso inclui o cálculo e a exibição dos pontos ganhos pelos jogadores. 
+## Este script assegura que a pontuação seja atualizada em tempo real e persistida corretamente. (TODO)
 
 ## Armazena as "Scores", o relatório de uma run, geradas com [method ScoreManager.generateLevelScore]
 var scoreboard: Array[Dictionary] = []

@@ -1,4 +1,5 @@
 extends Node
+## A classe Global é um [Node] autoload utilizado para gerenciar o estado global do jogo, fornecendo um ponto de acesso centralizado para várias funcionalidades e dados compartilhados entre diferentes partes do jogo. Esta classe facilita a coordenação e comunicação entre diferentes cenas e nós, mantendo informações importantes como o dicionário de tags detectadas, referências a nós críticos do jogo, e gerenciando a transição entre cenas. Além disso, ela contém métodos utilitários para converter dados, gerenciar a câmera, e manipular a exibição de tags no jogo.
 
 var debugMode: bool = false;
 

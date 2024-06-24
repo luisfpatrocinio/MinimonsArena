@@ -1,5 +1,10 @@
 extends Node
 
+## Controla todos os aspectos relacionados ao áudio no jogo, 
+## incluindo música de fundo, efeitos sonoros e volume. 
+## O AudioManager garante uma experiência sonora imersiva e ajustável 
+## conforme a necessidade do jogador.
+
 @onready var bgmPlayer: AudioStreamPlayer = get_node("BGMPlayer");
 
 var musicDict: Dictionary = {
