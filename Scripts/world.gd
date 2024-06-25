@@ -33,7 +33,6 @@ const scoreScene: PackedScene = preload("res://Scenes/score_scene.tscn")
 var level = {
 	"requiredTags": [0, 1, 2]
 }
-
 ## Função chamada quando o nó está pronto. Inicializa configurações globais.
 func _ready():
 	# Define a referência global do Level para o nó atual.
@@ -43,6 +42,7 @@ func _ready():
 	# Conecta o sinal 'insertTag' à função 'spawnCard' para gerar cartas.
 	Global.insertTag.connect(spawnCard)
 	
+
 ## Faz surgir um baú numa posição aleatória. #TODO: Parametrizar posição de surgimento.
 func dropChest():
 	itemsManager.dropChest();
@@ -78,8 +78,12 @@ func spawnCard(spawnPosition: Vector3, tagId: int) -> void:
 
 ## Transforma todas as cartas do tabuleiro em inimigos.
 func generateEntities() -> void:
+	if Global.debugMode:
+		print_rich("[b][WORLD.generateEntities][/b] - Forçando o spawn de entidades (DEBUG_MODE = true)")
+		forceEntitySpawn()
+		return
+		
 	print_rich("[b][WORLD.generateEntities][/b] - Gerando entidades a partir das cartas.");
-	
 	# Destrói todas as entidades, só pra garantir.
 	for child: Entity in enemiesManager.get_children():
 		child.despawn();
@@ -181,3 +185,10 @@ func _input(event):
 		if event.keycode == KEY_V and event.pressed:
 			## Limpa tabuleiro
 			generateEntities();
+			
+## Spawna forçadamente entidades, usado quando o [Global.debugMode] = true
+func forceEntitySpawn(enemies_count=1):
+	var playerPosition = Vector2(0, 0)
+	spawnPlayer(playerPosition, 1)
+	for i in range(enemies_count):
+		enemiesManager.spawnEnemy(playerPosition + Vector2(randi_range(3, 5), randi_range(3, 5)))

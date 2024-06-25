@@ -8,17 +8,26 @@ signal dying();
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity");
 var hp = 3;
 
+## Um vetor 3 que representa o knockback ganhado
+var knockback = Vector3.ZERO
+
+## A resistência do knockback
+@export var knockbackResistence = 0.05
+
+@export var knockbackMultipliyer = 10
+
 func _ready():
 	connect("dying", despawn);
 	#createSpawnParticles()
 	pass
 
 func _physics_process(delta) -> void:
+	knockback = knockback.move_toward(Vector3.ZERO, knockbackResistence)
 	applyGravity(delta);
 	
 func applyGravity(delta):
-		if not is_on_floor():
-			velocity.y -= gravity * delta;
+	if not is_on_floor():
+		velocity.y -= gravity * delta;
 			
 
 func takeDamage(amount):
