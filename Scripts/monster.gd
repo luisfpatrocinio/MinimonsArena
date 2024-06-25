@@ -120,10 +120,8 @@ func _onDying():
 	var levelScore = ScoreManager.generateLevelScore(_monsterKey, points, stagesSurvived, enemiesKilled)
 	ScoreManager.lastGamePlayedScore = levelScore
 	ScoreManager.registerScore(levelScore)
-	
 	if myAnim.has_animation("Death"):
 		myAnim.play("Death");
-	
 	isDying = true;
 	
 	#Global.transitionTo("scoreScene")

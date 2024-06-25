@@ -32,6 +32,11 @@ func _process(delta):
 		
 	# Confirmar Personagem
 	if (len(detectedCharacters) == 1 or Global.debugMode) and Input.is_action_just_pressed("ui_accept"):
+		
+		# TODO: Remover esse trecho super hard-coded
+		if Global.debugMode:
+			selectedKey = "chicken"
+	
 		Global.monsterKey = selectedKey;
 		Global.transitionTo("gameLevel");
 		

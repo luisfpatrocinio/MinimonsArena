@@ -10,7 +10,6 @@ var scoreStruct = ScoreManager.lastGamePlayedScore;
 
 func _ready() -> void:
 	showResults();
-	
 	fadeIn();
 	
 func _process(delta):
@@ -20,10 +19,10 @@ func _process(delta):
 # Função responsável por ler a última score e mostrar na tela
 func showResults():
 	var monsterPlayedKey = scoreStruct.get("monsterPlayedKey")
-	#var monsterPlayedName = Global.monsterDict[monsterPlayedKey]["name"]
-	var pointsEarned = scoreStruct.get("levelPoints")
-	var enemiesKilled = scoreStruct.get("enemiesKilled")
-	var stagesSurvived = scoreStruct.get("stagesSurvived")
+	var monsterPlayedName = Global.monsterDict.get(monsterPlayedKey, {}).get("name", "NOT_FOUND")
+	var pointsEarned = scoreStruct.get("levelPoints", 0)
+	var enemiesKilled = scoreStruct.get("enemiesKilled", 0)
+	var stagesSurvived = scoreStruct.get("stagesSurvived", 0)
 	
 	sceneTitle.text = tr(SCENE_TITLE);
 	label.text = "Personagem: %s \n" % [monsterPlayedName]
