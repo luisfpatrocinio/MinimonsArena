@@ -9,6 +9,8 @@ class_name Level
 @onready var charactersNode: Node3D = get_node("Character");
 ## Referência ao nó de pivô da câmera.
 @onready var cameraPivot: Node3D = get_node("CameraPivot")
+## Referência ao nó de springArm da câmera.
+@onready var springArm: SpringArm3D = get_node("CameraPivot/SpringArm3D")
 ## Referência ao gerenciador de inimigos.
 @onready var enemiesManager: EnemiesManager = get_node("EnemiesManager")
 ## Referência ao gerenciador de itens.
@@ -23,6 +25,9 @@ class_name Level
 @onready var spawnParticlesScene: PackedScene = preload("res://Scenes/spawn_particles.tscn");
 ## Scene do Player
 const playerScene: PackedScene = preload("res://Scenes/monster.tscn");
+## Scene da interface de resultados
+const scoreScene: PackedScene = preload("res://Scenes/score_scene.tscn")
+
 
 ## Level Details (TODO)
 var level = {
@@ -36,11 +41,6 @@ func _ready():
 	Global.removeAllTagsExcept([0]);
 	# Conecta o sinal 'insertTag' à função 'spawnCard' para gerar cartas.
 	Global.insertTag.connect(spawnCard)
-	
-	
-	# TODO TIRAR ISSO:
-	# Para fins de debug
-	Global.debugMode = true
 	
 
 ## Faz surgir um baú numa posição aleatória. #TODO: Parametrizar posição de surgimento.
@@ -150,6 +150,8 @@ func spawnPlayer(spawnPosition: Vector2, modelInd: int):
 	# Define o modelo do monstro no jogador.
 	_player.myModel = _model;
 	
+	_player.dying.connect(_onPlayerDie)
+	
 	# Adiciona o jogador ao nó de personagens.
 	charactersNode.add_child(_player);
 	
@@ -159,7 +161,12 @@ func spawnPlayer(spawnPosition: Vector2, modelInd: int):
 	_player.createSpawnParticles();
 	print("[WORLD] - Player instanciado na posição: ", _spawnPosition);
 	
-
+func _onPlayerDie():
+	await get_tree().create_timer(1).timeout;
+	var _score: CanvasLayer = scoreScene.instantiate();
+	add_child(_score);
+	#_score.global_position = Vector2.ZERO;
+	
 ## (DEBUG) Funções de Teste.
 func _input(event):
 	if event is InputEventKey:

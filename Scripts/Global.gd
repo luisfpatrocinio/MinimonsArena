@@ -79,6 +79,7 @@ var monsterDict: Dictionary = {
 
 ## Dicionário com as [PackedScene] utilizadas no jogo.
 var scenesDict: Dictionary = {
+	"mainMenu": preload("res://Scenes/UI/main_menu.tscn"),
 	"title": preload("res://Scenes/UI/main_menu.tscn"),
 	"characterSelect": preload("res://Scenes/character_select.tscn"),
 	"gameLevel": preload("res://Scenes/world.tscn"),

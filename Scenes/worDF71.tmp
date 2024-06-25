@@ -1,0 +1,188 @@
+[gd_scene load_steps=27 format=3 uid="uid://b3eptbovcwbmb"]
+
+[ext_resource type="Script" path="res://Scripts/world.gd" id="1_p07bg"]
+[ext_resource type="Environment" uid="uid://b4abc0fnu2i5s" path="res://Scenes/mainEnvironment.tres" id="2_bojx3"]
+[ext_resource type="Material" uid="uid://cr6tvlhgm8ooh" path="res://Materials/WallMaterial.tres" id="3_x0odv"]
+[ext_resource type="PackedScene" uid="uid://dxdn7yd6rqcma" path="res://Scenes/enemies_manager.tscn" id="4_3djf7"]
+[ext_resource type="PackedScene" uid="uid://chf6qds01oibv" path="res://Scenes/itens_manager.tscn" id="5_0vl1h"]
+[ext_resource type="PackedScene" uid="uid://rbvx8hdavul4" path="res://Scenes/Game/gameInterface.tscn" id="6_2c1c1"]
+[ext_resource type="PackedScene" uid="uid://b1bq7ry26iwgp" path="res://Scenes/game.tscn" id="6_kcy4s"]
+[ext_resource type="PackedScene" uid="uid://dhj0psbjnlra2" path="res://Scenes/transition_fade_out.tscn" id="8_asfrc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_edstc"]
+albedo_color = Color(0.211765, 0.823529, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c0fp7"]
+albedo_color = Color(0.960784, 1, 0.552941, 1)
+metallic = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_q1bdk"]
+material = SubResource("StandardMaterial3D_c0fp7")
+size = Vector3(2, 1, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ymcgn"]
+albedo_color = Color(0.960784, 1, 0.552941, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4xjy6"]
+material = SubResource("StandardMaterial3D_ymcgn")
+size = Vector3(16, 1, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_68wja"]
+size = Vector3(16, 1, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qbynt"]
+material = ExtResource("3_x0odv")
+size = Vector3(16, 2, 2)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_6w5sw"]
+points = PackedVector3Array(8, 1, 1, 8, 1, -1, -8, 1, 1, 8, -1, 1, 8, -1, -1, -8, 1, -1, -8, -1, 1, -8, -1, -1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5odf0"]
+material = ExtResource("3_x0odv")
+size = Vector3(2, 2, 12)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ame5q"]
+points = PackedVector3Array(1, 1, 6, 1, -1, 6, 1, 1, -6, -1, 1, 6, -1, -1, 6, 1, -1, -6, -1, 1, -6, -1, -1, -6)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_kq1c8"]
+points = PackedVector3Array(1, 1, 6, 1, -1, 6, 1, 1, -6, -1, 1, 6, -1, -1, 6, 1, -1, -6, -1, 1, -6, -1, -1, -6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o7vdl"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_ytcn7"]
+material = SubResource("StandardMaterial3D_o7vdl")
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4fdo6"]
+albedo_color = Color(0, 0.45098, 1, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_hk46u"]
+material = SubResource("StandardMaterial3D_4fdo6")
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0hv4k"]
+transparency = 1
+blend_mode = 1
+
+[sub_resource type="BoxMesh" id="BoxMesh_qdb38"]
+material = SubResource("StandardMaterial3D_0hv4k")
+
+[sub_resource type="Curve" id="Curve_gtlpm"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.124481, 1), 0.0, 0.0, 0, 0, Vector2(0.858921, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_p07bg")
+
+[node name="Enviroment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Enviroment"]
+environment = ExtResource("2_bojx3")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Enviroment"]
+transform = Transform3D(1, 0, 0, 0, 0.644724, 0.764415, 0, -0.764415, 0.644724, 0, 0, 0)
+light_energy = 2.0
+shadow_enabled = true
+
+[node name="ScenarioFloor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+visible = false
+size = Vector3(60, 2, 60)
+material = SubResource("StandardMaterial3D_edstc")
+
+[node name="FloorArea3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.90735e-06, 3.8147e-06)
+
+[node name="BoardCenter" type="MeshInstance3D" parent="FloorArea3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.375, 0)
+layers = 9
+mesh = SubResource("BoxMesh_q1bdk")
+
+[node name="Board" type="MeshInstance3D" parent="FloorArea3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_4xjy6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorArea3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_68wja")
+
+[node name="Walls" type="StaticBody3D" parent="FloorArea3D"]
+
+[node name="Board" type="MeshInstance3D" parent="FloorArea3D/Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -6)
+mesh = SubResource("BoxMesh_qbynt")
+skeleton = NodePath("../../Board")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="FloorArea3D/Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -6)
+shape = SubResource("ConvexPolygonShape3D_6w5sw")
+
+[node name="SideWall" type="MeshInstance3D" parent="FloorArea3D/Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0.75, -1)
+mesh = SubResource("BoxMesh_5odf0")
+skeleton = NodePath("../../Board")
+
+[node name="SideWall2" type="MeshInstance3D" parent="FloorArea3D/Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0.75, -1)
+mesh = SubResource("BoxMesh_5odf0")
+skeleton = NodePath("../../Board")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="FloorArea3D/Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0.75, -1)
+shape = SubResource("ConvexPolygonShape3D_ame5q")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorArea3D/Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0.75, -1)
+shape = SubResource("ConvexPolygonShape3D_kq1c8")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+
+[node name="Character" type="Node3D" parent="."]
+
+[node name="EnemiesManager" parent="." instance=ExtResource("4_3djf7")]
+
+[node name="ItemsManager" parent="." instance=ExtResource("5_0vl1h")]
+
+[node name="Cards" type="Node3D" parent="."]
+
+[node name="Scenario" type="Node3D" parent="."]
+
+[node name="ArrowX" type="MeshInstance3D" parent="Scenario"]
+transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 1, 0, 0)
+mesh = SubResource("PrismMesh_ytcn7")
+skeleton = NodePath("../..")
+
+[node name="ArrowZ" type="MeshInstance3D" parent="Scenario"]
+transform = Transform3D(-1, -8.74228e-08, -3.82137e-15, 0, -4.37114e-08, 1, -8.74228e-08, 1, 4.37114e-08, 0, 0, 1)
+mesh = SubResource("PrismMesh_hk46u")
+skeleton = NodePath("../..")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+visible = false
+amount = 32
+lifetime = 8.0
+mesh = SubResource("BoxMesh_qdb38")
+emission_shape = 6
+emission_ring_axis = Vector3(0, -10, 1)
+emission_ring_height = 4.0
+emission_ring_radius = 32.0
+emission_ring_inner_radius = 16.0
+direction = Vector3(0, 1, 0)
+spread = 2.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 3.0
+initial_velocity_max = 8.0
+scale_amount_min = 4.0
+scale_amount_max = 6.0
+scale_amount_curve = SubResource("Curve_gtlpm")
+
+[node name="Interface" parent="." instance=ExtResource("6_2c1c1")]
+
+[node name="Game" parent="." instance=ExtResource("6_kcy4s")]
+
+[node name="TransitionFadeOut" parent="." instance=ExtResource("8_asfrc")]

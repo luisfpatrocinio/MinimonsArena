@@ -1,9 +1,26 @@
-[gd_scene load_steps=5 format=3 uid="uid://b6sibll0f1jav"]
+[gd_scene load_steps=7 format=3 uid="uid://b6sibll0f1jav"]
 
 [ext_resource type="Script" path="res://Scripts/character_select.gd" id="1_j64ju"]
 [ext_resource type="Environment" uid="uid://b4abc0fnu2i5s" path="res://Scenes/mainEnvironment.tres" id="2_el54s"]
 [ext_resource type="FontFile" uid="uid://derw4345bswfu" path="res://Assets/Super Boys.ttf" id="3_wxioc"]
 [ext_resource type="PackedScene" uid="uid://dhj0psbjnlra2" path="res://Scenes/transition_fade_out.tscn" id="4_i3yr7"]
+
+[sub_resource type="Shader" id="Shader_ul7va"]
+code = "shader_type spatial;
+
+render_mode blend_mix, unshaded, cull_disabled;
+
+uniform vec4 color = vec4(1.0, 1.0, 0.0, 0.5); // Cor amarela com 50% de transparência
+
+void fragment() {
+    ALBEDO = color.rgb;
+    ALPHA = color.a;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5wia3"]
+render_priority = 0
+shader = SubResource("Shader_ul7va")
+shader_parameter/color = Vector4(1, 1, 0, 0.1)
 
 [node name="CharacterSelect" type="Node3D"]
 script = ExtResource("1_j64ju")
@@ -40,5 +57,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 [node name="Card" type="CSGBox3D" parent="Character"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.125, 0)
 size = Vector3(2, 0.2, 2)
+
+[node name="CardLight" type="CSGPolygon3D" parent="Character/Card"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+polygon = PackedVector2Array(0, 0, 0, 1, 1, 1, 0.75, 0)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 8
+smooth_faces = true
+material = SubResource("ShaderMaterial_5wia3")
 
 [node name="TransitionFadeOut" parent="." instance=ExtResource("4_i3yr7")]

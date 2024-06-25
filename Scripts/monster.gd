@@ -26,6 +26,8 @@ var attacking: bool = false;
 
 var dancing: bool = false;
 
+var isDying: bool = false;
+
 var inputAxis: Vector2 = Vector2.ZERO;
 
 func _ready():
@@ -78,6 +80,9 @@ func manageDirection():
 	if _newDir != position: myModel.look_at(_newDir)
 
 func manageAnimations():
+	if isDying:
+		return
+	
 	if dancing:
 		if myAnim.has_animation("Dance"):
 			myAnim.play("Dance");
@@ -115,4 +120,14 @@ func _onDying():
 	var levelScore = ScoreManager.generateLevelScore(_monsterKey, points, stagesSurvived, enemiesKilled)
 	ScoreManager.lastGamePlayedScore = levelScore
 	ScoreManager.registerScore(levelScore)
-	Global.transitionTo("scoreScene")
+	
+	if myAnim.has_animation("Death"):
+		myAnim.play("Death");
+	
+	isDying = true;
+	
+	#Global.transitionTo("scoreScene")
+
+func _input(event):
+	if event.is_action_pressed("ui_home"):
+		takeDamage(1);

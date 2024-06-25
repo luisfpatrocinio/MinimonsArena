@@ -39,6 +39,8 @@ func _process(delta):
 	elif Input.is_action_just_pressed("ui_cancel"):
 		# TODO: Criar função de redefinir valores globais.
 		Global.transitionTo("title");
+		
+	
 
 func animateModel():
 	var _ang = Time.get_ticks_msec() / 100.0;
@@ -75,6 +77,7 @@ func changeCharacter():
 	# Caso não tenha modelo 3D
 	if characterNode.get_child_count() <= 1:
 		print("Modelo 3D atribuído.")
+		showLight();
 		var _model = _monsterModel.instantiate();
 		characterNode.add_child(_model);
 		selectedKey = _selectedMonsterKey;
@@ -146,3 +149,23 @@ func deleteCharacterNodeModel() -> void:
 		if _actualModel != null:
 			print("Deletando modelo.");
 			_actualModel.queue_free();	
+			
+func showLight():
+	print("Exibindo efeito");
+	
+	var _dur = 0.25;
+	
+	# Manage Card Light
+	var _cardLight: CSGPolygon3D = $Character/Card/CardLight;
+	_cardLight.scale = Vector3(1.0, 0.0, 1.0);
+	_cardLight.material.set("shader_parameter/color", Color(1.0, 1.0, 0.0, 0.30));
+	
+	var _tween = create_tween();
+	_tween.tween_property(_cardLight, "scale", Vector3(1.0, 1.0, 1.0), _dur);
+	_tween.tween_property(_cardLight.material, "shader_parameter/color", Color(1.0, 1.0, 0.0, 0.00), _dur);
+	
+	await _tween.finished;
+	_cardLight.scale = Vector3(0.0, 0.0, 0.0);
+	print("fim do efeito");
+	
+	
