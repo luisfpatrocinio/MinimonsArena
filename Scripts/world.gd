@@ -28,7 +28,6 @@ const playerScene: PackedScene = preload("res://Scenes/monster.tscn");
 var level = {
 	"requiredTags": [0, 1, 2]
 }
-
 ## Função chamada quando o nó está pronto. Inicializa configurações globais.
 func _ready():
 	# Define a referência global do Level para o nó atual.

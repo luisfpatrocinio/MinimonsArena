@@ -31,17 +31,11 @@ var inputAxis: Vector2 = Vector2.ZERO;
 func _ready():
 	# Conecta o sinal do player morrendo ( que vem da entidade )
 	self.dying.connect(_onDying)
-	
 	Global.monsterNode = self;
 
 func _physics_process(delta):
 	super(delta);
-	myAnim = myModel.get_node("AnimationPlayer") as AnimationPlayer;
-	
-	# Add the gravity.
-	if not is_on_floor():
-		velocity.y -= gravity * delta;
-		
+	myAnim = myModel.get_node("AnimationPlayer") as AnimationPlayer;	
 	inputAxis = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down");
 	if inputAxis.length() < 0.20:
 		inputAxis = Vector2.ZERO;
@@ -60,18 +54,19 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("ui_home"):
 		dying.emit()
 	
-	move_and_slide();
-	
 	manageDirection();
-	
+	handleKnockback();
+	move_and_slide();
 	manageAnimations();
 	attacking = myAnim.current_animation == "Bite_Front";
 
 
+func handleKnockback():
+	velocity += self.knockback * self.knockbackMultipliyer
+
 func manageDirection():
 	if dancing:
 		myModel.look_at(Global.levelNode.cameraPivot.global_position * Vector3(1, -1.50, -1))
-		
 		return;
 	
 	# Definir nova direção de vista quando o Player se move

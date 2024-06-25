@@ -38,3 +38,7 @@ locale/fallback="pt"
 3d_physics/layer_1="player"
 3d_physics/layer_3="item"
 3d_physics/layer_4="world"
+
+[physics]
+
+3d/default_gravity=10.0
