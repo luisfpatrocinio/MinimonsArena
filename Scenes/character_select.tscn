@@ -20,7 +20,7 @@ void fragment() {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5wia3"]
 render_priority = 0
 shader = SubResource("Shader_ul7va")
-shader_parameter/color = Vector4(1, 1, 0, 0.1)
+shader_parameter/color = Vector4(1, 1, 0, 0)
 
 [node name="CharacterSelect" type="Node3D"]
 script = ExtResource("1_j64ju")

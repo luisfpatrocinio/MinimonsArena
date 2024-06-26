@@ -4,7 +4,7 @@
 [ext_resource type="Environment" uid="uid://b4abc0fnu2i5s" path="res://Scenes/mainEnvironment.tres" id="2_bojx3"]
 [ext_resource type="Material" uid="uid://cr6tvlhgm8ooh" path="res://Materials/WallMaterial.tres" id="3_x0odv"]
 [ext_resource type="PackedScene" uid="uid://dxdn7yd6rqcma" path="res://Scenes/enemies_manager.tscn" id="4_3djf7"]
-[ext_resource type="PackedScene" uid="uid://chf6qds01oibv" path="res://Scenes/itens_manager.tscn" id="5_0vl1h"]
+[ext_resource type="PackedScene" path="res://Scenes/itens_manager.tscn" id="5_0vl1h"]
 [ext_resource type="PackedScene" uid="uid://rbvx8hdavul4" path="res://Scenes/Game/gameInterface.tscn" id="6_2c1c1"]
 [ext_resource type="PackedScene" uid="uid://b1bq7ry26iwgp" path="res://Scenes/game.tscn" id="6_kcy4s"]
 [ext_resource type="PackedScene" uid="uid://dhj0psbjnlra2" path="res://Scenes/transition_fade_out.tscn" id="8_asfrc"]

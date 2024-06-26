@@ -99,10 +99,12 @@ func _process(delta):
 
 
 func _on_pause_resume_button_pressed():
-	Global.levelNode.gameManager.pause();
+	if Global.levelNode.gameManager.paused:
+		Global.levelNode.gameManager.pause();
 
 
 func _on_pause_menu_button_pressed():
-	print("Botão de voltar para o menu pressionado.");
-	Global.transitionTo("title");
-	get_tree().paused = false;
+	if Global.levelNode.gameManager.paused:
+		print("Botão de voltar para o menu pressionado.");
+		Global.transitionTo("title");
+		get_tree().paused = false;

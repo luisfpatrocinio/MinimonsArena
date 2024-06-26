@@ -14,6 +14,9 @@ var direction: Vector3
 ## Tempo entre ataques:
 @export var TIME_BETWEEN_ATTACKS: float = 0.7
 
+## Intervalo para poder se movimentar.
+@export var readyToAct: bool = false;
+
 enum states {
 	NORMAL,
 	ATTACKING
@@ -24,6 +27,9 @@ var actualState: states = states.NORMAL
 func _ready():
 	attackCooldownTimer.start(TIME_BETWEEN_ATTACKS)
 	connect("dying", die)
+	
+	await get_tree().create_timer(3).timeout;
+	readyToAct = true;
 
 func setEnemyModel(monsterKey: String):
 	if !Global.monsterDict.has(monsterKey):
@@ -65,7 +71,8 @@ func getPlayerDirection():
 func moveTowardsPlayer():
 	lookAtPlayer();
 	direction = getPlayerDirection()
-	velocity = Vector3(direction.x, 0, direction.z) * speed;
+	if readyToAct:
+		velocity = Vector3(direction.x, 0, direction.z) * speed;
 	
 
 func lookAtPlayer():

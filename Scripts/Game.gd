@@ -60,4 +60,6 @@ func pause() -> void:
 	paused = !paused;
 	if paused:
 		Global.interfaceNode.pauseNode.get_node("VBoxContainer").get_node("PauseResumeButton").grab_focus.call_deferred();
+	else:
+		Global.interfaceNode.pauseNode.get_node("VBoxContainer").get_node("PauseResumeButton").release_focus.call_deferred();
 	get_tree().paused = paused;	
