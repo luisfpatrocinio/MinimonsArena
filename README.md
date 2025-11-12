@@ -4,7 +4,7 @@ Este projeto foi desenvolvido pelo laboratório LABIRAS para a Mostra Nacional d
 
 - [Artigo Científico](https://docs.google.com/document/d/1KGFXL5OO8v-VXuSYPPLPmS4l4oGeMCT9fSRDzHWJh6c/edit?pli=1)
 - [Banner do Projeto](https://www.canva.com/design/DAGJC3_7V0M/p9SrmXagN4gzMTBnZYLs3A/edit)
-- [Vídeo de Apresentação](https://www.youtube.com/)
+- [Vídeo de Apresentação](https://youtu.be/vXHZ5OMD9kg)
 
 ## 🕹️Sobre o Jogo
 
