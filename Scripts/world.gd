@@ -27,6 +27,8 @@ class_name Level
 const playerScene: PackedScene = preload("res://Scenes/monster.tscn");
 ## Scene da interface de resultados
 const scoreScene: PackedScene = preload("res://Scenes/score_scene.tscn")
+## Variável que indica se o jogador está morto.
+var died: bool = false;
 
 
 ## Level Details (TODO)
@@ -162,9 +164,11 @@ func spawnPlayer(spawnPosition: Vector2, modelInd: int):
 	print("[WORLD] - Player instanciado na posição: ", _spawnPosition);
 	
 func _onPlayerDie():
-	await get_tree().create_timer(1).timeout;
-	var _score: CanvasLayer = scoreScene.instantiate();
-	add_child(_score);
+	if !died:
+		await get_tree().create_timer(1).timeout;
+		var _score: CanvasLayer = scoreScene.instantiate();
+		add_child(_score);
+		died = true;
 	#_score.global_position = Vector2.ZERO;
 	
 ## (DEBUG) Funções de Teste.

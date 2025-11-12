@@ -348,7 +348,6 @@ size = Vector2i(183, 100)
 item_count = 2
 item_0/text = "LANG_PORTUGUESE"
 item_0/checked = true
-item_0/id = 0
 item_1/text = "LANG_ENGLISH"
 item_1/id = 1
 

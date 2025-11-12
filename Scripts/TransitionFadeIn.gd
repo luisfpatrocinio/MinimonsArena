@@ -13,4 +13,3 @@ func _process(delta):
 		var _scene = Global.scenesDict.get(destinySceneKey);
 		get_tree().change_scene_to_packed(_scene);
 		queue_free();
-
